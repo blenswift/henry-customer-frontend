@@ -8,11 +8,11 @@ import { AppComponent } from './app/app.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'orders',
+    redirectTo: 'products',
     pathMatch: 'full',
   },
   {
-    path: 'orders',
+    path: 'products',
     loadComponent: () =>
       import('./app/modules/order/order-root.component').then(
         m => m.OrderRootComponent

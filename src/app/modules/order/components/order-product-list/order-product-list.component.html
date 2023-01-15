@@ -1,5 +1,8 @@
 <div class="overflow-auto">
   <div class="grid grid-rows-4 gap-2 p-4 bg-white">
-    <oxp-product-card *ngFor="let item of products"></oxp-product-card>
+    <oxp-product-card
+      *ngFor="let product of products"
+      [product]="product"
+      (add)="openProductModal.emit($event)"></oxp-product-card>
   </div>
 </div>

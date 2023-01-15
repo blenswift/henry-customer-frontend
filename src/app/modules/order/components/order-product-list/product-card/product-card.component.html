@@ -1,7 +1,7 @@
 <div class="overflow-hidden rounded-xl flex items-center gap-6 bg-color">
   <div class="w-1/4 h-full">
     <img
-      class="object-cover h-full"
+      class="object-cover h-full w-full object-center"
       src="https://www.italianstylecooking.net/wp-content/uploads/2019/09/Pizza-Margherita.jpg"
       alt="google" />
   </div>
@@ -14,7 +14,11 @@
     >
     <div class="flex items-center">
       <span class="font-bold">€ 12</span>
-      <button mat-flat-button class="ml-auto" color="primary">
+      <button
+        mat-flat-button
+        class="ml-auto rounded-tl-xl rounded-br-xl"
+        color="primary"
+        (click)="add.emit(product)">
         <mat-icon>add</mat-icon>
         Hinzufügen
       </button>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Product } from 'src/app/shared/models/product';
 import { ProductCardComponent } from './product-card/product-card.component';
 
 @Component({
@@ -10,5 +11,6 @@ import { ProductCardComponent } from './product-card/product-card.component';
   styleUrls: ['./order-product-list.component.scss'],
 })
 export class OrderProductListComponent {
-  @Input() products: string[] = [];
+  @Input() products: Product[] = [];
+  @Output() openProductModal = new EventEmitter<Product>();
 }
