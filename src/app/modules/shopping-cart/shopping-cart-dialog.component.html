@@ -1,0 +1,64 @@
+<div
+  class="flex flex-col h-screen overflow-hidden"
+  *ngIf="shoppingcartService.items$ | async as products">
+  <header class="w-full border-b border-grey">
+    <div class="p-4">
+      <h4 class="font-medium leading-tight text-2xl">WARENKORB</h4>
+    </div>
+    <button
+      mat-mini-fab
+      color="primary"
+      class="absolute top-2 right-2"
+      routerLink="/products">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <main class="flex-1 overflow-y-scroll p-4">
+    <ng-container *ngIf="products.length > 0; else noProduct">
+      <div
+        class="flex flex-row items-center justify-center border-b border-grey gap-4"
+        *ngFor="let product of products">
+        <span class="font-medium text-xl"> 3 x </span>
+        <div class="flex flex-col">
+          <span class="font-medium text-xl">
+            {{ product.name }}
+          </span>
+          <span>Hier sollen die Extras stehen</span>
+        </div>
+        <div class="ml-auto flex flex-row items-center justify-center">
+          <span class="text-xl">
+            {{ '30' | currency : 'EUR' }}
+          </span>
+          <button mat-icon-button (click)="removeProduct(product)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <h4 class="font-medium text-l mt-4">Trinkgeld</h4>
+      <mat-chip-listbox>
+        <mat-chip-option>1 €</mat-chip-option>
+        <mat-chip-option>2 €</mat-chip-option>
+        <mat-chip-option>5 €</mat-chip-option>
+        <mat-chip-option (click)="addCustomTip()"
+          >Anderer Betrag</mat-chip-option
+        >
+      </mat-chip-listbox>
+    </ng-container>
+    <ng-template #noProduct>
+      <div>Der Warenkorb ist leer!</div>
+    </ng-template>
+  </main>
+  <footer
+    class="w-full text-center border-t border-grey p-4"
+    *ngIf="products.length > 0">
+    <div class="flex">
+      <button
+        mat-flat-button
+        class="ml-auto rounded-tl-xl rounded-br-xl"
+        color="primary">
+        ZUR KASSE {{ '100' | currency : 'EUR' }}
+      </button>
+    </div>
+  </footer>
+</div>

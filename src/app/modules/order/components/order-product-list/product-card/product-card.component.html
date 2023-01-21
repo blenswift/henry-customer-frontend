@@ -6,14 +6,16 @@
       alt="google" />
   </div>
   <div class="flex flex-grow flex-col pt-2">
-    <span class="text-slate-900 text-base font-bold dark:text-slate-200"
-      >PIZZA 1</span
-    >
+    <span class="text-slate-900 text-base font-bold dark:text-slate-200">{{
+      product.name
+    }}</span>
     <span class="text-slate-500 text-sm font-extralight dark:text-slate-400"
       >Größe | Zutat 1, Zutat 2, Zutat 3, Zutat 4, Zutat 5</span
     >
     <div class="flex items-center">
-      <span class="font-bold">€ 12</span>
+      <span class="font-bold"
+        >ab {{ product.basePrice / 100 | currency : 'EUR' }}</span
+      >
       <button
         mat-flat-button
         class="ml-auto rounded-tl-xl rounded-br-xl"

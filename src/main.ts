@@ -18,6 +18,13 @@ const routes: Routes = [
         m => m.OrderRootComponent
       ),
   },
+  {
+    path: 'shoppingcart',
+    loadComponent: () =>
+      import('./app/modules/shopping-cart/shopping-cart-dialog.component').then(
+        m => m.ShoppingCartDialogComponent
+      ),
+  },
   // {
   //   path: 'pull',
   //   loadComponent: () =>

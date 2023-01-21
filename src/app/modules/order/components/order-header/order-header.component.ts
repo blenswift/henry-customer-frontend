@@ -19,4 +19,5 @@ import { OrderHeaderToolbarComponent } from './order-header-toolbar/order-header
 })
 export class OrderHeaderComponent {
   @Input() categories: Category[] = [];
+  @Input() itemCount: number | null = 0;
 }

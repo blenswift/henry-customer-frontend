@@ -8,7 +8,7 @@
       mat-mini-fab
       color="primary"
       class="absolute top-2 right-2"
-      [mat-dialog-close]="true">
+      [mat-dialog-close]="false">
       <mat-icon>close</mat-icon>
     </button>
     <div class="p-4">
@@ -67,7 +67,7 @@
         mat-flat-button
         class="ml-auto rounded-tl-xl rounded-br-xl"
         color="primary"
-        [mat-dialog-close]="true">
+        [mat-dialog-close]="data">
         HINZUFÜGEN {{ (counter * data.basePrice) / 100 | currency : 'EUR' }}
       </button>
     </div>

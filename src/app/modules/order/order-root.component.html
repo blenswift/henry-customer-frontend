@@ -1,7 +1,9 @@
 <div class="flex flex-col h-screen overflow-hidden">
   <!-- HEADER -->
   <header class="w-full">
-    <oxp-order-header [categories]="categories"></oxp-order-header>
+    <oxp-order-header
+      [categories]="categories"
+      [itemCount]="shoppingcartService.itemCount$ | async"></oxp-order-header>
   </header>
 
   <!-- Produkte -->
