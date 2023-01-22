@@ -1,9 +1,0 @@
-<div
-  class="rounded-xl w-full"
-  [oxpHighlightCategory]="category.selected"
-  (click)="clicked.emit(category)">
-  <div class="flex flex-col items-center justify-center">
-    <img class="object-cover h-20 p-2" [src]="category.iconUrl" alt="google" />
-    <span class="font-bold text-center mt-auto">{{ category.name }}</span>
-  </div>
-</div>

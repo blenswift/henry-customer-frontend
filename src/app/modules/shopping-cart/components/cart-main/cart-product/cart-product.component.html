@@ -1,0 +1,18 @@
+<div
+  class="flex flex-row items-center justify-center border-b border-grey gap-4">
+  <span class="font-medium text-xl"> 3 x </span>
+  <div class="flex flex-col">
+    <span class="font-medium text-xl">
+      {{ product.name }}
+    </span>
+    <span>Hier sollen die Extras stehen</span>
+  </div>
+  <div class="ml-auto flex flex-row items-center justify-center">
+    <span class="text-xl">
+      {{ '30' | currency : 'EUR' }}
+    </span>
+    <button mat-icon-button (click)="removeProduct.emit(product)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

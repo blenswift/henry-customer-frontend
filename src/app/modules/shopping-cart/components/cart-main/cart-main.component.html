@@ -1,0 +1,19 @@
+<main class="flex-1 overflow-y-scroll p-4">
+  <ng-container *ngIf="products.length > 0; else noProduct">
+    <oxp-cart-product
+      [product]="product"
+      *ngFor="let product of products"
+      (removeProduct)="removeProduct.emit(product)"></oxp-cart-product>
+
+    <h4 class="font-medium text-l mt-4">Trinkgeld</h4>
+    <mat-chip-listbox>
+      <mat-chip-option>1 €</mat-chip-option>
+      <mat-chip-option>2 €</mat-chip-option>
+      <mat-chip-option>5 €</mat-chip-option>
+      <mat-chip-option (click)="addCustomTip()">Anderer Betrag</mat-chip-option>
+    </mat-chip-listbox>
+  </ng-container>
+  <ng-template #noProduct>
+    <div>Der Warenkorb ist leer!</div>
+  </ng-template>
+</main>

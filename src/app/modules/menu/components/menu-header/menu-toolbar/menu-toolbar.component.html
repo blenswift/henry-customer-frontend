@@ -1,0 +1,20 @@
+<div class="grid grid-flow-col justify-items-stretch px-4 pt-4">
+  <img
+    class="justify-self-start object-scale-down h-12 w-24"
+    [src]="restaurant?.coverUrl"
+    alt="google" />
+  <span
+    class="self-center justify-self-center text-slate-900 text-sm font-bold dark:text-slate-200"
+    >{{ restaurant?.name }}</span
+  >
+  <button
+    mat-icon-button
+    color="primary"
+    class="justify-self-end"
+    [matBadge]="itemCount"
+    [matBadgeHidden]="itemCount <= 0"
+    matBadgeSize="medium"
+    routerLink="/shoppingcart">
+    <mat-icon class="scale-150">shopping_basket</mat-icon>
+  </button>
+</div>

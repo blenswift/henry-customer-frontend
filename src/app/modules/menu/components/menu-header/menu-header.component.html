@@ -1,0 +1,9 @@
+<div class="bg-color">
+  <oxp-menu-toolbar
+    [itemCount]="itemCount"
+    [restaurant]="restaurant"></oxp-menu-toolbar>
+  <oxp-menu-searchbar></oxp-menu-searchbar>
+  <oxp-menu-category-carousel
+    [categories]="categories"
+    (categoryClicked)="categoryClick.emit($event)"></oxp-menu-category-carousel>
+</div>

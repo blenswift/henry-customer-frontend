@@ -14,8 +14,8 @@ const routes: Routes = [
   {
     path: 'products',
     loadComponent: () =>
-      import('./app/modules/order/order-root.component').then(
-        m => m.OrderRootComponent
+      import('./app/modules/menu/menu-root.component').then(
+        m => m.MenuRootComponent
       ),
   },
   {
