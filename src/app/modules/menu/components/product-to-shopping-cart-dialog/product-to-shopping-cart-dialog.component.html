@@ -28,7 +28,8 @@
 
       <mat-radio-group
         class="flex flex-col oxp-custom-group"
-        *ngIf="extraGroup.selectionType === 'RADIO_GROUP'">
+        *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
+        [(ngModel)]="extraGroup.selected">
         <mat-radio-button
           *ngFor="let extra of extraGroup.extras"
           [value]="extra.id">
@@ -69,7 +70,7 @@
         color="primary"
         [mat-dialog-close]="data">
         HINZUFÜGEN
-        {{ data | sumOfProduct | currency : 'EUR' }}
+        {{ (data | sumOfProduct) / 100 | currency : 'EUR' }}
       </button>
     </div>
   </footer>

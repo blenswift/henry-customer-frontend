@@ -24,8 +24,6 @@ export class CartMainComponent {
   @Output() removeProduct = new EventEmitter<ProductCart>();
   @Output() tipChanged = new EventEmitter<number | null>();
 
-  test = 500;
-
   addCustomTip() {
     console.log('POPUP FÜR EINGABE ÖFFNEN');
   }

@@ -9,7 +9,7 @@
   </div>
   <div class="ml-auto flex flex-row items-center justify-center">
     <span class="text-xl">
-      {{ productCart | sumOfProduct | currency : 'EUR' }}
+      {{ (productCart | sumOfProduct) / 100 | currency : 'EUR' }}
     </span>
     <button mat-icon-button (click)="removeProduct.emit(productCart)">
       <mat-icon>delete</mat-icon>

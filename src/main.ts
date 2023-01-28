@@ -25,13 +25,20 @@ const routes: Routes = [
         m => m.ShoppingCartDialogComponent
       ),
   },
-  // {
-  //   path: 'pull',
-  //   loadComponent: () =>
-  //     import('./app/pull-principle/pull-principle.component').then(
-  //       (m) => m.PullPrincipleComponent
-  //     ),
-  // },
+  {
+    path: 'payment',
+    loadComponent: () =>
+      import('./app/modules/payment/payment.component').then(
+        m => m.PaymentComponent
+      ),
+  },
+  {
+    path: 'orders',
+    loadComponent: () =>
+      import('./app/modules/orders/orders.component').then(
+        m => m.OrdersComponent
+      ),
+  },
 ];
 
 bootstrapApplication(AppComponent, {

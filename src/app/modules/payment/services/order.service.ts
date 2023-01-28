@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Product } from 'src/app/shared/models/product';
 import { environment } from 'src/environments/environment';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,13 @@ export class OrderService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getMenu(qrCode: string, language: string): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(
-      this.url + '/qrCode=' + qrCode + 'lang=' + language
+  public createOrder(
+    qrCode: string,
+    order: Order
+  ): Observable<{ url: string }> {
+    return this.httpClient.post<{ url: string }>(
+      this.url + '/' + qrCode,
+      order
     );
   }
 }

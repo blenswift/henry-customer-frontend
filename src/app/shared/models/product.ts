@@ -17,6 +17,7 @@ export interface ExtraGroup {
   name: string;
   selectionType: SelectionType;
   defaultValue: string | null;
+  selected: string;
   extras: Extra[];
 }
 

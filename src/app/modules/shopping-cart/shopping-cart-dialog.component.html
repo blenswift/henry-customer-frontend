@@ -6,7 +6,7 @@
     class="h-full"
     [products]="products"
     (removeProduct)="removeProduct($event)"
-    (tipChanged)="tip = $event"></oxp-cart-main>
+    (tipChanged)="tip = $event ?? 0"></oxp-cart-main>
   <footer
     class="w-full text-center border-t border-grey p-4"
     *ngIf="products.length > 0">
@@ -14,9 +14,10 @@
       <button
         mat-flat-button
         class="ml-auto rounded-tl-xl rounded-br-xl"
-        color="primary">
+        color="primary"
+        (click)="payment()">
         ZUR KASSE
-        {{ products | sumOfProducts : tip | currency : 'EUR' }}
+        {{ (products | sumOfProducts : tip) / 100 | currency : 'EUR' }}
       </button>
     </div>
   </footer>
