@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Product } from './../models/product';
+import { ProductCart } from '../models/product-cart';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingCartService {
-  private items: Product[] = [];
-  public itemCount$ = new BehaviorSubject<number>(0);
-  public items$ = new BehaviorSubject<Product[]>([]);
+  private items = new BehaviorSubject<ProductCart[]>([]);
+  public items$ = this.items.asObservable();
 
-  public add(item: Product) {
-    this.items.push(item);
-    this.itemCount$.next(this.itemCount$.value + 1);
-    this.items$.next([...this.items]);
+  public add(item: ProductCart) {
+    const products = this.items.value;
+    products.push(item);
+    this.items.next(products);
   }
 
-  public remove(item: Product) {
-    const indexOfItem = this.items.indexOf(item);
+  public remove(item: ProductCart) {
+    const products = this.items.value;
+    const indexOfItem = products.indexOf(item);
     if (indexOfItem > -1) {
-      this.items.splice(indexOfItem, 1);
-      this.itemCount$.next(this.itemCount$.value - 1);
-      this.items$.next([...this.items]);
+      products.splice(indexOfItem, 1);
+      this.items.next(products);
     }
   }
 }

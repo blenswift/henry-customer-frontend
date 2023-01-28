@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ShoppingCartService } from '../../shared/services/shopping-cart.service';
+import { ProductCart } from './../../shared/models/product-cart';
 import { MenuHeaderComponent } from './components/menu-header/menu-header.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { ProductToShoppingCartDialogComponent } from './components/product-to-shopping-cart-dialog/product-to-shopping-cart-dialog.component';
@@ -52,13 +53,13 @@ export class MenuRootComponent {
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
-      data: product,
+      data: { product, quantity: 1 } as ProductCart,
     });
 
     dialogRef
       .afterClosed()
       .pipe(filter(x => x))
-      .subscribe((result: Product) => {
+      .subscribe((result: ProductCart) => {
         this.shoppingcartService.add(result);
       });
   }

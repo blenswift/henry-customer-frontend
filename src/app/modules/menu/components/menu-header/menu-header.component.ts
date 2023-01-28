@@ -20,7 +20,7 @@ import { MenuToolbarComponent } from './menu-toolbar/menu-toolbar.component';
 })
 export class MenuHeaderComponent {
   @Input() categories: Category[] | undefined = [];
-  @Input() itemCount: number | null = 0;
+  @Input() itemCount: number | undefined = 0;
   @Input() restaurant: Restaurant | null = null;
   @Output() categoryClick = new EventEmitter<Category>();
 }

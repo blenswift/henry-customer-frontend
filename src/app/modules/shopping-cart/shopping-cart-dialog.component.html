@@ -1,11 +1,12 @@
 <div
   class="flex flex-col h-screen overflow-hidden"
-  *ngIf="shoppingcartService.items$ | async as products">
+  *ngIf="items$ | async as products">
   <oxp-cart-header></oxp-cart-header>
   <oxp-cart-main
     class="h-full"
     [products]="products"
-    (removeProduct)="removeProduct($event)"></oxp-cart-main>
+    (removeProduct)="removeProduct($event)"
+    (tipChanged)="tip = $event"></oxp-cart-main>
   <footer
     class="w-full text-center border-t border-grey p-4"
     *ngIf="products.length > 0">
@@ -14,7 +15,8 @@
         mat-flat-button
         class="ml-auto rounded-tl-xl rounded-br-xl"
         color="primary">
-        ZUR KASSE {{ '100' | currency : 'EUR' }}
+        ZUR KASSE
+        {{ products | sumOfProducts : tip | currency : 'EUR' }}
       </button>
     </div>
   </footer>

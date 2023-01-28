@@ -20,8 +20,8 @@ import { Restaurant } from './../../../models/restaurant';
   styleUrls: ['./menu-toolbar.component.scss'],
 })
 export class MenuToolbarComponent {
-  _itemCount: number | null = 0;
-  @Input() set itemCount(value: number | null) {
+  _itemCount: number | undefined = 0;
+  @Input() set itemCount(value: number | undefined) {
     this._itemCount = value;
   }
 

@@ -25,6 +25,7 @@ export interface Extra {
   price: number | null;
   name: string;
   allergens: string[];
+  selected: boolean;
   additives: string[];
 }
 

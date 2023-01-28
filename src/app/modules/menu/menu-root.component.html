@@ -6,7 +6,7 @@
     <oxp-menu-header
       [categories]="restaurant.menu?.categories"
       [restaurant]="restaurant.info"
-      [itemCount]="shoppingcartService.itemCount$ | async"
+      [itemCount]="(shoppingcartService.items$ | async)?.length"
       (categoryClick)="categoryClicked($event)"></oxp-menu-header>
   </header>
 

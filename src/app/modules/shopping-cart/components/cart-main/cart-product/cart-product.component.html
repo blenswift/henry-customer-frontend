@@ -1,17 +1,17 @@
 <div
   class="flex flex-row items-center justify-center border-b border-grey gap-4">
-  <span class="font-medium text-xl"> 3 x </span>
+  <span class="font-medium text-xl"> {{ productCart.quantity }} x </span>
   <div class="flex flex-col">
     <span class="font-medium text-xl">
-      {{ product.name }}
+      {{ productCart.product.name }}
     </span>
     <span>Hier sollen die Extras stehen</span>
   </div>
   <div class="ml-auto flex flex-row items-center justify-center">
     <span class="text-xl">
-      {{ '30' | currency : 'EUR' }}
+      {{ productCart | sumOfProduct | currency : 'EUR' }}
     </span>
-    <button mat-icon-button (click)="removeProduct.emit(product)">
+    <button mat-icon-button (click)="removeProduct.emit(productCart)">
       <mat-icon>delete</mat-icon>
     </button>
   </div>

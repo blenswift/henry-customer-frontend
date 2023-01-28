@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Product } from 'src/app/shared/models/product';
+import { ProductCart } from './../../../../shared/models/product-cart';
 import { CartProductComponent } from './cart-product/cart-product.component';
 
 @Component({
@@ -11,10 +11,8 @@ import { CartProductComponent } from './cart-product/cart-product.component';
   standalone: true,
   imports: [
     CommonModule,
-
     MatFormFieldModule,
     FormsModule,
-
     MatChipsModule,
     CartProductComponent,
   ],
@@ -22,8 +20,11 @@ import { CartProductComponent } from './cart-product/cart-product.component';
   styleUrls: ['./cart-main.component.scss'],
 })
 export class CartMainComponent {
-  @Input() products: Product[] = [];
-  @Output() removeProduct = new EventEmitter<Product>();
+  @Input() products: ProductCart[] = [];
+  @Output() removeProduct = new EventEmitter<ProductCart>();
+  @Output() tipChanged = new EventEmitter<number | null>();
+
+  test = 500;
 
   addCustomTip() {
     console.log('POPUP FÜR EINGABE ÖFFNEN');
