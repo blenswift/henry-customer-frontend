@@ -15,7 +15,7 @@
         mat-flat-button
         class="ml-auto rounded-tl-xl rounded-br-xl"
         color="primary"
-        (click)="payment()">
+        (click)="navigateToPayment()">
         ZUR KASSE
         {{ (products | sumOfProducts : tip) / 100 | currency : 'EUR' }}
       </button>

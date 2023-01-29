@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Order } from '../models/order';
+import { OrderTracking } from '../models/order-tracking';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +21,9 @@ export class OrderService {
       this.url + '/' + qrCode,
       order
     );
+  }
+
+  public getOrderTracking(trackingId: string): Observable<OrderTracking> {
+    return this.httpClient.get<OrderTracking>(this.url + '/' + trackingId);
   }
 }
