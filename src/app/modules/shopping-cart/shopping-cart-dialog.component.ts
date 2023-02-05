@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
+import { ProductCart } from 'src/app/shared/models/product-cart';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
+import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
+import { PaymentType } from '../orders/models/order';
 import { OrderService } from '../orders/services/order.service';
-import { ProductCart } from './../../shared/models/product-cart';
-import { ShoppingCartService } from './../../shared/services/shopping-cart.service';
 import { CartHeaderComponent } from './components/cart-header/cart-header.component';
 import { CartMainComponent } from './components/cart-main/cart-main.component';
 
@@ -27,6 +28,7 @@ export class ShoppingCartDialogComponent {
   shoppingcartService = inject(ShoppingCartService);
   orderService = inject(OrderService);
   router = inject(Router);
+  paymentType: PaymentType = 'DIGITAL_PAYMENT';
 
   public items$ = this.shoppingcartService.items$;
   public tip = 0;
@@ -35,8 +37,13 @@ export class ShoppingCartDialogComponent {
     this.shoppingcartService.remove(product);
   }
 
+  paymentTypeChanged(paymentType: PaymentType) {
+    this.paymentType = paymentType;
+  }
+
   navigateToPayment() {
     const order = this.shoppingcartService.getOrder(this.tip);
+    order.paymentMethod = this.paymentType;
     this.orderService
       .createOrder('55c410d0-3abb-442e-855c-d13dd04018a9', order)
       .subscribe(data => {

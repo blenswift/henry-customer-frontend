@@ -1,6 +1,7 @@
 export interface Order {
   totalPrice: number;
   fcmToken: string;
+  paymentMethod: PaymentType;
   tip: number;
   orderItems: OrderItem[];
 }
@@ -12,3 +13,5 @@ export interface OrderItem {
   quantity: number;
   extraIds: string[];
 }
+
+export type PaymentType = 'DIGITAL_PAYMENT' | 'CASH_PAYMENT';

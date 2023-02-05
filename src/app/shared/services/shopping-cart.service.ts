@@ -11,6 +11,18 @@ export class ShoppingCartService {
   private items = new BehaviorSubject<ProductCart[]>([]);
   public items$ = this.items.asObservable();
 
+  constructor() {
+    const items: string | null = localStorage.getItem('items');
+
+    if (items) {
+      this.items.next(JSON.parse(items));
+    }
+
+    this.items$.subscribe((items: ProductCart[]) =>
+      localStorage.setItem('items', JSON.stringify(items))
+    );
+  }
+
   public add(item: ProductCart) {
     const products = this.items.value;
     products.push(item);

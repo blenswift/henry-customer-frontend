@@ -6,6 +6,7 @@
     class="h-full"
     [products]="products"
     (removeProduct)="removeProduct($event)"
+    (paymentTypeChange)="paymentTypeChanged($event)"
     (tipChanged)="tip = $event ?? 0"></oxp-cart-main>
   <footer
     class="w-full text-center border-t border-grey p-4"
