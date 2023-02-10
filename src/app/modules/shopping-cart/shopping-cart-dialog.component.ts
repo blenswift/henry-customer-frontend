@@ -13,14 +13,7 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
 @Component({
   selector: 'oxp-shopping-cart-dialog',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    CartHeaderComponent,
-    CartMainComponent,
-    SumOfProductsPipe,
-    RouterModule,
-  ],
+  imports: [CommonModule, MatButtonModule, CartHeaderComponent, CartMainComponent, SumOfProductsPipe, RouterModule],
   templateUrl: './shopping-cart-dialog.component.html',
   styleUrls: ['./shopping-cart-dialog.component.scss'],
 })
@@ -44,10 +37,10 @@ export class ShoppingCartDialogComponent {
   navigateToPayment() {
     const order = this.shoppingcartService.getOrder(this.tip);
     order.paymentMethod = this.paymentType;
-    this.orderService
-      .createOrder('55c410d0-3abb-442e-855c-d13dd04018a9', order)
-      .subscribe(data => {
-        window.location.href = data.url;
-      });
+    order.fcmToken = 'string';
+    console.log(JSON.stringify(order));
+    this.orderService.createOrder('55c410d0-3abb-442e-855c-d13dd04018a9', order).subscribe(data => {
+      window.location.href = data.url;
+    });
   }
 }

@@ -9,18 +9,14 @@ import { MenuToolbarComponent } from './menu-toolbar/menu-toolbar.component';
 @Component({
   selector: 'oxp-menu-header',
   standalone: true,
-  imports: [
-    CommonModule,
-    MenuToolbarComponent,
-    MenuSearchbarComponent,
-    MenuCategoryCarouselComponent,
-  ],
+  imports: [CommonModule, MenuToolbarComponent, MenuSearchbarComponent, MenuCategoryCarouselComponent],
   templateUrl: './menu-header.component.html',
   styleUrls: ['./menu-header.component.scss'],
 })
 export class MenuHeaderComponent {
   @Input() categories: Category[] | undefined = [];
-  @Input() itemCount: number | undefined = 0;
+  @Input() itemCount = 0;
+  @Input() orderCount = 0;
   @Input() restaurant: Restaurant | null = null;
   @Output() categoryClick = new EventEmitter<Category>();
 }

@@ -11,14 +11,7 @@ import { CartProductComponent } from './cart-product/cart-product.component';
 @Component({
   selector: 'oxp-cart-main',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatChipsModule,
-    CartProductComponent,
-    MatRadioModule,
-  ],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, MatChipsModule, CartProductComponent, MatRadioModule],
   templateUrl: './cart-main.component.html',
   styleUrls: ['./cart-main.component.scss'],
 })

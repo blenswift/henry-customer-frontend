@@ -1,6 +1,4 @@
-<div
-  class="flex flex-col h-screen overflow-hidden"
-  *ngIf="items$ | async as products">
+<div class="flex flex-col h-screen overflow-hidden" *ngIf="items$ | async as products">
   <oxp-cart-header></oxp-cart-header>
   <oxp-cart-main
     class="h-full"
@@ -8,15 +6,9 @@
     (removeProduct)="removeProduct($event)"
     (paymentTypeChange)="paymentTypeChanged($event)"
     (tipChanged)="tip = $event ?? 0"></oxp-cart-main>
-  <footer
-    class="w-full text-center border-t border-grey p-4"
-    *ngIf="products.length > 0">
+  <footer class="w-full text-center border-t border-grey p-4" *ngIf="products.length > 0">
     <div class="flex">
-      <button
-        mat-flat-button
-        class="ml-auto rounded-tl-xl rounded-br-xl"
-        color="primary"
-        (click)="navigateToPayment()">
+      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="navigateToPayment()">
         ZUR KASSE
         {{ (products | sumOfProducts : tip) / 100 | currency : 'EUR' }}
       </button>

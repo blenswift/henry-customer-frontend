@@ -13,8 +13,6 @@ export class MenuService {
   constructor(private httpClient: HttpClient) {}
 
   public getMenu(qrCode: string, language: string): Observable<Menu> {
-    return this.httpClient.get<Menu>(
-      this.url + '?qrCode=' + qrCode + '&lang=' + language
-    );
+    return this.httpClient.get<Menu>(this.url + '?qrCode=' + qrCode + '&lang=' + language);
   }
 }

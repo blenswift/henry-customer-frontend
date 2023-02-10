@@ -1,5 +1,4 @@
-<div
-  class="flex flex-row items-center justify-center border-b border-grey gap-4">
+<div class="flex flex-row items-center justify-center border-b border-grey gap-4">
   <span class="font-medium text-xl"> {{ productCart.quantity }} x </span>
   <div class="flex flex-col">
     <span class="font-medium text-xl">
@@ -9,7 +8,7 @@
   </div>
   <div class="ml-auto flex flex-row items-center justify-center">
     <span class="text-xl">
-      {{ (productCart | sumOfProduct) / 100 | currency : 'EUR' }}
+      {{ ((productCart | sumOfProduct) * productCart.quantity) / 100 | currency : 'EUR' }}
     </span>
     <button mat-icon-button (click)="removeProduct.emit(productCart)">
       <mat-icon>delete</mat-icon>

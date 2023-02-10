@@ -1,1 +1,21 @@
-{{ orderTracking$ | async | json }}
+<header class="w-full border-b border-grey">
+  <div class="p-4">
+    <h4 class="font-medium leading-tight text-2xl">Bestellungen</h4>
+  </div>
+  <button mat-mini-fab color="primary" class="absolute top-2 right-2" routerLink="/products">
+    <mat-icon>close</mat-icon>
+  </button>
+</header>
+
+<div class="grid grid-cols-2 gap-2 p-3">
+  <div *ngFor="let order of orders$ | async; let index = index" class="border rounded-xl bg-color p-3">
+    <div class="flex">
+      <mat-icon>fastfood</mat-icon>Tisch {{ order.table }}
+      <div class="ml-auto">{{ order.status }}<mat-icon>hourglass_empty</mat-icon></div>
+    </div>
+    <div class="flex">
+      <div>{{ order.createdAt | date : 'dd.MM.YYYY HH:mm' }}</div>
+      <div class="ml-auto">{{ order.totalPrice / 100 | currency : 'EUR' }}</div>
+    </div>
+  </div>
+</div>

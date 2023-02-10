@@ -4,11 +4,7 @@
       class="object-cover h-48 w-full object-center"
       src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
       alt="google" />
-    <button
-      mat-mini-fab
-      color="primary"
-      class="absolute top-2 right-2"
-      [mat-dialog-close]="false">
+    <button mat-mini-fab color="primary" class="absolute top-2 right-2" [mat-dialog-close]="false">
       <mat-icon>close</mat-icon>
     </button>
     <div class="p-4">
@@ -30,9 +26,7 @@
         class="flex flex-col oxp-custom-group"
         *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
         [(ngModel)]="extraGroup.selected">
-        <mat-radio-button
-          *ngFor="let extra of extraGroup.extras"
-          [value]="extra.id">
+        <mat-radio-button *ngFor="let extra of extraGroup.extras" [value]="extra.id">
           <span class="flex flex-row flex-grow border-b-2 py-2">
             <span>
               {{ extra.name }}
@@ -45,10 +39,7 @@
       </mat-radio-group>
 
       <ng-container *ngIf="extraGroup.selectionType === 'CHECKBOX'">
-        <mat-checkbox
-          class="flex oxp-custom-group"
-          *ngFor="let extra of extraGroup.extras"
-          [(ngModel)]="extra.selected">
+        <mat-checkbox class="flex oxp-custom-group" *ngFor="let extra of extraGroup.extras" [(ngModel)]="extra.selected">
           <span class="flex flex-row flex-grow border-b-2 py-2">
             <span>
               {{ extra.name }}
@@ -64,13 +55,9 @@
   <footer class="w-full text-center border-t border-grey p-4">
     <div mat-dialog-actions>
       <oxp-counter-button [(value)]="data.quantity"></oxp-counter-button>
-      <button
-        mat-flat-button
-        class="ml-auto rounded-tl-xl rounded-br-xl"
-        color="primary"
-        [mat-dialog-close]="data">
+      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" [mat-dialog-close]="data">
         HINZUFÜGEN
-        {{ (data | sumOfProduct) / 100 | currency : 'EUR' }}
+        {{ ((data | sumOfProduct) * data.quantity) / 100 | currency : 'EUR' }}
       </button>
     </div>
   </footer>

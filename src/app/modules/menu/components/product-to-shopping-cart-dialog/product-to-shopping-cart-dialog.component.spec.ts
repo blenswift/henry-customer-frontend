@@ -8,9 +8,8 @@ describe('ProductToShoppingCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ ProductToShoppingCartDialogComponent ]
-    })
-    .compileComponents();
+      imports: [ProductToShoppingCartDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProductToShoppingCartDialogComponent);
     component = fixture.componentInstance;

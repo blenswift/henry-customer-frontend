@@ -18,9 +18,7 @@ export class ShoppingCartService {
       this.items.next(JSON.parse(items));
     }
 
-    this.items$.subscribe((items: ProductCart[]) =>
-      localStorage.setItem('items', JSON.stringify(items))
-    );
+    this.items$.subscribe((items: ProductCart[]) => localStorage.setItem('items', JSON.stringify(items)));
   }
 
   public add(item: ProductCart) {
@@ -38,6 +36,10 @@ export class ShoppingCartService {
     }
   }
 
+  public clearShoppingCart() {
+    this.items.next([]);
+  }
+
   public getOrder(tip: number): Order {
     const order = {
       totalPrice: 0,
@@ -49,15 +51,13 @@ export class ShoppingCartService {
       const orderItem = {
         productId: item.product.id,
         price: item.product.basePrice,
-        subTotal: priceOfProduct(item),
+        subTotal: priceOfProduct(item) * item.quantity,
         quantity: item.quantity,
         extraIds: [],
       } as OrderItem;
 
       item.product.extraGroups.forEach(extraGroup => {
-        const extraIds = extraGroup.extras
-          .filter(extra => extra.selected)
-          .map(x => x.id);
+        const extraIds = extraGroup.extras.filter(extra => extra.selected).map(x => x.id);
         orderItem.extraIds = orderItem.extraIds.concat(extraIds);
       });
 

@@ -5,16 +5,19 @@ export const priceOfProduct = (item: ProductCart): number => {
   let singleItemPrice = 0;
   singleItemPrice = item.product.basePrice;
   item.product.extraGroups.forEach(extraGroup => {
-    console.log(extraGroup.extras);
-    extraGroup.extras.forEach(extra => {
-      if (extra.selected) {
-        singleItemPrice += extra.price ?? 0;
-      }
-    });
+    if (extraGroup.selectionType === 'RADIO_GROUP') {
+      const selected = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
+      singleItemPrice += selected?.price ?? 0;
+    } else if (extraGroup.selectionType === 'CHECKBOX') {
+      extraGroup.extras.forEach(extra => {
+        if (extra.selected) {
+          singleItemPrice += extra.price ?? 0;
+        }
+      });
+    }
   });
-  singleItemPrice *= item.quantity;
-  price += singleItemPrice;
 
+  price += singleItemPrice;
   return price;
 };
 
@@ -22,6 +25,7 @@ export const priceOfProducts = (items: ProductCart[]): number => {
   let price = 0;
 
   items.forEach(item => {
+    console.log(item);
     let singleItemPrice = priceOfProduct(item);
     singleItemPrice *= item.quantity;
     price += singleItemPrice;

@@ -9,25 +9,13 @@ import { Restaurant } from './../../../models/restaurant';
 @Component({
   selector: 'oxp-menu-toolbar',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterModule,
-    MatBadgeModule,
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, MatBadgeModule],
   templateUrl: './menu-toolbar.component.html',
   styleUrls: ['./menu-toolbar.component.scss'],
 })
 export class MenuToolbarComponent {
-  _itemCount: number | undefined = 0;
-  @Input() set itemCount(value: number | undefined) {
-    this._itemCount = value;
-  }
-
-  get itemCount(): number {
-    return this._itemCount ?? 0;
-  }
+  @Input() itemCount = 0;
+  @Input() orderCount = 0;
 
   @Input() restaurant: Restaurant | null = null;
 }

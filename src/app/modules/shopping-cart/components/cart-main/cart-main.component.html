@@ -6,9 +6,7 @@
       (removeProduct)="removeProduct.emit(productCart)"></oxp-cart-product>
 
     <h2 class="font-medium text-xl mt-4">Bezahloptionen</h2>
-    <mat-radio-group
-      class="flex flex-col oxp-custom-group"
-      (change)="paymentTypeChange.emit($event.value)">
+    <mat-radio-group class="flex flex-col oxp-custom-group" (change)="paymentTypeChange.emit($event.value)">
       <mat-radio-button value="DIGITAL_PAYMENT" [checked]="true">
         <span class="py-2"> Digital </span>
       </mat-radio-button>
