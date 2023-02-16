@@ -11,6 +11,27 @@ import { CategoryComponent } from './category/category.component';
   styleUrls: ['./menu-category-carousel.component.scss'],
 })
 export class MenuCategoryCarouselComponent {
-  @Input() categories: Category[] | undefined = [];
+  _categories: Category[] | undefined = [];
+  @Input()
+  public set categories(value: Category[] | undefined) {
+    this.categorySelected = value?.[0] ?? null;
+    this._categories = value;
+  }
+
+  public get categories(): Category[] | undefined {
+    return this._categories;
+  }
+
   @Output() categoryClicked = new EventEmitter<Category>();
+
+  categorySelected: Category | null = null;
+
+  clicked(category: Category) {
+    if (this.categorySelected) {
+      this.categorySelected.selected = false;
+    }
+    this.categorySelected = category;
+    this.categorySelected.selected = true;
+    this.categoryClicked.emit(category);
+  }
 }

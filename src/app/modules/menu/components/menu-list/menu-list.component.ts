@@ -11,6 +11,6 @@ import { ProductCardComponent } from './product-card/product-card.component';
   styleUrls: ['./menu-list.component.scss'],
 })
 export class MenuListComponent {
-  @Input() products: Product[] | undefined = [];
+  @Input() products: Product[] | null = [];
   @Output() openProductModal = new EventEmitter<Product>();
 }

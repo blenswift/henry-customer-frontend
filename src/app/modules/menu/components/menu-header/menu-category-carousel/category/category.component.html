@@ -1,4 +1,4 @@
-<div class="rounded-xl w-full" [ngClass]="category.selected ? 'border-blue-700 border-2' : ''" (click)="clicked.emit(category)">
+<div class="rounded-xl h-full w-full" [ngClass]="category.selected ? 'border-blue-700 border-2' : 'p-2px'" (click)="clicked.emit(category)">
   <div class="flex flex-col items-center justify-center">
     <img class="object-cover h-20 p-2" [src]="category.iconUrl" alt="google" />
     <span class="font-bold text-center mt-auto">{{ category.name }}</span>

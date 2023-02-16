@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { filter, map } from 'rxjs';
+import { combineLatest, filter, map, startWith } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ShoppingCartService } from '../../shared/services/shopping-cart.service';
@@ -24,11 +25,16 @@ import { RestaurantService } from './services/restaurant.service';
   styleUrls: ['./menu-root.component.scss'],
 })
 export class MenuRootComponent {
-  menu$ = this.menuService.getMenu('55c410d0-3abb-442e-855c-d13dd04018a9', 'de').pipe(
-    map(menu => {
-      menu.categories[0].selected = true;
-      return menu;
-    })
+  filterCtrl = new FormControl('', { nonNullable: true });
+
+  menu$ = this.menuService.getMenu('55c410d0-3abb-442e-855c-d13dd04018a9', 'de');
+  filteredProductList$ = combineLatest([
+    this.menu$.pipe(map(menu => menu.products)),
+    this.filterCtrl.valueChanges.pipe(startWith('')),
+  ]).pipe(
+    map(([products, filterParam]) =>
+      products.filter(product => !filterParam.length || product.name.toLowerCase().includes(filterParam.toLowerCase()))
+    )
   );
 
   orders$ = this.orderService.items$;
@@ -61,6 +67,10 @@ export class MenuRootComponent {
   }
 
   categoryClicked(category: Category) {
-    category.selected = true;
+    document.getElementById(category.id)!.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
   }
 }

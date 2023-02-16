@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Category } from '../../../../shared/models/category';
 import { Restaurant } from './../../models/restaurant';
 import { MenuCategoryCarouselComponent } from './menu-category-carousel/menu-category-carousel.component';
@@ -18,5 +19,6 @@ export class MenuHeaderComponent {
   @Input() itemCount = 0;
   @Input() orderCount = 0;
   @Input() restaurant: Restaurant | null = null;
+  @Input() filterCtrl!: FormControl;
   @Output() categoryClick = new EventEmitter<Category>();
 }

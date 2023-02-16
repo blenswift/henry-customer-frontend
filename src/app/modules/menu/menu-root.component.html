@@ -1,7 +1,10 @@
-<div class="flex flex-col h-screen overflow-hidden" *ngIf="{ menu: menu$ | async, info: restaurant$ | async } as restaurant">
+<div
+  class="flex flex-col h-screen overflow-hidden"
+  *ngIf="{ menu: menu$ | async, filteredProducts: filteredProductList$ | async, info: restaurant$ | async } as restaurant">
   <!-- HEADER -->
   <header class="w-full">
     <oxp-menu-header
+      [filterCtrl]="filterCtrl"
       [categories]="restaurant.menu?.categories"
       [restaurant]="restaurant.info"
       [itemCount]="(shoppingCart$ | async)?.length!"
@@ -10,7 +13,7 @@
   </header>
 
   <!-- Produkte -->
-  <main class="flex-1 overflow-y-scroll">
-    <oxp-menu-list [products]="restaurant.menu?.products" (openProductModal)="openProductModal($event)"></oxp-menu-list>
+  <main class="flex-1 overflow-y-scroll scrollbar-hide">
+    <oxp-menu-list [products]="restaurant.filteredProducts" (openProductModal)="openProductModal($event)"></oxp-menu-list>
   </main>
 </div>
