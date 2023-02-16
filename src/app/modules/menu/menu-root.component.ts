@@ -67,10 +67,13 @@ export class MenuRootComponent {
   }
 
   categoryClicked(category: Category) {
-    document.getElementById(category.id)!.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'nearest',
-    });
+    const htmlElement = document.getElementById(category.id);
+    if (htmlElement) {
+      htmlElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
+    }
   }
 }
