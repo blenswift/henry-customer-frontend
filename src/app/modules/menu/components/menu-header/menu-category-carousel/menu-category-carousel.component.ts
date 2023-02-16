@@ -14,8 +14,11 @@ export class MenuCategoryCarouselComponent {
   _categories: Category[] | undefined = [];
   @Input()
   public set categories(value: Category[] | undefined) {
-    this.categorySelected = value?.[0] ?? null;
-    this._categories = value;
+    if (value) {
+      this.categorySelected = value?.[0] ?? null;
+      this.categorySelected.selected = true;
+      this._categories = value;
+    }
   }
 
   public get categories(): Category[] | undefined {
