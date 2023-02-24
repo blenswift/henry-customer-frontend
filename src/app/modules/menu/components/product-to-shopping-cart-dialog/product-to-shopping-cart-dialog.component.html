@@ -13,7 +13,7 @@
       </h4>
 
       <p class="py-2">{{ data.product.description }}</p>
-      <p class="pt-2 pb-3">mit {{ data.product.ingredients.join(', ') }}</p>
+      <p class="pt-2 pb-3">{{ data.product.ingredients.join(', ') }}</p>
     </div>
   </header>
   <main class="flex-1 overflow-y-scroll p-4">
@@ -56,7 +56,7 @@
     <div mat-dialog-actions>
       <oxp-counter-button [(value)]="data.quantity"></oxp-counter-button>
       <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" [mat-dialog-close]="data">
-        HINZUFÜGEN
+        {{ 'HINZUFUEGEN' | translate }}
         {{ ((data | sumOfProduct) * data.quantity) / 100 | currency : 'EUR' }}
       </button>
     </div>

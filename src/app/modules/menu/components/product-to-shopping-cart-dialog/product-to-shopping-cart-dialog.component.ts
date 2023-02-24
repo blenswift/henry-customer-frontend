@@ -7,6 +7,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProductCart } from 'src/app/shared/models/product-cart';
 import { CounterButtonComponent } from './../../../../shared/components/counter-button/counter-button.component';
 import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe';
@@ -27,6 +28,7 @@ import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe
     MatIconModule,
     ReactiveFormsModule,
     SumOfProductPipe,
+    TranslateModule,
   ],
   templateUrl: './product-to-shopping-cart-dialog.component.html',
   styleUrls: ['./product-to-shopping-cart-dialog.component.scss'],

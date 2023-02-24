@@ -5,6 +5,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, filter, map, startWith } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
@@ -27,7 +28,7 @@ import { RestaurantService } from './services/restaurant.service';
 export class MenuRootComponent {
   filterCtrl = new FormControl('', { nonNullable: true });
 
-  menu$ = this.menuService.getMenu('55c410d0-3abb-442e-855c-d13dd04018a9', 'de');
+  menu$ = this.menuService.getMenu('55c410d0-3abb-442e-855c-d13dd04018a9');
   filteredProductList$ = combineLatest([
     this.menu$.pipe(map(menu => menu.products)),
     this.filterCtrl.valueChanges.pipe(startWith('')),
@@ -46,7 +47,8 @@ export class MenuRootComponent {
     public shoppingcartService: ShoppingCartService,
     private menuService: MenuService,
     private restaurantService: RestaurantService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private translateService: TranslateService
   ) {}
 
   openProductModal(product: Product) {

@@ -3,13 +3,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { concatMap, switchMap } from 'rxjs';
 import { OrderService } from './services/order.service';
 
 @Component({
   selector: 'oxp-orders',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, TranslateModule],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
 })

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProductCart } from 'src/app/shared/models/product-cart';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
@@ -13,12 +14,13 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
 @Component({
   selector: 'oxp-shopping-cart-dialog',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, CartHeaderComponent, CartMainComponent, SumOfProductsPipe, RouterModule],
+  imports: [CommonModule, MatButtonModule, CartHeaderComponent, CartMainComponent, SumOfProductsPipe, RouterModule, TranslateModule],
   templateUrl: './shopping-cart-dialog.component.html',
   styleUrls: ['./shopping-cart-dialog.component.scss'],
 })
 export class ShoppingCartDialogComponent {
   shoppingcartService = inject(ShoppingCartService);
+  translateService = inject(TranslateService);
   orderService = inject(OrderService);
   router = inject(Router);
   paymentType: PaymentType = 'DIGITAL_PAYMENT';
@@ -38,7 +40,6 @@ export class ShoppingCartDialogComponent {
     const order = this.shoppingcartService.getOrder(this.tip);
     order.paymentMethod = this.paymentType;
     order.fcmToken = 'string';
-    console.log(JSON.stringify(order));
     this.orderService.createOrder('55c410d0-3abb-442e-855c-d13dd04018a9', order).subscribe(data => {
       window.location.href = data.url;
     });
