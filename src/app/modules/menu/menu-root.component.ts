@@ -5,8 +5,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, filter, map, startWith } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ShoppingCartService } from '../../shared/services/shopping-cart.service';
@@ -28,7 +28,10 @@ import { RestaurantService } from './services/restaurant.service';
 export class MenuRootComponent {
   filterCtrl = new FormControl('', { nonNullable: true });
 
-  menu$ = this.menuService.getMenu('55c410d0-3abb-442e-855c-d13dd04018a9');
+  menu$ = this.route.params.pipe(
+    tap(params => sessionStorage.setItem('qrcode', params['qrcode']!)),
+    switchMap(params => this.menuService.getMenu(params['qrcode']!))
+  );
   filteredProductList$ = combineLatest([
     this.menu$.pipe(map(menu => menu.products)),
     this.filterCtrl.valueChanges.pipe(startWith('')),
@@ -40,7 +43,7 @@ export class MenuRootComponent {
 
   orders$ = this.orderService.items$;
   shoppingCart$ = this.shoppingcartService.items$;
-  restaurant$ = this.restaurantService.getRestaurant('55c410d0-3abb-442e-855c-d13dd04018a9');
+  restaurant$ = this.route.params.pipe(switchMap(params => this.restaurantService.getRestaurant(params['qrcode']!)));
 
   constructor(
     private dialog: MatDialog,
@@ -48,7 +51,7 @@ export class MenuRootComponent {
     private menuService: MenuService,
     private restaurantService: RestaurantService,
     public orderService: OrderService,
-    private translateService: TranslateService
+    private route: ActivatedRoute
   ) {}
 
   openProductModal(product: Product) {
@@ -77,5 +80,11 @@ export class MenuRootComponent {
         inline: 'nearest',
       });
     }
+  }
+
+  callService() {
+    const qrcode = sessionStorage.getItem('qrcode');
+    console.log(sessionStorage.getItem('qrcode'));
+    this.restaurantService.callService(qrcode!).subscribe();
   }
 }

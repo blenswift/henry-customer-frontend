@@ -14,7 +14,6 @@ export class MenuService {
   constructor(private httpClient: HttpClient, private translateService: TranslateService) {}
 
   public getMenu(qrCode: string): Observable<Menu> {
-    console.log(navigator.language);
     return this.httpClient.get<Menu>(this.url + '?qrCode=' + qrCode + '&lang=' + this.translateService.currentLang);
   }
 }

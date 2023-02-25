@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -12,4 +12,10 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './cart-header.component.html',
   styleUrls: ['./cart-header.component.scss'],
 })
-export class CartHeaderComponent {}
+export class CartHeaderComponent {
+  private router = inject(Router);
+
+  navigate() {
+    this.router.navigate(['/products/' + sessionStorage.getItem('qrcode')]);
+  }
+}

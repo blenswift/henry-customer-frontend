@@ -2,12 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'products',
-    pathMatch: 'full',
-  },
-  {
-    path: 'products',
+    path: 'products/:qrcode',
     loadComponent: () => import('./modules/menu/menu-root.component').then(m => m.MenuRootComponent),
   },
   {
@@ -17,5 +12,9 @@ export const routes: Routes = [
   {
     path: 'orders',
     loadComponent: () => import('./modules/orders/orders.component').then(m => m.OrdersComponent),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./modules/scaninfo/scaninfo.component').then(m => m.ScaninfoComponent),
   },
 ];

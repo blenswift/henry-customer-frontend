@@ -9,10 +9,15 @@ import { Restaurant } from '../models/restaurant';
 })
 export class RestaurantService {
   url = environment.apiUrl + '/restaurant-infos';
+  urlServiceStaff = environment.apiUrl + '/service-staff';
 
   constructor(private httpClient: HttpClient) {}
 
   public getRestaurant(qrCode: string): Observable<Restaurant> {
     return this.httpClient.get<Restaurant>(this.url + '?qrCodeId=' + qrCode);
+  }
+
+  public callService(qrCode: string): Observable<void> {
+    return this.httpClient.post<void>(this.urlServiceStaff + '?qrCodeId=' + qrCode, {});
   }
 }
