@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, fromEvent, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ShoppingCartService } from '../../shared/services/shopping-cart.service';
@@ -25,7 +25,7 @@ import { RestaurantService } from './services/restaurant.service';
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
 })
-export class MenuRootComponent {
+export class MenuRootComponent implements AfterViewInit {
   filterCtrl = new FormControl('', { nonNullable: true });
 
   menu$ = this.route.params.pipe(
@@ -44,6 +44,7 @@ export class MenuRootComponent {
   orders$ = this.orderService.items$;
   shoppingCart$ = this.shoppingcartService.items$;
   restaurant$ = this.route.params.pipe(switchMap(params => this.restaurantService.getRestaurant(params['qrcode']!)));
+  scrolling$!: Observable<boolean>;
 
   constructor(
     private dialog: MatDialog,
@@ -53,6 +54,12 @@ export class MenuRootComponent {
     public orderService: OrderService,
     private route: ActivatedRoute
   ) {}
+
+  ngAfterViewInit(): void {
+    this.scrolling$ = fromEvent(document.getElementById('track-scrolling')!, 'scroll').pipe(
+      switchMap(() => (document.getElementById('track-scrolling')!.scrollTop > 0 ? of(true) : of(false)))
+    );
+  }
 
   openProductModal(product: Product) {
     const dialogRef = this.dialog.open(ProductToShoppingCartDialogComponent, {

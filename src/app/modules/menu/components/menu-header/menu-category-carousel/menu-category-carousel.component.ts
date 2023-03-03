@@ -25,6 +25,8 @@ export class MenuCategoryCarouselComponent {
     return this._categories;
   }
 
+  @Input() scrolling: boolean | null = false;
+
   @Output() categoryClicked = new EventEmitter<Category>();
 
   categorySelected: Category | null = null;

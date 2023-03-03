@@ -9,6 +9,7 @@ import { priceOfProduct } from '../utils/priceUtils';
 })
 export class ShoppingCartService {
   private items = new BehaviorSubject<ProductCart[]>([]);
+  public fcmToken = new BehaviorSubject<string | null>(null);
   public items$ = this.items.asObservable();
 
   constructor() {

@@ -1,5 +1,8 @@
 <div class="bg-color">
   <oxp-menu-toolbar [itemCount]="itemCount" [orderCount]="orderCount" [restaurant]="restaurant"></oxp-menu-toolbar>
   <oxp-menu-searchbar [filterCtrl]="filterCtrl"></oxp-menu-searchbar>
-  <oxp-menu-category-carousel [categories]="categories" (categoryClicked)="categoryClick.emit($event)"></oxp-menu-category-carousel>
+  <oxp-menu-category-carousel
+    [categories]="categories"
+    [scrolling]="scrolling"
+    (categoryClicked)="categoryClick.emit($event)"></oxp-menu-category-carousel>
 </div>

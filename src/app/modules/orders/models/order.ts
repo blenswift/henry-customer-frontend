@@ -1,6 +1,6 @@
 export interface Order {
   totalPrice: number;
-  fcmToken: string;
+  fcmToken: string | null;
   paymentMethod: PaymentType;
   tip: number;
   orderItems: OrderItem[];

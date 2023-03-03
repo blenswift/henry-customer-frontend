@@ -20,5 +20,6 @@ export class MenuHeaderComponent {
   @Input() orderCount = 0;
   @Input() restaurant: Restaurant | null = null;
   @Input() filterCtrl!: FormControl;
+  @Input() scrolling: boolean | null = false;
   @Output() categoryClick = new EventEmitter<Category>();
 }
