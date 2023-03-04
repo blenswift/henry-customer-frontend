@@ -1,7 +1,7 @@
 <div class="grid grid-flow-col justify-items-stretch px-4 pt-4">
   <img class="justify-self-start object-scale-down h-12 w-24" [src]="restaurant?.coverUrl" alt="google" />
   <span class="self-center justify-self-center text-slate-900 text-sm font-bold dark:text-slate-200">{{ restaurant?.name }}</span>
-  <div class="justify-self-end">
+  <div class="justify-self-end" *ngIf="restaurant?.open">
     <button
       *ngIf="orderCount > 0"
       mat-icon-button

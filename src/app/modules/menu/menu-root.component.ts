@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, filter, fromEvent, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
@@ -21,7 +22,16 @@ import { RestaurantService } from './services/restaurant.service';
 @Component({
   selector: 'oxp-menu-root',
   standalone: true,
-  imports: [CommonModule, MenuHeaderComponent, MatDialogModule, MenuListComponent, MatButtonModule, MatBadgeModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MenuHeaderComponent,
+    MatDialogModule,
+    MenuListComponent,
+    MatButtonModule,
+    MatBadgeModule,
+    MatIconModule,
+    TranslateModule,
+  ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
 })

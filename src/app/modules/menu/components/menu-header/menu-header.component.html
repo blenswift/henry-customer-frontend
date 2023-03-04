@@ -1,7 +1,8 @@
 <div class="bg-color">
   <oxp-menu-toolbar [itemCount]="itemCount" [orderCount]="orderCount" [restaurant]="restaurant"></oxp-menu-toolbar>
-  <oxp-menu-searchbar [filterCtrl]="filterCtrl"></oxp-menu-searchbar>
+  <oxp-menu-searchbar [filterCtrl]="filterCtrl" *ngIf="restaurant?.open"></oxp-menu-searchbar>
   <oxp-menu-category-carousel
+    *ngIf="restaurant?.open"
     [categories]="categories"
     [scrolling]="scrolling"
     (categoryClicked)="categoryClick.emit($event)"></oxp-menu-category-carousel>

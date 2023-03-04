@@ -11,5 +11,6 @@
   "BAR": "Bar",
   "DIGITAL": "Digital",
   "WARENKORB_IST_LEER": "Der Warenkorb ist leer!",
-  "SCAN_QR": "Bitte scannen Sie den QR-Code ein!"
+  "SCAN_QR": "Bitte scannen Sie den QR-Code ein!",
+  "RESTAURANT_CLOSED": "Das Restaurant ist geschlossen!"
 }
