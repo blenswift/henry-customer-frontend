@@ -28,18 +28,27 @@ export class AppComponent implements OnInit {
     const languageExists = ['de', 'en'].includes(language);
     this.translateService.use(languageExists ? language : 'en');
     this.angularFireMessaging$.subscribe();
-    this.elem = document;
   }
 
-  elem: HTMLElement;
+  elem: any;
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.elem = document.documentElement;
     this.openFullscreen();
   }
 
   openFullscreen() {
     if (this.elem.requestFullscreen) {
       this.elem.requestFullscreen();
+    } else if (this.elem.mozRequestFullScreen) {
+      /* Firefox */
+      this.elem.mozRequestFullScreen();
+    } else if (this.elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.elem.webkitRequestFullscreen();
+    } else if (this.elem.msRequestFullscreen) {
+      /* IE/Edge */
+      this.elem.msRequestFullscreen();
     }
   }
 }
