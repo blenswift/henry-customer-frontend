@@ -47,7 +47,7 @@ export class MenuRootComponent implements AfterViewInit {
     this.filterCtrl.valueChanges.pipe(startWith('')),
   ]).pipe(
     map(([products, filterParam]) =>
-      products.filter(product => !filterParam.length || product.name.toLowerCase().includes(filterParam.toLowerCase()))
+      products.filter(product => !filterParam.length || product.name?.toLowerCase().includes(filterParam.toLowerCase()))
     )
   );
 
