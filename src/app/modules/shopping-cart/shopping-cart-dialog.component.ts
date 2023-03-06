@@ -42,9 +42,8 @@ export class ShoppingCartDialogComponent {
     const order = this.shoppingcartService.getOrder(this.tip);
     order.paymentMethod = this.paymentType;
     order.fcmToken = this.shoppingcartService.fcmToken.value;
-    console.log(order);
-    // this.orderService.createOrder(sessionStorage.getItem('qrcode')!, order).subscribe(data => {
-    //   window.location.href = data.url;
-    // });
+    this.orderService.createOrder(sessionStorage.getItem('qrcode')!, order).subscribe(data => {
+      window.location.href = data.url;
+    });
   }
 }
