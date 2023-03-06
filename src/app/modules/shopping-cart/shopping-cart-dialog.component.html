@@ -8,7 +8,7 @@
     (tipChanged)="tip = $event ?? 0"></oxp-cart-main>
   <footer class="w-full text-center border-t border-grey p-4" *ngIf="products.length > 0">
     <div class="flex">
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="navigateToPayment()">
+      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="bezahlenTrigger.next()">
         {{ 'ZUR_KASSE' | translate | uppercase }}
         {{ (products | sumOfProducts : tip) / 100 | currency : 'EUR' }}
       </button>
