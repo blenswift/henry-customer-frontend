@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, filter, fromEvent, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
-import { ShoppingCartService } from '../../shared/services/shopping-cart.service';
 import { ProductCart } from './../../shared/models/product-cart';
-import { OrderService } from './../orders/services/order.service';
+import { ShoppingCartState, ShoppingCartStore } from './../../shared/services/shopping-cart.store';
+import { OrderStore } from './../orders/services/order.store';
 import { MenuHeaderComponent } from './components/menu-header/menu-header.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { ProductToShoppingCartDialogComponent } from './components/product-to-shopping-cart-dialog/product-to-shopping-cart-dialog.component';
-import { MenuService } from './services/menu.service';
-import { RestaurantService } from './services/restaurant.service';
+import { RestaurantStore } from './services/restaurant.store';
 
 @Component({
   selector: 'oxp-menu-root',
@@ -31,39 +31,47 @@ import { RestaurantService } from './services/restaurant.service';
     MatBadgeModule,
     MatIconModule,
     TranslateModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
+  providers: [RestaurantStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuRootComponent implements AfterViewInit {
+  private restaurantStore = inject(RestaurantStore);
+  private shoppingCartStore = inject(ShoppingCartStore);
+  private orderStore = inject(OrderStore);
+  private dialog = inject(MatDialog);
+  private route = inject(ActivatedRoute);
+
   filterCtrl = new FormControl('', { nonNullable: true });
 
-  menu$ = this.route.params.pipe(
+  private products$ = this.route.params.pipe(
     tap(params => sessionStorage.setItem('qrcode', params['qrcode']!)),
-    switchMap(params => this.menuService.getMenu(params['qrcode']!))
+    tap(params => this.restaurantStore.load(params['qrcode']!)),
+    tap(params => this.orderStore.loadCache(params['qrcode']!)),
+    tap(params => this.shoppingCartStore.loadCache(params['qrcode']!)),
+    switchMap(() => this.restaurantStore.products$)
   );
-  filteredProductList$ = combineLatest([
-    this.menu$.pipe(map(menu => menu.products)),
-    this.filterCtrl.valueChanges.pipe(startWith('')),
-  ]).pipe(
+
+  categories$ = this.restaurantStore.categories$.pipe(
+    map(categories => {
+      if (categories?.length > 0) categories[0].selected = true;
+      return categories;
+    })
+  );
+  restaurant$ = this.restaurantStore.info$;
+  status$ = this.restaurantStore.status$;
+  orders$ = this.orderStore.orders$;
+  shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
+  filteredProductList$ = combineLatest([this.products$, this.filterCtrl.valueChanges.pipe(startWith(''))]).pipe(
     map(([products, filterParam]) =>
       products.filter(product => !filterParam.length || product.name?.toLowerCase().includes(filterParam.toLowerCase()))
     )
   );
 
-  orders$ = this.orderService.items$;
-  shoppingCart$ = this.shoppingcartService.items$;
-  restaurant$ = this.route.params.pipe(switchMap(params => this.restaurantService.getRestaurant(params['qrcode']!)));
   scrolling$!: Observable<boolean>;
-
-  constructor(
-    private dialog: MatDialog,
-    public shoppingcartService: ShoppingCartService,
-    private menuService: MenuService,
-    private restaurantService: RestaurantService,
-    public orderService: OrderService,
-    private route: ActivatedRoute
-  ) {}
 
   ngAfterViewInit(): void {
     this.scrolling$ = fromEvent(document.getElementById('track-scrolling')!, 'scroll').pipe(
@@ -84,7 +92,7 @@ export class MenuRootComponent implements AfterViewInit {
       .afterClosed()
       .pipe(filter(x => x))
       .subscribe((result: ProductCart) => {
-        this.shoppingcartService.add(result);
+        this.shoppingCartStore.addItem(result);
       });
   }
 
@@ -101,7 +109,6 @@ export class MenuRootComponent implements AfterViewInit {
 
   callService() {
     const qrcode = sessionStorage.getItem('qrcode');
-    console.log(sessionStorage.getItem('qrcode'));
-    this.restaurantService.callService(qrcode!).subscribe();
+    this.restaurantStore.callService(qrcode!);
   }
 }

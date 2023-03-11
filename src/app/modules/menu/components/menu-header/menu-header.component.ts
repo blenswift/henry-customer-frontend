@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Category } from '../../../../shared/models/category';
 import { Restaurant } from './../../models/restaurant';
@@ -13,9 +13,10 @@ import { MenuToolbarComponent } from './menu-toolbar/menu-toolbar.component';
   imports: [CommonModule, MenuToolbarComponent, MenuSearchbarComponent, MenuCategoryCarouselComponent],
   templateUrl: './menu-header.component.html',
   styleUrls: ['./menu-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuHeaderComponent {
-  @Input() categories: Category[] | undefined = [];
+  @Input() categories: Category[] | null = [];
   @Input() itemCount = 0;
   @Input() orderCount = 0;
   @Input() restaurant: Restaurant | null = null;

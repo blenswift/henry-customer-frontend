@@ -6,7 +6,7 @@ export interface Product {
   description: string;
   basePrice: number;
   available: boolean;
-  ingredients: string[];
+  ingredients: string[] | null;
   legalAge: number;
   allergens: string[];
   additives: string[];

@@ -1,10 +1,11 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, inject, OnInit } from '@angular/core';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { environment } from './../environments/environment';
+import { OrderStore } from './modules/orders/services/order.store';
+import { ShoppingCartStore } from './shared/services/shopping-cart.store';
+// import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { switchMap, tap } from 'rxjs';
-import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
+import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
 
 @Component({
   selector: 'oxp-root',
@@ -12,43 +13,40 @@ import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.servi
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [RouterModule],
+  providers: [OrderStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
-  private angularFireMessaging = inject(AngularFireMessaging);
-  private shoppingCartService = inject(ShoppingCartService);
+  private shoppingCartStore = inject(ShoppingCartStore);
 
-  angularFireMessaging$ = this.angularFireMessaging.requestPermission.pipe(
-    switchMap(() => this.angularFireMessaging.getToken),
-    tap(token => this.shoppingCartService.fcmToken.next(token))
-  );
-
-  constructor(@Inject(DOCUMENT) private document: any) {
+  constructor() {
     const language = navigator.language.substring(0, 2);
     const languageExists = ['de', 'en'].includes(language);
     this.translateService.use(languageExists ? language : 'en');
-    this.angularFireMessaging$.subscribe();
   }
-
-  elem: any;
 
   ngOnInit(): void {
-    this.elem = document.documentElement;
-    this.openFullscreen();
+    this.requestPermission();
   }
 
-  openFullscreen() {
-    if (this.elem.requestFullscreen) {
-      this.elem.requestFullscreen();
-    } else if (this.elem.mozRequestFullScreen) {
-      /* Firefox */
-      this.elem.mozRequestFullScreen();
-    } else if (this.elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.elem.webkitRequestFullscreen();
-    } else if (this.elem.msRequestFullscreen) {
-      /* IE/Edge */
-      this.elem.msRequestFullscreen();
-    }
+  requestPermission() {
+    const messaging = getMessaging();
+    getToken(messaging, { vapidKey: environment.firebase.vapidKey })
+      .then(currentToken => {
+        if (currentToken) {
+          this.shoppingCartStore.setFcmToken(currentToken);
+          this.listen(messaging);
+        }
+      })
+      .catch(err => {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+  }
+
+  listen(messaging: Messaging) {
+    onMessage(messaging, payload => {
+      console.log('Message received. ', payload);
+    });
   }
 }

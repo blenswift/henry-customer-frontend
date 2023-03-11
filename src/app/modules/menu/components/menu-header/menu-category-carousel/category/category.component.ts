@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { Category } from 'src/app/shared/models/category';
 @Component({
@@ -8,6 +8,7 @@ import { Category } from 'src/app/shared/models/category';
   imports: [CommonModule, MatChipsModule],
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent {
   @Input() category!: Category;

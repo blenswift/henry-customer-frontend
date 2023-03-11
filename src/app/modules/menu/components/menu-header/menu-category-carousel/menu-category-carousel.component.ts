@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Category } from '../../../../../shared/models/category';
 import { CategoryComponent } from './category/category.component';
 
@@ -9,19 +9,19 @@ import { CategoryComponent } from './category/category.component';
   imports: [CommonModule, CategoryComponent],
   templateUrl: './menu-category-carousel.component.html',
   styleUrls: ['./menu-category-carousel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuCategoryCarouselComponent {
-  _categories: Category[] | undefined = [];
+  _categories: Category[] | null = [];
   @Input()
-  public set categories(value: Category[] | undefined) {
+  public set categories(value: Category[] | null) {
     if (value) {
-      this.categorySelected = value?.[0] ?? null;
-      this.categorySelected.selected = true;
+      this.categorySelected = value.filter(x => x.selected)[0] ?? null;
       this._categories = value;
     }
   }
 
-  public get categories(): Category[] | undefined {
+  public get categories(): Category[] | null {
     return this._categories;
   }
 
@@ -38,5 +38,6 @@ export class MenuCategoryCarouselComponent {
     this.categorySelected = category;
     this.categorySelected.selected = true;
     this.categoryClicked.emit(category);
+    this.categories = structuredClone(this.categories);
   }
 }

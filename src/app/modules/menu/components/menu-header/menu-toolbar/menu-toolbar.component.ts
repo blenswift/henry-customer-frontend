@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import { Restaurant } from './../../../models/restaurant';
   imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, MatBadgeModule],
   templateUrl: './menu-toolbar.component.html',
   styleUrls: ['./menu-toolbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuToolbarComponent {
   @Input() itemCount = 0;

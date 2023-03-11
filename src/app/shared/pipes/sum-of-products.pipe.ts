@@ -5,7 +5,6 @@ import { ProductCart } from './../models/product-cart';
 @Pipe({
   name: 'sumOfProducts',
   standalone: true,
-  pure: false,
 })
 export class SumOfProductsPipe implements PipeTransform {
   transform(items: ProductCart[], tip: number): number {

@@ -1,13 +1,19 @@
 <div
   class="flex flex-col h-screen overflow-hidden"
-  *ngIf="{ menu: menu$ | async, filteredProducts: filteredProductList$ | async, info: restaurant$ | async } as restaurant">
+  *ngIf="{
+    products: filteredProductList$ | async,
+    categories: categories$ | async,
+    info: restaurant$ | async,
+    status: status$ | async,
+    shoppingCart: shoppingCart$ | async
+  } as restaurant">
   <!-- HEADER -->
   <header class="w-full">
     <oxp-menu-header
       [filterCtrl]="filterCtrl"
-      [categories]="restaurant.menu?.categories"
+      [categories]="restaurant.categories"
       [restaurant]="restaurant.info"
-      [itemCount]="(shoppingCart$ | async)?.length!"
+      [itemCount]="restaurant.shoppingCart?.items?.length!"
       [orderCount]="(orders$ | async)?.length!"
       [scrolling]="scrolling$ | async"
       (categoryClick)="categoryClicked($event)"></oxp-menu-header>
@@ -16,16 +22,19 @@
   <!-- Produkte -->
   <main class="flex-1 overflow-y-scroll scrollbar-hide" id="track-scrolling">
     <oxp-menu-list
-      *ngIf="restaurant.info?.open"
-      [products]="restaurant.filteredProducts"
+      *ngIf="restaurant.status === 'DATA'"
+      [products]="restaurant.products"
       (openProductModal)="openProductModal($event)"></oxp-menu-list>
-    <div class="flex w-full h-full flex-col align-middle justify-center bg-color" *ngIf="!restaurant.info?.open">
+    <div class="flex w-full h-full flex-col align-middle justify-center bg-color" *ngIf="restaurant.status === 'CLOSED'">
       <mat-icon class="flex justify-center h-1/2 w-full" style="font-size: 15rem">lock</mat-icon>
       <p class="text-5xl text-center m-4">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>
     </div>
+    <div class="flex w-full h-full flex-col align-middle justify-center bg-color" *ngIf="restaurant.status === 'LOADING'">
+      <mat-spinner></mat-spinner>
+    </div>
   </main>
 
-  <button mat-fab color="primary" class="absolute right-4 bottom-4 z-10" *ngIf="restaurant.info?.open">
+  <button mat-fab color="primary" class="absolute right-4 bottom-4 z-10" *ngIf="restaurant.status === 'DATA'">
     <mat-icon>notifications</mat-icon>
   </button>
 </div>

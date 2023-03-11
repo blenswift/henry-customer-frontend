@@ -25,7 +25,6 @@ export const priceOfProducts = (items: ProductCart[]): number => {
   let price = 0;
 
   items.forEach(item => {
-    console.log(item);
     let singleItemPrice = priceOfProduct(item);
     singleItemPrice *= item.quantity;
     price += singleItemPrice;

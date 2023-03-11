@@ -13,7 +13,9 @@
       </h4>
 
       <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
-      <p class="pt-2 pb-3" *ngIf="data.product.ingredients.length > 0">{{ data.product.ingredients.join(', ') }}</p>
+      <p class="pt-2 pb-3" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">
+        {{ data.product.ingredients.join(', ') }}
+      </p>
     </div>
   </header>
   <main class="flex-1 overflow-y-scroll p-4">

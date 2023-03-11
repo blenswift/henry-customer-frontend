@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from 'src/app/shared/models/product';
 import { ProductCardComponent } from './product-card/product-card.component';
 
@@ -9,6 +9,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
   imports: [CommonModule, ProductCardComponent],
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuListComponent {
   @Input() products: Product[] | null = [];
