@@ -1,17 +1,26 @@
-<div class="flex flex-row items-center justify-center border-b border-grey gap-4">
-  <span class="font-medium text-xl"> {{ productCart.quantity }} x </span>
-  <div class="flex flex-col">
-    <span class="font-medium text-xl">
-      {{ productCart.product.name }}
-    </span>
-    <!-- <span>Hier sollen die Extras stehen</span> -->
+<div class="border-b border-grey pb-2">
+  <div class="flex flex-row items-center justify-center gap-4">
+    <span class="font-medium text-xl"> {{ productCart.quantity }} x </span>
+    <div class="flex flex-col">
+      <span class="font-medium text-xl">
+        {{ productCart.product.name }}
+      </span>
+      <!-- <span>Hier sollen die Extras stehen</span> -->
+    </div>
+    <div class="ml-auto flex flex-row items-center justify-center">
+      <span class="text-xl">
+        {{ ((productCart | sumOfProduct) * productCart.quantity) / 100 | currency : 'EUR' }}
+      </span>
+
+      <button mat-icon-button (click)="removeProduct.emit(productCart)" class="flex">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </div>
-  <div class="ml-auto flex flex-row items-center justify-center">
-    <span class="text-xl">
-      {{ ((productCart | sumOfProduct) * productCart.quantity) / 100 | currency : 'EUR' }}
-    </span>
-    <button mat-icon-button (click)="removeProduct.emit(productCart)">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
+
+  <ng-container *ngFor="let extraGroup of productCart.product.extraGroups">
+    <ng-container *ngFor="let extra of extraGroup.extras">
+      <span class="flex flex-row items-center font-medium text-l pl-14" *ngIf="extra.selected"> + {{ extra.name }} </span>
+    </ng-container>
+  </ng-container>
 </div>

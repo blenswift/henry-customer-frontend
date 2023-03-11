@@ -48,10 +48,11 @@ export class MenuRootComponent implements AfterViewInit {
   filterCtrl = new FormControl('', { nonNullable: true });
 
   private products$ = this.route.params.pipe(
-    tap(params => sessionStorage.setItem('qrcode', params['qrcode']!)),
-    tap(params => this.restaurantStore.load(params['qrcode']!)),
-    tap(params => this.orderStore.loadCache(params['qrcode']!)),
-    tap(params => this.shoppingCartStore.loadCache(params['qrcode']!)),
+    filter(params => !!params['qrcode']),
+    tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
+    tap(params => this.restaurantStore.load(params['qrcode'])),
+    tap(params => this.orderStore.loadCache(params['qrcode'])),
+    tap(params => this.shoppingCartStore.loadCache(params['qrcode'])),
     switchMap(() => this.restaurantStore.products$)
   );
 

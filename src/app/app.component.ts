@@ -3,6 +3,7 @@ import { environment } from './../environments/environment';
 import { OrderStore } from './modules/orders/services/order.store';
 import { ShoppingCartStore } from './shared/services/shopping-cart.store';
 // import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
@@ -12,7 +13,7 @@ import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule],
   providers: [OrderStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

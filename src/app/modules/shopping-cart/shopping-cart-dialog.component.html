@@ -1,7 +1,7 @@
 <div class="flex flex-col h-screen overflow-hidden" *ngIf="vm$ | async as vm">
   <oxp-cart-header></oxp-cart-header>
   <oxp-cart-main
-    class="h-full"
+    class="h-full flex-1 overflow-y-scroll"
     [products]="vm.items"
     (removeProduct)="removeProduct($event)"
     (paymentTypeChange)="paymentTypeChanged($event)"
