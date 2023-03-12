@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { concat, Observable, switchMap, tap } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { concat, Observable, of, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { LoadingStatus } from 'src/app/shared/models/loading-status';
 import { Product } from 'src/app/shared/models/product';
@@ -22,7 +24,12 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   readonly info$ = this.select(state => state.info);
   readonly status$ = this.select(state => state.status);
 
-  constructor(private menuService: MenuService, private restaurantService: RestaurantService) {
+  constructor(
+    private menuService: MenuService,
+    private restaurantService: RestaurantService,
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
+  ) {
     super({ categories: [], products: [], info: null, status: 'LOADING' });
   }
 
@@ -57,6 +64,17 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   });
 
   callService = this.effect((qrCode$: Observable<string>) => {
-    return qrCode$.pipe(switchMap(qrCode => this.restaurantService.callService(qrCode)));
+    return qrCode$.pipe(
+      switchMap(qrCode => this.restaurantService.callService(qrCode)),
+      switchMap(() => of(this.openSnackBar())),
+      tapResponse(
+        () => {},
+        () => {}
+      )
+    );
   });
+
+  openSnackBar() {
+    this.snackBar.open(this.translateService.instant('WAITER_COMING'), undefined, { duration: 3000 });
+  }
 }

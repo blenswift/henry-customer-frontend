@@ -12,5 +12,6 @@
   "DIGITAL": "Digital",
   "WARENKORB_IST_LEER": "The shopping cart is empty!",
   "SCAN_QR": "Please scan a QR-Code!",
-  "RESTAURANT_CLOSED": "Restaurant is closed!"
+  "RESTAURANT_CLOSED": "Restaurant is closed!",
+  "WAITER_COMING": "Waiter is on the way!"
 }

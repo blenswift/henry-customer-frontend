@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, filter, fromEvent, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
@@ -32,6 +33,7 @@ import { RestaurantStore } from './services/restaurant.store';
     MatIconModule,
     TranslateModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],

@@ -18,6 +18,6 @@ export class RestaurantService {
   }
 
   public callService(qrCode: string): Observable<void> {
-    return this.httpClient.post<void>(this.urlServiceStaff + '?qrCodeId=' + qrCode, {});
+    return this.httpClient.post<void>(this.urlServiceStaff, { qrCode });
   }
 }
