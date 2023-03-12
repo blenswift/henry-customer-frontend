@@ -7,6 +7,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentType } from 'src/app/modules/orders/models/order';
 import { ProductCart } from 'src/app/shared/models/product-cart';
+import { Restaurant } from './../../../menu/models/restaurant';
 import { CartProductComponent } from './cart-product/cart-product.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { CartProductComponent } from './cart-product/cart-product.component';
 })
 export class CartMainComponent {
   @Input() products: ProductCart[] = [];
+  @Input() restaurantInfo: Restaurant | null = null;
   @Output() removeProduct = new EventEmitter<ProductCart>();
   @Output() tipChanged = new EventEmitter<number | null>();
   @Output() paymentTypeChange = new EventEmitter<PaymentType>();
