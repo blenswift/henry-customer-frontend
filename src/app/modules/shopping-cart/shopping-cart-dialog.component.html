@@ -11,7 +11,7 @@
     <div class="flex">
       <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="bezahlen(vm)">
         {{ 'ZUR_KASSE' | translate | uppercase }}
-        {{ (vm.items | sumOfProducts : vm.tip) / 100 | currency : 'EUR' }}
+        {{ (vm.items | sumOfProducts : vm.tip) / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
       </button>
     </div>
   </footer>

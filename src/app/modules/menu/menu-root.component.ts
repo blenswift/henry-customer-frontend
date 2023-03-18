@@ -88,7 +88,7 @@ export class MenuRootComponent implements AfterViewInit {
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
-      data: { product, quantity: 1 } as ProductCart,
+      data: { product: structuredClone(product), quantity: 1 } as ProductCart,
     });
 
     dialogRef

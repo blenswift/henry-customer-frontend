@@ -1,15 +1,16 @@
 <div class="grid grid-flow-col justify-items-stretch px-4 pt-4">
   <img class="justify-self-start object-scale-down h-12 w-24" [src]="restaurant?.coverUrl" />
   <span class="self-center justify-self-center text-slate-900 text-sm font-bold">{{ restaurant?.name }}</span>
-  <div class="justify-self-end" *ngIf="restaurant?.open">
+  <div class="justify-self-end demo-section" *ngIf="restaurant?.open">
     <button
       *ngIf="orderCount > 0"
+      color="primary"
       mat-icon-button
       [matBadge]="orderCount"
       [matBadgeHidden]="orderCount <= 0"
       matBadgeSize="medium"
       routerLink="/orders">
-      <mat-icon class="scale-150">credit_score</mat-icon>
+      <mat-icon class="scale-150">account_circle</mat-icon>
     </button>
     <button
       mat-icon-button

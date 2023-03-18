@@ -11,11 +11,11 @@
   <div *ngFor="let order of orders" class="border rounded-xl bg-color p-3">
     <div class="flex">
       <mat-icon>fastfood</mat-icon>{{ 'TISCH' | translate }} {{ order.table }}
-      <div class="ml-auto">{{ order.status }}<mat-icon>hourglass_empty</mat-icon></div>
+      <div class="ml-auto">{{ order.status }}</div>
     </div>
     <div class="flex">
       <div>{{ order.createdAt | date : 'dd.MM.YYYY HH:mm' }}</div>
-      <div class="ml-auto">{{ order.totalPrice / 100 | currency : 'EUR' }}</div>
+      <div class="ml-auto">{{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}</div>
     </div>
   </div>
 </div>

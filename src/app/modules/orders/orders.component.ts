@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { switchMap, tap } from 'rxjs';
 import { OrderStore } from './services/order.store';
 
@@ -20,6 +20,7 @@ export class OrdersComponent {
   orderStore = inject(OrderStore);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  translateService = inject(TranslateService);
 
   orders$ = this.route.queryParams.pipe(
     tap(() => this.orderStore.loadCache(sessionStorage.getItem('qrcode')!)),

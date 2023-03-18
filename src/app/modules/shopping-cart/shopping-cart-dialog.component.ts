@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProductCart } from 'src/app/shared/models/product-cart';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartState, ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
@@ -34,6 +34,7 @@ export class ShoppingCartDialogComponent {
   private shoppingCartStore = inject(ShoppingCartStore);
   private restaurantStore = inject(RestaurantStore);
   router = inject(Router);
+  translateService = inject(TranslateService);
 
   public shoppingCartVm$ = this.shoppingCartStore.vm$;
   public restaurantInfoVm$ = this.restaurantStore.info$;
