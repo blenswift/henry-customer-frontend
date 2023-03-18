@@ -21,9 +21,7 @@
     </div>
   </div>
 
-  <ng-container *ngFor="let extraGroup of productCart.product.extraGroups">
-    <ng-container *ngFor="let extra of extraGroup.extras">
-      <span class="flex flex-row items-center font-medium text-l pl-14" *ngIf="extra.selected"> + {{ extra.name }} </span>
-    </ng-container>
+  <ng-container *ngFor="let extra of productCart.product.extraGroups | extras">
+    <span class="flex flex-row items-center font-medium text-l pl-14"> + {{ extra.name }} </span>
   </ng-container>
 </div>

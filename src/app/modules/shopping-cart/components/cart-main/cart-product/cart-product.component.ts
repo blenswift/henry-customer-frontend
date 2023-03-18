@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductCart } from './../../../../../shared/models/product-cart';
 import { SumOfProductPipe } from './../../../../../shared/pipes/sum-of-product.pipe';
+import { ExtrasPipe } from './../../../pipes/extras.pipe';
 
 @Component({
   selector: 'oxp-cart-product',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, SumOfProductPipe],
+  imports: [CommonModule, MatIconModule, MatButtonModule, SumOfProductPipe, ExtrasPipe],
   templateUrl: './cart-product.component.html',
   styleUrls: ['./cart-product.component.scss'],
 })
