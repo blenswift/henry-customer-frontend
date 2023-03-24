@@ -5,9 +5,14 @@
       <mat-icon>close</mat-icon>
     </button>
     <div class="p-4 pb-0">
-      <h4 class="font-medium leading-tight text-2xl mb-2">
-        {{ data.product.name }}
-      </h4>
+      <div class="flex flex-row items-center">
+        <h4 class="font-medium leading-tight text-2xl">
+          {{ data.product.name }}
+        </h4>
+        <button mat-icon-button color="primary" class="ml-auto flex" (click)="openInfo()">
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
 
       <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
       <div class="flex flex-row items-center" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">

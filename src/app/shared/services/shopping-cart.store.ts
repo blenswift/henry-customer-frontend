@@ -120,8 +120,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     state.items.forEach(item => {
       const orderItem = {
         productId: item.product.id,
-        price: item.product.basePrice,
-        subTotal: priceOfProduct(item) * item.quantity,
+        basePrice: item.product.basePrice,
+        unitPrice: priceOfProduct(item) * item.quantity,
         quantity: item.quantity,
         extraIds: [],
       } as OrderItem;
@@ -137,7 +137,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         orderItem.extraIds = orderItem.extraIds.concat(extraIds);
       });
 
-      order.totalPrice += orderItem.subTotal;
+      order.totalPrice += orderItem.unitPrice;
       order.orderItems.push(orderItem);
     });
 

@@ -1,0 +1,29 @@
+<header class="w-full border-b border-grey flex px-4">
+  <button mat-icon-button [mat-dialog-close]="false">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+  <div class="p-4">
+    <h4 class="font-medium leading-tight text-2xl">{{ data.product.name }}</h4>
+  </div>
+</header>
+
+<div>
+  <mat-accordion *ngFor="let extraGroup of data.product.extraGroups">
+    <mat-expansion-panel *ngFor="let extra of extraGroup.extras">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ extra.name }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item>
+          <span matListItemTitle>{{ 'ZUSATZSTOFFE' | translate }}:</span>
+          <span matListItemLine>{{ extra.additives.length > 0 ? extra.additives.join(', ') : ('KEINE' | translate) }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>{{ 'ALLERGENE' | translate }}: </span>
+          <span matListItemLine *ngFor="let allergen of extra.allergens"> - {{ allergen }}</span>
+          <span matListItemLine *ngIf="extra.allergens?.length === 0">{{ 'KEINE' | translate }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

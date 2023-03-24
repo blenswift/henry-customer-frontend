@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
@@ -11,6 +11,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProductCart } from 'src/app/shared/models/product-cart';
 import { CounterButtonComponent } from './../../../../shared/components/counter-button/counter-button.component';
 import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe';
+import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/product-ingridients-dialog.component';
 
 @Component({
   selector: 'oxp-product-to-shopping-cart-dialog',
@@ -38,7 +39,8 @@ export class ProductToShoppingCartDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ProductToShoppingCartDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductCart,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private dialog: MatDialog
   ) {
     // Zuweisung von Defaultwerten; Könnte man über das Datenmodel mal sprechen. Nicht so dolle in diesem Fall
     data.product.extraGroups.map(extraGroup => {
@@ -54,5 +56,17 @@ export class ProductToShoppingCartDialogComponent {
       }
       return extraGroup;
     });
+  }
+
+  openInfo() {
+    const dialogRef = this.dialog.open(ProductIngridientsDialogComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      data: structuredClone(this.data),
+    });
+
+    dialogRef.afterClosed().subscribe();
   }
 }

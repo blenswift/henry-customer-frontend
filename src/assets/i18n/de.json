@@ -14,5 +14,8 @@
   "SCAN_QR": "Bitte scannen Sie den QR-Code ein!",
   "RESTAURANT_CLOSED": "Das Restaurant ist geschlossen!",
   "WAITER_COMING": "Das Personal ist unterwegs!",
-  "ZUTATEN": "Zutaten"
+  "ZUTATEN": "Zutaten",
+  "KEINE": "Keine",
+  "ZUSATZSTOFFE": "Zusatzstoffe",
+  "ALLERGENE": "Allergene"
 }
