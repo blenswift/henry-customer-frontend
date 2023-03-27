@@ -21,7 +21,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
 
   constructor(private shoppingCartService: ShoppingCartService) {
-    super({ items: [], paymentType: 'DIGITAL_PAYMENT', fcmToken: null, tip: 0 });
+    super({ items: [], paymentType: 'DIGITAL', fcmToken: null, tip: 0 });
   }
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
@@ -86,7 +86,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     localStorage.removeItem('ITEMS' + qrCode);
     return {
       items: [],
-      paymentType: 'DIGITAL_PAYMENT',
+      paymentType: 'DIGITAL',
       fcmToken: state.fcmToken,
       tip: 0,
       totalPrice: 0,

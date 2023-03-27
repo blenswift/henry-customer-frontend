@@ -14,4 +14,4 @@ export interface OrderItem {
   extraIds: string[];
 }
 
-export type PaymentType = 'DIGITAL_PAYMENT' | 'CASH_PAYMENT';
+export type PaymentType = 'DIGITAL' | 'CASH';

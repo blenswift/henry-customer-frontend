@@ -7,11 +7,11 @@
 
     <h2 class="font-medium text-xl mt-4">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
     <mat-radio-group class="flex flex-col oxp-custom-group" (change)="paymentTypeChange.emit($event.value)">
-      <mat-radio-button value="DIGITAL_PAYMENT" [checked]="true" *ngIf="restaurantInfo?.acceptDigitalPayment">
-        <span class="py-2"> {{ 'DIGITAL' | translate | uppercase }} </span>
-      </mat-radio-button>
-      <mat-radio-button value="CASH_PAYMENT" *ngIf="restaurantInfo?.acceptCashPayment">
-        <span class="py-2">{{ 'BAR' | translate | uppercase }} </span>
+      <mat-radio-button
+        value="DIGITAL_PAYMENT"
+        *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentMethods; let first = first"
+        [checked]="first">
+        <span class="py-2"> {{ paymentMethod | translate | uppercase }} </span>
       </mat-radio-button>
     </mat-radio-group>
 
