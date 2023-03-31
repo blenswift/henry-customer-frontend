@@ -25,7 +25,6 @@ import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging
 export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private shoppingCartStore = inject(ShoppingCartStore);
-  public fcmToken$ = this.shoppingCartStore.fcmToke$;
 
   constructor(private swPush: SwPush) {
     const language = navigator.language.substring(0, 2);
