@@ -9,6 +9,7 @@ import localeEn from '@angular/common/locales/en';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeEnExtra from '@angular/common/locales/extra/en';
 import { RouterModule } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
 
@@ -24,8 +25,9 @@ import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging
 export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private shoppingCartStore = inject(ShoppingCartStore);
+  public fcmToken$ = this.shoppingCartStore.fcmToke$;
 
-  constructor() {
+  constructor(private swPush: SwPush) {
     const language = navigator.language.substring(0, 2);
     const languageExists = ['de', 'en'].includes(language);
     this.translateService.use(languageExists ? language : 'en');
@@ -36,8 +38,18 @@ export class AppComponent implements OnInit {
     }
   }
 
+  subscribeToNotifications() {
+    this.swPush
+      .requestSubscription({
+        serverPublicKey: environment.firebase.vapidKey,
+      })
+      .then(console.log)
+      .catch(err => console.error('Could not subscribe to notifications', err));
+  }
+
   ngOnInit(): void {
     this.requestPermission();
+    this.subscribeToNotifications();
   }
 
   requestPermission() {

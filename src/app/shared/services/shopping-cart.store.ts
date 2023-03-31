@@ -20,6 +20,7 @@ export interface ShoppingCartState {
 })
 export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
+  readonly fcmToke$ = this.select(state => state.fcmToken);
 
   constructor(private shoppingCartService: ShoppingCartService) {
     super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '' });

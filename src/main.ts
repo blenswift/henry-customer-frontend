@@ -3,6 +3,7 @@ import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { initializeApp } from 'firebase/app';
@@ -22,12 +23,17 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+// {
+//   enabled: environment.production;
+// }
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(),
     importProvidersFrom([
+      ServiceWorkerModule.register('/firebase-messaging-sw.js', { enabled: true }),
       TranslateModule.forRoot({
         defaultLanguage: 'en',
         loader: {
