@@ -1,18 +1,21 @@
-<div class="flex flex-col h-full overflow-hidden" *ngIf="shoppingCartVm$ | async as vm">
+<div class="flex flex-col h-full overflow-hidden" *ngIf="form$ | async as form">
   <oxp-cart-header></oxp-cart-header>
   <oxp-cart-main
     class="h-full flex-1 overflow-y-scroll"
-    [products]="vm.items"
+    [form]="form"
     [restaurantInfo]="restaurantInfoVm$ | async"
-    (removeProduct)="removeProduct($event)"
-    (paymentTypeChange)="paymentTypeChanged($event)"
-    (tipChanged)="tipChanged($event ?? 0)"></oxp-cart-main>
-  <footer class="w-full text-center border-t border-grey p-4" *ngIf="vm.items.length > 0">
-    <div class="flex">
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="bezahlen(vm)">
-        {{ 'ZUR_KASSE' | translate | uppercase }}
-        {{ (vm.items | sumOfProducts : vm.tip) / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-      </button>
-    </div>
-  </footer>
+    (removeProduct)="removeProduct($event)"></oxp-cart-main>
+  <ng-container *ngIf="shoppingCartVm$ | async as vm">
+    <footer class="w-full text-center border-t border-grey p-4" *ngIf="vm.items.length > 0">
+      <div class="flex">
+        <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="bezahlen(form.getRawValue())">
+          {{ 'ZUR_KASSE' | translate | uppercase }}
+          {{
+            (vm.items | sumOfProducts : form.getRawValue().tip!) / 100
+              | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+          }}
+        </button>
+      </div>
+    </footer>
+  </ng-container>
 </div>

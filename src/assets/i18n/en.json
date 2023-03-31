@@ -18,5 +18,6 @@
   "KEINE": "None",
   "ZUSATZSTOFFE": "Additives",
   "ALLERGENE": "Allergens",
-  "CALLSERVICE": "Call the waiter"
+  "CALLSERVICE": "Call the waiter",
+  "SHOPPINGCART_COMMENT": "Special requests and comments for the restaurant"
 }

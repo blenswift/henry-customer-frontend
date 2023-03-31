@@ -9,9 +9,10 @@ import { ProductCart } from './../models/product-cart';
 
 export interface ShoppingCartState {
   items: ProductCart[];
-  paymentType: PaymentType;
+  paymentType: PaymentType | null;
   fcmToken: string | null;
   tip: number;
+  comment: string;
 }
 
 @Injectable({
@@ -21,13 +22,12 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
 
   constructor(private shoppingCartService: ShoppingCartService) {
-    super({ items: [], paymentType: 'DIGITAL', fcmToken: null, tip: 0 });
+    super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '' });
   }
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
     return productCart$.pipe(
       tap(productCart => {
-        console.log(productCart);
         this.patchState(state => {
           const items = [...state.items, productCart];
           const qrCode = sessionStorage.getItem('qrcode');
@@ -41,17 +41,18 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     );
   });
 
-  removeItem = this.effect((productCart$: Observable<ProductCart>) => {
-    return productCart$.pipe(
-      tap(productCart => {
+  removeItem = this.effect((itemIndex$: Observable<number>) => {
+    return itemIndex$.pipe(
+      tap(itemIndex => {
         this.patchState(state => {
-          const indexOfItem = state.items.indexOf(productCart);
           const items = state.items;
-          if (indexOfItem > -1) {
-            items.splice(indexOfItem, 1);
-          }
+          items.splice(itemIndex, 1);
           const qrCode = sessionStorage.getItem('qrcode');
           localStorage.setItem('ITEMS' + qrCode!, JSON.stringify(items));
+          console.log({
+            ...state,
+            items: [...items],
+          });
           return {
             ...state,
             items: [...items],
@@ -64,6 +65,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   createOrder = this.effect((shoppingCartState$: Observable<ShoppingCartState>) => {
     return shoppingCartState$.pipe(
       concatMap(shoppingCartState => this.getFinalOrder(shoppingCartState)),
+      tap(console.log),
       exhaustMap(order =>
         this.shoppingCartService.createOrder(sessionStorage.getItem('qrcode')!, order).pipe(
           tapResponse(
@@ -85,18 +87,13 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   clearShoppingCart = this.updater((state, qrCode: string) => {
     localStorage.removeItem('ITEMS' + qrCode);
     return {
+      ...state,
       items: [],
-      paymentType: 'DIGITAL',
       fcmToken: state.fcmToken,
       tip: 0,
       totalPrice: 0,
     };
   });
-
-  setTip = this.updater((state, tip: number) => ({
-    ...state,
-    tip,
-  }));
 
   setPaymentType = this.updater((state, paymentType: PaymentType) => ({
     ...state,
@@ -115,6 +112,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       tip: state.tip,
       totalPrice: 0,
       paymentMethod: state.paymentType,
+      comment: state.comment,
     } as Order;
 
     state.items.forEach(item => {

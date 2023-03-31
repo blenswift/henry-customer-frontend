@@ -7,9 +7,9 @@ import { ProductCart } from './../models/product-cart';
   standalone: true,
 })
 export class SumOfProductsPipe implements PipeTransform {
-  transform(items: ProductCart[], tip: number): number {
+  transform(items: ProductCart[], tip: number | undefined): number {
     const price = priceOfProducts(items);
 
-    return price + tip;
+    return price + (tip || 0);
   }
 }

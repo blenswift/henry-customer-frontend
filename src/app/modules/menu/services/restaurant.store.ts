@@ -49,7 +49,6 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
             )
           ),
           this.restaurantService.getRestaurant(qrCode).pipe(
-            tap(console.log),
             tapResponse(
               info => {
                 this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED' });

@@ -4,6 +4,7 @@ export interface Order {
   paymentMethod: PaymentType;
   tip: number;
   orderItems: OrderItem[];
+  comment: string;
 }
 
 export interface OrderItem {
