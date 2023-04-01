@@ -2,23 +2,31 @@
   <div class="p-4">
     <h4 class="font-medium leading-tight text-2xl">{{ 'BESTELLUNGEN' | translate }}</h4>
   </div>
-  <button mat-mini-fab color="primary" class="absolute top-2 right-2" (click)="navigate()">
+  <button mat-mini-fab color="accent" class="absolute top-2 right-2" (click)="navigate()">
     <mat-icon>close</mat-icon>
   </button>
 </header>
 
-<div class="grid grid-cols-2 gap-2 p-3" *ngIf="orders$ | async as orders; else loading">
-  <div *ngFor="let order of orders" class="border rounded-xl bg-color p-3">
-    <div class="flex">
-      <mat-icon>fastfood</mat-icon>{{ 'TISCH' | translate }} {{ order.table }}
-      <div class="ml-auto">{{ order.status }}</div>
-    </div>
-    <div class="flex">
-      <div>{{ order.createdAt | date : 'dd.MM.YYYY HH:mm' }}</div>
-      <div class="ml-auto">{{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}</div>
-    </div>
-  </div>
-</div>
+<ng-container *ngIf="orders$ | async as orders; else loading">
+  <mat-accordion class="w-full">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ 'DIESE_WOCHE' | translate }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="grid grid-cols-2 gap-2">
+        <oxp-order *ngFor="let order of ordersLastWeek$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ 'AELTER_ALS_DIESE_WOCHE' | translate }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="grid grid-cols-2 gap-2">
+        <oxp-order *ngFor="let order of ordersOlderThanAWeek$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>
 <ng-template #loading>
   <div class="flex w-full h-full flex-col align-middle justify-center bg-color">
     <mat-spinner></mat-spinner>

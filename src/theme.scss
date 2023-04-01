@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$md-oxp: (
+  50: #ececfd,
+  100: #cecffa,
+  200: #aeaff7,
+  300: #8e8ff4,
+  400: #7577f1,
+  500: #5d5fef,
+  600: #5557ed,
+  700: #4b4deb,
+  800: #4143e8,
+  900: #3032e4,
+  A100: #ffffff,
+  A200: #f4f4ff,
+  A400: #c1c2ff,
+  A700: #a7a8ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$my-primary: mat.define-palette($md-oxp, 500);
+$my-accent: mat.define-palette($md-oxp, A200, A100, A400);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+    ),
+    density: 0,
+  )
+);
+
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.all-component-themes($my-theme);

@@ -8,6 +8,17 @@
 </header>
 
 <div>
+  <mat-list>
+    <mat-list-item>
+      <span matListItemTitle>{{ 'ZUSATZSTOFFE' | translate }}:</span>
+      <span matListItemLine>{{ data.product.additives.length > 0 ? data.product.additives.join(', ') : ('KEINE' | translate) }}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle>{{ 'ALLERGENE' | translate }}: </span>
+      <span matListItemLine *ngFor="let allergen of data.product.allergens"> - {{ allergen }}</span>
+      <span matListItemLine *ngIf="data.product.allergens?.length === 0">{{ 'KEINE' | translate }}</span>
+    </mat-list-item>
+  </mat-list>
   <mat-accordion *ngFor="let extraGroup of data.product.extraGroups">
     <mat-expansion-panel *ngFor="let extra of extraGroup.extras">
       <mat-expansion-panel-header>

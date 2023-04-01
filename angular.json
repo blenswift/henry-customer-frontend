@@ -38,7 +38,8 @@
               "src/firebase-messaging-sw.js"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/theme.scss"
             ],
             "scripts": []
           },
@@ -109,7 +110,8 @@
               "src/firebase-messaging-sw.js"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/theme.scss"
             ],
             "scripts": []
           }

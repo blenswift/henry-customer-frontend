@@ -19,5 +19,8 @@
   "ZUSATZSTOFFE": "Additives",
   "ALLERGENE": "Allergens",
   "CALLSERVICE": "Call the waiter",
-  "SHOPPINGCART_COMMENT": "Special requests and comments for the restaurant"
+  "SHOPPINGCART_COMMENT": "Special requests and comments for the restaurant",
+  "BESTELLUNG": "Order",
+  "DIESE_WOCHE": "This week",
+  "AELTER_ALS_DIESE_WOCHE": "> 7 days"
 }

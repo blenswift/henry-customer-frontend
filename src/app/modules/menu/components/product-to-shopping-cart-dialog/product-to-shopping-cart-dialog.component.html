@@ -1,7 +1,7 @@
 <div class="flex flex-col h-full overflow-hidden">
   <header class="w-full">
     <img class="object-cover h-48 w-full object-center" [src]="data.product.imageUrl" alt="google" />
-    <button mat-mini-fab color="primary" class="absolute top-2 right-2" [mat-dialog-close]="false">
+    <button mat-mini-fab color="accent" class="absolute top-2 right-2" [mat-dialog-close]="false">
       <mat-icon>close</mat-icon>
     </button>
     <div class="p-4 pb-0">
@@ -31,6 +31,7 @@
         <mat-radio-group
           class="flex flex-col oxp-custom-group"
           *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
+          color="primary"
           [(ngModel)]="extraGroup.selected">
           <mat-radio-button *ngFor="let extra of extraGroup.extras; let last = last" [value]="extra.id">
             <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
@@ -45,7 +46,11 @@
         </mat-radio-group>
 
         <ng-container *ngIf="extraGroup.selectionType === 'CHECKBOX'">
-          <mat-checkbox class="flex oxp-custom-group" *ngFor="let extra of extraGroup.extras; let last = last" [(ngModel)]="extra.selected">
+          <mat-checkbox
+            class="flex oxp-custom-group"
+            color="primary"
+            *ngFor="let extra of extraGroup.extras; let last = last"
+            [(ngModel)]="extra.selected">
             <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
               <span>
                 {{ extra.name }}

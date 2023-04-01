@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/orders/orders.component').then(m => m.OrdersComponent),
   },
   {
+    path: 'order-details/:trackingId',
+    loadComponent: () => import('./modules/order-detail/order-detail.component').then(m => m.OrderDetailComponent),
+  },
+  {
     path: '**',
     loadComponent: () => import('./modules/scaninfo/scaninfo.component').then(m => m.ScaninfoComponent),
   },

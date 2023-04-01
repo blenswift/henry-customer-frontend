@@ -23,10 +23,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-// {
-//   enabled: environment.production;
-// }
-
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),

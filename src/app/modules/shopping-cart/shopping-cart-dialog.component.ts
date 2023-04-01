@@ -8,8 +8,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, of, switchMap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
+import { PageHeaderComponent } from './../../shared/components/page-header/page-header.component';
 import { RestaurantStore } from './../menu/services/restaurant.store';
-import { CartHeaderComponent } from './components/cart-header/cart-header.component';
 import { CartMainComponent } from './components/cart-main/cart-main.component';
 
 @Component({
@@ -18,12 +18,12 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
   imports: [
     CommonModule,
     MatButtonModule,
-    CartHeaderComponent,
     CartMainComponent,
     SumOfProductsPipe,
     RouterModule,
     TranslateModule,
     MatSnackBarModule,
+    PageHeaderComponent,
   ],
   templateUrl: './shopping-cart-dialog.component.html',
   styleUrls: ['./shopping-cart-dialog.component.scss'],
@@ -70,5 +70,9 @@ export class ShoppingCartDialogComponent {
 
   removeProduct(itemIndex: number) {
     this.shoppingCartStore.removeItem(itemIndex);
+  }
+
+  navigateToProducts() {
+    this.router.navigate(['/products/' + sessionStorage.getItem('qrcode')]);
   }
 }
