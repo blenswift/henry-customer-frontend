@@ -1,8 +1,7 @@
 export function getApiUrl(): string {
-  const currentUrl = window.location.pathname;
+  const currentUrl = window.location.origin;
   if (window.location.host.includes('localhost')) {
     return 'https://orderxpay.eu/api';
   }
-
-  return 'api' + currentUrl;
+  return currentUrl + '/api';
 }
