@@ -39,7 +39,7 @@
     <div class="flex flex-row">
       <p class="text-slate-900 text-lg font-thin">{{ 'PRODUKTE' | translate }}</p>
     </div>
-    <div class="grid grid-cols-3 gap-2 mt-1">
+    <div class="grid grid-cols-2 gap-2 mt-1">
       <mat-card *ngFor="let product of order.orderItems">
         <mat-card-title class="my-2 text-center text-slate-900 text-2xl">{{ product.quantity }}x</mat-card-title>
         <img mat-card-image [src]="product.imageUrl" [alt]="product.productName" class="rounded-full mx-4 mb-4" />
@@ -47,7 +47,6 @@
           <mat-card-title class="text-center text-slate-900 text-base">{{ product.productName }}</mat-card-title>
           <mat-card-subtitle class="text-center">{{ product.extras | extrasShort }}</mat-card-subtitle>
         </mat-card-content>
-        <!-- <mat-card-footer class="my-2 text-center text-slate-900 text-2xl">{{ product.quantity }}x</mat-card-footer> -->
       </mat-card>
     </div>
   </div>
