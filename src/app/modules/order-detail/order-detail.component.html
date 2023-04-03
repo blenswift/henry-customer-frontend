@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full overflow-hidden" *ngIf="order$ | async as order">
   <oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
-  <div class="m-4">
+  <div class="m-4 flex-1 overflow-y-scroll scrollbar-hide">
     <p class="text-slate-900 text-lg font-thin">{{ 'INFORMATIONEN' | translate }}</p>
     <div>
       <div class="flex flex-row items-center h-9">
