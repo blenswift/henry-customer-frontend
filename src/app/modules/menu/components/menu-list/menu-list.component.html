@@ -3,7 +3,7 @@
     <mat-chip-listbox *ngFor="let filter of filters" class="table-cell">
       <mat-chip-option class="m-2" *ngIf="filter.active">
         {{ filter.name }}
-        <button matChipRemove (click)="filter.active = false">
+        <button matChipRemove (click)="removeFilter(filter)">
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip-option>

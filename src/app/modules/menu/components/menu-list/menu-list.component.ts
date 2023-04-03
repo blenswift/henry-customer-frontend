@@ -31,7 +31,16 @@ export class MenuListComponent {
     });
 
     bottomSheetRef.afterDismissed().subscribe((filters: Filter[]) => {
-      this.filtersChange.emit(filters);
+      if (filters) {
+        this.filtersChange.emit(filters);
+      }
     });
+  }
+
+  removeFilter(filter: Filter) {
+    filter.active = false;
+    if (this.filters) {
+      this.filtersChange.emit(this.filters);
+    }
   }
 }

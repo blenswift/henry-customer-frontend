@@ -74,21 +74,13 @@ export class MenuRootComponent implements AfterViewInit {
   status$ = this.restaurantStore.status$;
   orders$ = this.orderStore.orders$;
   shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
-  filteredProductList$ = combineLatest([
-    this.products$,
-    this.filterCtrl.valueChanges.pipe(startWith('')),
-    this.filters$.pipe(map(x => x.filter(y => y.active).map(z => z.name))),
-  ]).pipe(
+  filteredProductList$ = combineLatest([this.products$, this.filterCtrl.valueChanges.pipe(startWith('')), this.filters$]).pipe(
     map(([products, filterParam, filters]) => {
-      // console.log(
-      //   products.filter(
-      //     product =>
-      //       !filterParam.length ||
-      //       (product.name?.toLowerCase().includes(filterParam.toLowerCase()))
-      //   )
-      // );
-      console.log(products.filter(product => product.diets.map(diet => filters.includes(diet))));
-      return products.filter(product => !filterParam.length || product.name?.toLowerCase().includes(filterParam.toLowerCase()));
+      const filtersOnlyNames = filters.filter(y => y.active).map(z => z.name);
+      return products.filter(
+        product =>
+          product.name?.toLowerCase().includes(filterParam.toLowerCase()) && filtersOnlyNames.every(elem => product.diets.includes(elem))
+      );
     })
   );
 
@@ -131,7 +123,7 @@ export class MenuRootComponent implements AfterViewInit {
   }
 
   filterChanged(filters: Filter[]) {
-    this.restaurantStore.updateFilters(filters);
+    this.restaurantStore.updateFilters(structuredClone(filters));
   }
 
   openBottomSheet(): void {

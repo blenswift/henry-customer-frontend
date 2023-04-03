@@ -49,10 +49,6 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
           items.splice(itemIndex, 1);
           const qrCode = sessionStorage.getItem('qrcode');
           localStorage.setItem('ITEMS' + qrCode!, JSON.stringify(items));
-          console.log({
-            ...state,
-            items: [...items],
-          });
           return {
             ...state,
             items: [...items],
@@ -65,7 +61,6 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   createOrder = this.effect((shoppingCartState$: Observable<ShoppingCartState>) => {
     return shoppingCartState$.pipe(
       concatMap(shoppingCartState => this.getFinalOrder(shoppingCartState)),
-      tap(console.log),
       exhaustMap(order =>
         this.shoppingCartService.createOrder(sessionStorage.getItem('qrcode')!, order).pipe(
           tapResponse(
