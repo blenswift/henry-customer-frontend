@@ -24,7 +24,9 @@
     <oxp-menu-list
       *ngIf="restaurant.status === 'DATA'"
       [products]="restaurant.products"
-      (openProductModal)="openProductModal($event)"></oxp-menu-list>
+      [filters]="filters$ | async"
+      (openProductModal)="openProductModal($event)"
+      (filtersChange)="filterChanged($event)"></oxp-menu-list>
     <div class="flex w-full h-full flex-col align-middle justify-center bg-color" *ngIf="restaurant.status === 'CLOSED'">
       <mat-icon class="flex justify-center h-1/2 w-full" style="font-size: 15rem">lock</mat-icon>
       <p class="text-5xl text-center m-4">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>

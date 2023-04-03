@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { getApiUrl } from 'src/app/shared/utils/apiUtils';
 import { OrderTracking } from '../models/order-tracking';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  url = environment.apiUrl + '/orders';
+  url = getApiUrl() + '/orders';
 
   constructor(private httpClient: HttpClient) {}
 

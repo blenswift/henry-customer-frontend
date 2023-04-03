@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, filter, fromEvent, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, filter, fromEvent, map, of, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ProductCart } from './../../shared/models/product-cart';
@@ -20,7 +20,7 @@ import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.com
 import { MenuHeaderComponent } from './components/menu-header/menu-header.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { ProductToShoppingCartDialogComponent } from './components/product-to-shopping-cart-dialog/product-to-shopping-cart-dialog.component';
-import { RestaurantStore } from './services/restaurant.store';
+import { Filter, RestaurantStore } from './services/restaurant.store';
 
 @Component({
   selector: 'oxp-menu-root',
@@ -68,14 +68,28 @@ export class MenuRootComponent implements AfterViewInit {
     })
   );
 
+  filters$ = this.restaurantStore.filters$;
+
   restaurant$ = this.restaurantStore.info$;
   status$ = this.restaurantStore.status$;
   orders$ = this.orderStore.orders$;
   shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
-  filteredProductList$ = combineLatest([this.products$, this.filterCtrl.valueChanges.pipe(startWith(''))]).pipe(
-    map(([products, filterParam]) =>
-      products.filter(product => !filterParam.length || product.name?.toLowerCase().includes(filterParam.toLowerCase()))
-    )
+  filteredProductList$ = combineLatest([
+    this.products$,
+    this.filterCtrl.valueChanges.pipe(startWith('')),
+    this.filters$.pipe(map(x => x.filter(y => y.active).map(z => z.name))),
+  ]).pipe(
+    map(([products, filterParam, filters]) => {
+      // console.log(
+      //   products.filter(
+      //     product =>
+      //       !filterParam.length ||
+      //       (product.name?.toLowerCase().includes(filterParam.toLowerCase()))
+      //   )
+      // );
+      console.log(products.filter(product => product.diets.map(diet => filters.includes(diet))));
+      return products.filter(product => !filterParam.length || product.name?.toLowerCase().includes(filterParam.toLowerCase()));
+    })
   );
 
   constructor(private _bottomSheet: MatBottomSheet) {}
@@ -114,6 +128,10 @@ export class MenuRootComponent implements AfterViewInit {
         inline: 'nearest',
       });
     }
+  }
+
+  filterChanged(filters: Filter[]) {
+    this.restaurantStore.updateFilters(filters);
   }
 
   openBottomSheet(): void {

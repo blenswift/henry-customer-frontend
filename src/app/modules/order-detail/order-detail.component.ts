@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { MomentPipe } from 'src/app/shared/pipes/moment.pipe';
 import { OrderTracking } from '../orders/models/order-tracking';
 import { OrderTrackingTypeToIconPipe } from '../orders/pipes/order-tracking-type-to-icon.pipe';
@@ -41,8 +41,7 @@ export class OrderDetailComponent {
   translateService = inject(TranslateService);
 
   order$: Observable<OrderTracking> = this.route.paramMap.pipe(
-    switchMap(params => this.orderService.getOrderTracking(params.get('trackingId')!)),
-    tap(console.log)
+    switchMap(params => this.orderService.getOrderTracking(params.get('trackingId')!))
   );
 
   navigateToProducts() {

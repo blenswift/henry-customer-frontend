@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { getApiUrl } from 'src/app/shared/utils/apiUtils';
 import { Restaurant } from '../models/restaurant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestaurantService {
-  url = environment.apiUrl + '/restaurant-infos';
-  urlServiceStaff = environment.apiUrl + '/service-staff';
+  url = getApiUrl() + '/restaurant-infos';
+  urlServiceStaff = getApiUrl() + '/service-staff';
 
   constructor(private httpClient: HttpClient) {}
 

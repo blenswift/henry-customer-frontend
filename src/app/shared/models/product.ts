@@ -8,6 +8,7 @@ export interface Product {
   available: boolean;
   ingredients: string[] | null;
   legalAge: number;
+  diets: string[];
   allergens: string[];
   additives: string[];
   extraGroups: ExtraGroup[];

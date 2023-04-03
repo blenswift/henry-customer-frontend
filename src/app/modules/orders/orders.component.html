@@ -11,15 +11,16 @@
   <mat-accordion class="w-full">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title> {{ 'DIESE_WOCHE' | translate }} </mat-panel-title>
+        <mat-panel-title>{{ 'DIESE_WOCHE' | translate }}</mat-panel-title>
       </mat-expansion-panel-header>
+
       <div class="grid grid-cols-2 gap-2">
         <oxp-order *ngFor="let order of ordersLastWeek$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title> {{ 'AELTER_ALS_DIESE_WOCHE' | translate }} </mat-panel-title>
+        <mat-panel-title>{{ 'AELTER_ALS_DIESE_WOCHE' | translate }}</mat-panel-title>
       </mat-expansion-panel-header>
       <div class="grid grid-cols-2 gap-2">
         <oxp-order *ngFor="let order of ordersOlderThanAWeek$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>

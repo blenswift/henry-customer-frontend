@@ -1,0 +1,6 @@
+<div class="flex flex-row">
+  <button mat-raised-button color="primary" class="ml-auto" (click)="filtern($event)">Filtern</button>
+</div>
+<mat-chip-option class="m-1" [selected]="filter.active" *ngFor="let filter of filters" (click)="filter.active = !filter.active">
+  {{ filter.name }}
+</mat-chip-option>

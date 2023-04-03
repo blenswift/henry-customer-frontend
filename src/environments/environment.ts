@@ -9,5 +9,4 @@ export const environment = {
     vapidKey: 'BBKnhkP8Dg364qywwe5aWft3Jua_sC-GfYFjqLuY1pB3VTkqt0QZzOBLv6ZyM4-bMZHrowJWjCVkGuIWXF0UPcg',
   },
   production: false,
-  apiUrl: 'https://orderxpay.eu/api',
 };

@@ -1,5 +1,20 @@
-<div class="overflow-auto">
-  <div class="grid gap-2 p-4 bg-white">
+<div class="overflow-auto px-4">
+  <div class="flex flex-row items-center align-middle text-blue-700 text-base font-medium leading-tight">
+    <mat-chip-listbox *ngFor="let filter of filters" class="table-cell">
+      <mat-chip-option class="m-2" *ngIf="filter.active">
+        {{ filter.name }}
+        <button matChipRemove (click)="filter.active = false">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+    <button mat-button color="primary" class="ml-auto" (click)="openFilterSheet()">
+      <mat-icon>filter_list</mat-icon>
+      Filtern
+    </button>
+  </div>
+  <div class="grid gap-2 pb-4 bg-white">
     <oxp-product-card *ngFor="let product of products" [product]="product" (click)="openProductModal.emit(product)"></oxp-product-card>
   </div>
 </div>

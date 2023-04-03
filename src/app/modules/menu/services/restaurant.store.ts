@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TranslateService } from '@ngx-translate/core';
-import { concat, Observable, switchMap, tap } from 'rxjs';
+import { Observable, concat, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { LoadingStatus } from 'src/app/shared/models/loading-status';
 import { Product } from 'src/app/shared/models/product';
@@ -14,7 +14,13 @@ export interface RestaurantState {
   categories: Category[];
   products: Product[];
   info: Restaurant | null;
+  filters: Filter[];
   status: LoadingStatus;
+}
+
+export interface Filter {
+  name: string;
+  active: boolean;
 }
 
 @Injectable()
@@ -23,6 +29,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   readonly products$ = this.select(state => state.products);
   readonly info$ = this.select(state => state.info);
   readonly status$ = this.select(state => state.status);
+  readonly filters$ = this.select(state => state.filters);
 
   constructor(
     private menuService: MenuService,
@@ -30,7 +37,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private snackBar: MatSnackBar,
     private translateService: TranslateService
   ) {
-    super({ categories: [], products: [], info: null, status: 'LOADING' });
+    super({ categories: [], filters: [], products: [], info: null, status: 'LOADING' });
   }
 
   load = this.effect((qrCode$: Observable<string>) => {
@@ -41,7 +48,11 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
           this.menuService.getMenu(qrCode).pipe(
             tapResponse(
               menu => {
-                this.patchState({ categories: menu.categories, products: menu.products });
+                this.patchState({
+                  categories: menu.categories,
+                  products: menu.products,
+                  filters: menu.filters.map(filter => ({ name: filter, active: false })),
+                });
               },
               err => {
                 this.patchState({ status: 'ERROR' });
@@ -74,6 +85,8 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
       )
     );
   });
+
+  updateFilters = this.updater((state, filters: Filter[]) => ({ ...state, filters }));
 
   openSnackBar() {
     this.snackBar.open(this.translateService.instant('WAITER_COMING'), undefined, { duration: 3000 });
