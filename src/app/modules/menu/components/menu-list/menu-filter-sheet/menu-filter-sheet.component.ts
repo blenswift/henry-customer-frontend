@@ -4,12 +4,13 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bott
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 import { Filter } from '../../../services/restaurant.store';
 
 @Component({
   selector: 'oxp-menu-filter-sheet',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatChipsModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatChipsModule, TranslateModule],
   templateUrl: './menu-filter-sheet.component.html',
   styleUrls: ['./menu-filter-sheet.component.scss'],
 })

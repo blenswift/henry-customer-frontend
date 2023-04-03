@@ -1,5 +1,5 @@
 <div class="flex flex-row">
-  <button mat-raised-button color="primary" class="ml-auto" (click)="filtern($event)">Filtern</button>
+  <button mat-raised-button color="primary" class="ml-auto" (click)="filtern($event)">{{ 'FILTERN' | translate }}</button>
 </div>
 <mat-chip-option class="m-1" [selected]="filter.active" *ngFor="let filter of filters" (click)="filter.active = !filter.active">
   {{ filter.name }}

@@ -4,6 +4,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 import { Product } from 'src/app/shared/models/product';
 import { Filter } from '../../services/restaurant.store';
 import { MenuFilterSheetComponent } from './menu-filter-sheet/menu-filter-sheet.component';
@@ -12,7 +13,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 @Component({
   selector: 'oxp-menu-list',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, MatIconModule, MatButtonModule, MenuFilterSheetComponent, MatChipsModule],
+  imports: [CommonModule, ProductCardComponent, MatIconModule, MatButtonModule, MenuFilterSheetComponent, MatChipsModule, TranslateModule],
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
