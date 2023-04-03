@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full overflow-hidden" *ngIf="order$ | async as order">
   <oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
-  <div class="m-4 flex-1 overflow-y-scroll scrollbar-hide">
+  <div class="p-4 flex-1 overflow-y-scroll scrollbar-hide">
     <p class="text-slate-900 text-lg font-thin">{{ 'INFORMATIONEN' | translate }}</p>
     <div>
       <div class="flex flex-row items-center h-9">
@@ -22,7 +22,7 @@
         <div class="ml-auto">K9PLE3A</div>
       </div>
       <div class="flex flex-row items-center h-9">
-        <p matListItemTitle>Datum</p>
+        <p matListItemTitle>{{ 'DATUM' | translate }}</p>
         <div class="ml-auto">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</div>
       </div>
       <div class="flex flex-row items-center h-9">

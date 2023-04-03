@@ -26,5 +26,6 @@
   "PREIS": "Price",
   "INFORMATIONEN": "Informations",
   "RECHNUNG": "Invoice",
-  "PRODUKTE": "Items"
+  "PRODUKTE": "Items",
+  "DATUM": "Date"
 }
