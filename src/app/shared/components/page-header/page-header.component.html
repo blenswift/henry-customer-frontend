@@ -1,8 +1,11 @@
-<header class="w-full border-b border-grey">
+<header class="w-full border-b border-grey flex">
+  <button mat-icon-button (click)="closeCard.emit()" class="h-full" *ngIf="type === 'BACK'">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
   <div class="p-4">
     <h4 class="font-medium leading-tight text-2xl"><ng-content></ng-content></h4>
   </div>
-  <button mat-mini-fab color="primary" class="absolute top-2 right-2" (click)="closeCard.emit()">
+  <button mat-mini-fab color="primary" class="absolute top-2 right-2" (click)="closeCard.emit()" *ngIf="type === 'CLOSE'">
     <mat-icon>close</mat-icon>
   </button>
 </header>

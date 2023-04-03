@@ -22,5 +22,9 @@
   "SHOPPINGCART_COMMENT": "Spezielle Wünsche und Anmerkungen für das Restaurant",
   "BESTELLUNG": "Bestellung",
   "DIESE_WOCHE": "Diese Woche",
-  "AELTER_ALS_DIESE_WOCHE": "> 7 Tage"
+  "AELTER_ALS_DIESE_WOCHE": "> 7 Tage",
+  "PREIS": "Preis",
+  "INFORMATIONEN": "Informationen",
+  "RECHNUNG": "Rechnung",
+  "PRODUKTE": "Produkte"
 }

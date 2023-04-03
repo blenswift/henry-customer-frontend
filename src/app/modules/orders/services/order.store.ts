@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, Observable, switchMap } from 'rxjs';
+import { Observable, filter, switchMap, withLatestFrom } from 'rxjs';
 import { OrderTracking } from '../models/order-tracking';
 import { ShoppingCartStore } from './../../../shared/services/shopping-cart.store';
 import { OrderService } from './order.service';
@@ -21,8 +21,9 @@ export class OrderStore extends ComponentStore<OrderState> {
 
   cacheOrder = this.effect((trackingId$: Observable<string>) => {
     return trackingId$.pipe(
-      filter(trackingId => !!trackingId),
-      switchMap(trackingId =>
+      withLatestFrom(this.orders$),
+      filter(([trackingId, orders]) => !!trackingId && orders.filter(order => order.trackingId === trackingId).length === 0),
+      switchMap(([trackingId]) =>
         this.orderService.getOrderTracking(trackingId).pipe(
           tapResponse(
             data => {

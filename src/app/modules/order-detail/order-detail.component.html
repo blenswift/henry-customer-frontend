@@ -1,21 +1,53 @@
-<div class="flex flex-col h-full overflow-hidden" *ngIf="order$ | async">
-  <oxp-page-header (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
-  <!-- <oxp-cart-main
-    class="h-full flex-1 overflow-y-scroll"
-    [form]="form"
-    [restaurantInfo]="restaurantInfoVm$ | async"
-    (removeProduct)="removeProduct($event)"></oxp-cart-main> -->
-  <!-- <ng-container *ngIf="shoppingCartVm$ | async as vm">
-    <footer class="w-full text-center border-t border-grey p-4" *ngIf="vm.items.length > 0">
-      <div class="flex">
-        <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="bezahlen(form.getRawValue())">
-          {{ 'ZUR_KASSE' | translate | uppercase }}
-          {{
-            (vm.items | sumOfProducts : form.getRawValue().tip!) / 100
-              | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
-          }}
-        </button>
+<div class="flex flex-col h-full overflow-hidden" *ngIf="order$ | async as order">
+  <oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
+  <div class="m-4">
+    <p class="text-slate-900 text-lg font-thin">{{ 'INFORMATIONEN' | translate }}</p>
+    <div>
+      <div class="flex flex-row items-center h-9">
+        <p matListItemTitle>{{ 'PREIS' | translate }}</p>
+        <div class="ml-auto">
+          {{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+        </div>
       </div>
-    </footer>
-  </ng-container> -->
+      <div class="flex flex-row items-center h-9">
+        <p matListItemTitle>Status</p>
+        <mat-chip class="ml-auto">
+          <mat-spinner color="primary" class="h-6 w-6" *ngIf="order.status !== 'APPROVED' && order.status !== 'CANCELED'"></mat-spinner>
+          <mat-icon class="text-green-500 font-bold" *ngIf="order.status === 'APPROVED'">done</mat-icon>
+          <mat-icon class="text-red-500 font-bold" *ngIf="order.status === 'CANCELED'">close</mat-icon>
+        </mat-chip>
+      </div>
+      <div class="flex flex-row items-center h-9">
+        <p matListItemTitle>Code</p>
+        <div class="ml-auto">K9PLE3A</div>
+      </div>
+      <div class="flex flex-row items-center h-9">
+        <p matListItemTitle>Datum</p>
+        <div class="ml-auto">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</div>
+      </div>
+      <div class="flex flex-row items-center h-9">
+        <p matListItemTitle>{{ 'RECHNUNG' | translate }}</p>
+        <mat-chip class="ml-auto">
+          <div>PDF</div>
+          <button matChipRemove>
+            <mat-icon>download</mat-icon>
+          </button>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-divider class="my-2"></mat-divider>
+    <div class="flex flex-row">
+      <p class="text-slate-900 text-lg font-thin">{{ 'PRODUKTE' | translate }}</p>
+    </div>
+    <div class="grid grid-cols-3 gap-2 mt-1">
+      <mat-card *ngFor="let product of order.orderItems">
+        <img mat-card-image [src]="product.imageUrl" [alt]="product.productName" class="rounded-full p-4" />
+        <mat-card-content class="h-full">
+          <mat-card-title class="text-center text-slate-900 text-base">{{ product.productName }}</mat-card-title>
+          <mat-card-subtitle class="text-center">{{ product.extras | extrasShort }}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-footer class="my-2 text-center text-slate-900 text-2xl">{{ product.quantity }}x</mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
 </div>

@@ -22,5 +22,9 @@
   "SHOPPINGCART_COMMENT": "Special requests and comments for the restaurant",
   "BESTELLUNG": "Order",
   "DIESE_WOCHE": "This week",
-  "AELTER_ALS_DIESE_WOCHE": "> 7 days"
+  "AELTER_ALS_DIESE_WOCHE": "> 7 days",
+  "PREIS": "Price",
+  "INFORMATIONEN": "Informations",
+  "RECHNUNG": "Invoice",
+  "PRODUKTE": "Items"
 }

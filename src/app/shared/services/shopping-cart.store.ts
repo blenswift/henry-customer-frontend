@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { concatMap, exhaustMap, Observable, of, tap } from 'rxjs';
+import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
 import { priceOfProduct } from '../utils/priceUtils';
 import { PaymentType } from './../../modules/orders/models/order';
@@ -122,6 +122,9 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         unitPrice: priceOfProduct(item),
         quantity: item.quantity,
         extraIds: [],
+        productName: item.product.name,
+        imageUrl: item.product.imageUrl,
+        extras: [],
       } as OrderItem;
 
       item.product.extraGroups.forEach(extraGroup => {

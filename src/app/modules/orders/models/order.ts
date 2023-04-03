@@ -1,3 +1,5 @@
+import { Extra } from 'src/app/shared/models/product';
+
 export interface Order {
   totalPrice: number;
   fcmToken: string | null;
@@ -9,9 +11,12 @@ export interface Order {
 
 export interface OrderItem {
   productId: string;
+  productName: string;
   basePrice: number;
   unitPrice: number;
   quantity: number;
+  imageUrl: string;
+  extras: Extra[];
   extraIds: string[];
 }
 

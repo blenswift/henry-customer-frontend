@@ -3,6 +3,7 @@ import { OrderItem } from './order';
 
 export interface OrderTracking {
   id: string;
+  trackingId: string;
   createdAt: Moment;
   table: string;
   qrCode: string;

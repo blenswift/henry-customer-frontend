@@ -8,11 +8,11 @@
       </div>
     </div>
     <div class="flex items-center">
-      <span class="font-bold"
-        >{{ 'FROM' | translate }}
-        {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}</span
-      >
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" (click)="add.emit(product)">
+      <span class="font-bold">
+        {{ 'FROM' | translate }}
+        {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+      </span>
+      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary">
         <mat-icon>add</mat-icon>
         {{ 'HINZUFUEGEN' | translate }}
       </button>

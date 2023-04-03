@@ -53,6 +53,6 @@ export class OrdersComponent {
   }
 
   navigateToOrder(order: OrderTracking) {
-    this.router.navigate(['/order-details/' + order.id]);
+    this.router.navigate(['/order-details/' + order.trackingId]);
   }
 }
