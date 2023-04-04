@@ -10,6 +10,7 @@
   <!-- HEADER -->
   <header class="w-full">
     <oxp-menu-header
+      *ngIf="restaurant.info"
       [filterCtrl]="filterCtrl"
       [categories]="restaurant.categories"
       [restaurant]="restaurant.info"

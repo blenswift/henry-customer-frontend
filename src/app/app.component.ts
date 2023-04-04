@@ -71,7 +71,10 @@ export class AppComponent implements OnInit {
   listen(messaging: Messaging) {
     onMessage(messaging, payload => {
       navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
-      const snackBarRef = this.snackBar.open(payload.data?.['body'] ?? '', undefined, { duration: 15000, verticalPosition: 'top' });
+      const snackBarRef = this.snackBar.open(payload.data?.['body'] ?? '', this.translateService.instant('ANZEIGEN'), {
+        duration: 15000,
+        verticalPosition: 'top',
+      });
       snackBarRef.onAction().subscribe(() => {
         this.router.navigate(['/order-details/' + payload.data?.['trackingId']]);
       });

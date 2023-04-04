@@ -28,5 +28,6 @@
   "RECHNUNG": "Invoice",
   "PRODUKTE": "Items",
   "DATUM": "Date",
-  "FILTERN": "Filter"
+  "FILTERN": "Filter",
+  "ANZEIGEN": "Show"
 }
