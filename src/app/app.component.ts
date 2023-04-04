@@ -8,7 +8,8 @@ import localeDe from '@angular/common/locales/de';
 import localeEn from '@angular/common/locales/en';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeEnExtra from '@angular/common/locales/extra/en';
-import { RouterModule } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router, RouterModule } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
@@ -18,13 +19,15 @@ import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatSnackBarModule],
   providers: [OrderStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private shoppingCartStore = inject(ShoppingCartStore);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
 
   constructor(private swPush: SwPush) {
     const language = navigator.language.substring(0, 2);
@@ -67,7 +70,11 @@ export class AppComponent implements OnInit {
 
   listen(messaging: Messaging) {
     onMessage(messaging, payload => {
-      console.log('Message received. ', payload);
+      navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
+      const snackBarRef = this.snackBar.open(payload.data?.['body'] ?? '', undefined, { duration: 15000, verticalPosition: 'top' });
+      snackBarRef.onAction().subscribe(() => {
+        this.router.navigate(['/order-details/' + payload.data?.['trackingId']]);
+      });
     });
   }
 }
