@@ -1,0 +1,7 @@
+<oxp-multifield-checkbox-option
+  *ngFor="let item of options"
+  [item]="item"
+  [maxValueReached]="maxValueReached"
+  (valueChange)="valueChanged()">
+  {{ item.name }}
+</oxp-multifield-checkbox-option>

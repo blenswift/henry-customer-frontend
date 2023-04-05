@@ -1,0 +1,13 @@
+<div class="flex flex-row items-center h-10">
+  <div
+    class="flex items-center justify-center border-2 w-7 h-7 mx-6 rounded-full"
+    [ngClass]="item.value > 0 ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-200'"
+    (click)="trigger()">
+    {{ item.value > 0 ? item.value : '' }}
+  </div>
+  <div (click)="trigger()"><ng-content></ng-content></div>
+  <mat-button-toggle-group class="ml-auto" *ngIf="item.value">
+    <mat-button-toggle [disabled]="maxValueReached" (click)="increase()"><mat-icon>add</mat-icon></mat-button-toggle>
+    <mat-button-toggle [disabled]="item.value === 0" (click)="decrease()"><mat-icon>remove</mat-icon></mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
