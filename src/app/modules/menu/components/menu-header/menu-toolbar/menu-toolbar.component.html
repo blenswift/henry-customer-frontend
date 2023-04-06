@@ -1,9 +1,10 @@
-<div class="grid grid-flow-col justify-items-stretch px-4 pt-4">
-  <img class="justify-self-start object-scale-down h-16 w-32" [src]="restaurant?.coverUrl" />
+<div class="grid grid-flow-col items-center justify-items-stretch px-4 pt-4">
+  <img class="justify-self-start object-scale-down w-32" [src]="restaurant?.coverUrl" />
   <span class="self-center justify-self-center text-slate-900 text-sm font-bold">{{ restaurant?.name }}</span>
-  <div class="justify-self-end demo-section" *ngIf="restaurant?.open">
+  <div class="flex flex-row justify-self-end demo-section" *ngIf="restaurant?.open">
     <button
       *ngIf="orderCount > 0"
+      class="flex"
       color="primary"
       mat-icon-button
       [matBadge]="orderCount"
@@ -14,6 +15,7 @@
     </button>
     <button
       mat-icon-button
+      class="flex"
       color="primary"
       [matBadge]="itemCount"
       [matBadgeHidden]="itemCount <= 0"
