@@ -51,4 +51,8 @@ export class OrderDetailComponent {
   downloadBill() {
     console.log('BILLDOWNLOAD');
   }
+
+  updateStatus() {
+    this.order$ = this.orderService.getOrderTracking(this.route.snapshot.params['trackingId']!);
+  }
 }

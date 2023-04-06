@@ -1,5 +1,6 @@
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -25,6 +26,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { subscriptSizing: 'dynamic' } },
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(),

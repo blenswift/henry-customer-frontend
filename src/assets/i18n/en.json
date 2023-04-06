@@ -19,7 +19,7 @@
   "ZUSATZSTOFFE": "Additives",
   "ALLERGENE": "Allergens",
   "CALLSERVICE": "Call the waiter",
-  "SHOPPINGCART_COMMENT": "Special requests and comments for the restaurant",
+  "SHOPPINGCART_COMMENT": "Comments",
   "BESTELLUNG": "Order",
   "DIESE_WOCHE": "This week",
   "AELTER_ALS_DIESE_WOCHE": "> 7 days",
@@ -29,5 +29,6 @@
   "PRODUKTE": "Items",
   "DATUM": "Date",
   "FILTERN": "Filter",
-  "ANZEIGEN": "Show"
+  "ANZEIGEN": "Show",
+  "ANDERER_BETRAG": "Custom tip"
 }

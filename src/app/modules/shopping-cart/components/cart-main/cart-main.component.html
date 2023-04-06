@@ -9,7 +9,7 @@
       <h2 class="font-medium text-xl mt-4">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
       <mat-radio-group class="flex flex-col oxp-custom-group" color="primary" formControlName="paymentType">
         <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentMethods; let first = first" [value]="paymentMethod">
-          <span class="py-2"> {{ paymentMethod | translate | uppercase }} </span>
+          <span class="py-2">{{ paymentMethod | translate | uppercase }}</span>
         </mat-radio-button>
       </mat-radio-group>
 
@@ -18,13 +18,29 @@
         <textarea matInput formControlName="comment"></textarea>
       </mat-form-field>
 
-      <h4 class="font-medium text-xl">{{ 'TRINKGELD' | translate | uppercase }}</h4>
-      <mat-chip-listbox formControlName="tip">
-        <mat-chip-option [value]="100">1 €</mat-chip-option>
-        <mat-chip-option [value]="200">2 €</mat-chip-option>
-        <mat-chip-option [value]="500">5 €</mat-chip-option>
-        <!-- <mat-chip-option (click)="addCustomTip()">Anderer Betrag</mat-chip-option> -->
-      </mat-chip-listbox>
+      <h4 class="font-medium text-xl pt-6">{{ 'TRINKGELD' | translate | uppercase }}</h4>
+      <div class="flex flex-row items-center">
+        <mat-chip-listbox formControlName="tip">
+          <mat-chip-option [value]="100" (click)="otherTip = 0">1 €</mat-chip-option>
+          <mat-chip-option [value]="200" (click)="otherTip = 0">2 €</mat-chip-option>
+          <mat-chip-option [value]="500" (click)="otherTip = 0">5 €</mat-chip-option>
+          <mat-chip-option [value]="otherTip" selected *ngIf="otherTip > 0" (click)="otherTip = 0">
+            {{ otherTip / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+          </mat-chip-option>
+        </mat-chip-listbox>
+        <mat-chip class="ml-2" [matMenuTriggerFor]="menu" *ngIf="otherTip === 0">{{ 'ANDERER_BETRAG' | translate }}</mat-chip>
+        <mat-menu #menu="matMenu">
+          <div class="flex flex-row mx-2 gap-2 items-center">
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
+              <mat-label>{{ 'TRINKGELD' | translate }}</mat-label>
+              <input matInput #input type="number" min="1" autofocus oninput="validity.valid||(value='');" />
+            </mat-form-field>
+            <button class="h-14" mat-raised-button color="primary" (click)="addTip(input.value)">
+              <mat-icon class="m-0">done</mat-icon>
+            </button>
+          </div>
+        </mat-menu>
+      </div>
     </ng-container>
     <ng-template #noProduct>
       <div>{{ 'WARENKORB_IST_LEER' | translate }}</div>

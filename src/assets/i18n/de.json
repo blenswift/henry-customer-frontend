@@ -19,7 +19,7 @@
   "ZUSATZSTOFFE": "Zusatzstoffe",
   "ALLERGENE": "Allergene",
   "CALLSERVICE": "Servicekraft rufen",
-  "SHOPPINGCART_COMMENT": "Spezielle Wünsche und Anmerkungen für das Restaurant",
+  "SHOPPINGCART_COMMENT": "Anmerkungen",
   "BESTELLUNG": "Bestellung",
   "DIESE_WOCHE": "Diese Woche",
   "AELTER_ALS_DIESE_WOCHE": "> 7 Tage",
@@ -29,5 +29,6 @@
   "PRODUKTE": "Produkte",
   "DATUM": "Datum",
   "FILTERN": "Filtern",
-  "ANZEIGEN": "Anzeigen"
+  "ANZEIGEN": "Anzeigen",
+  "ANDERER_BETRAG": "Anderer Betrag"
 }

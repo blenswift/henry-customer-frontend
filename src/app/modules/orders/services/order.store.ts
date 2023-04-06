@@ -43,7 +43,7 @@ export class OrderStore extends ComponentStore<OrderState> {
   });
 
   cache = this.updater((state, orderTracking: OrderTracking) => {
-    const orders = [...state.orders, orderTracking];
+    const orders = [orderTracking, ...state.orders];
     localStorage.setItem('ORDER' + sessionStorage.getItem('qrcode'), JSON.stringify(orders));
     return {
       orders,
