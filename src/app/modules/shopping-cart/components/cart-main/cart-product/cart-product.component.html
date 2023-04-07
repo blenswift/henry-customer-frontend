@@ -1,6 +1,6 @@
 <div class="border-b border-grey pb-2">
   <div class="flex flex-row items-center justify-center gap-4">
-    <span class="font-medium text-xl"> {{ productCart.quantity }} x </span>
+    <span class="font-medium text-xl">{{ productCart.quantity }} x</span>
     <div class="flex flex-col">
       <span class="font-medium text-xl">
         {{ productCart.product.name }}
@@ -21,6 +21,8 @@
   </div>
 
   <ng-container *ngFor="let extra of productCart.product.extraGroups | extras">
-    <span class="flex flex-row items-center font-medium text-l pl-14"> + {{ extra.name }} </span>
+    <span class="flex flex-row items-center font-medium text-l pl-14">
+      + {{ extra.quantity > 1 ? extra.quantity + ' x' : '' }} {{ extra.name }}
+    </span>
   </ng-container>
 </div>

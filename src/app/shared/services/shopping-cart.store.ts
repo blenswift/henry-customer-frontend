@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
+import { Extra } from '../models/product';
 import { priceOfProduct } from '../utils/priceUtils';
 import { PaymentType } from './../../modules/orders/models/order';
 import { ShoppingCartService } from './../../modules/shopping-cart/services/shopping-cart.service';
@@ -123,14 +124,18 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       } as OrderItem;
 
       item.product.extraGroups.forEach(extraGroup => {
-        let extraIds: string[] = [];
+        let extras: Extra[] = [];
         if (extraGroup.selectionType === 'CHECKBOX') {
-          extraIds = extraGroup.extras.filter(extra => extra.selected).map(x => x.id);
+          extras = extraGroup.extras.filter(extra => extra.selected);
         }
         if (extraGroup.selectionType === 'RADIO_GROUP' && extraGroup.selected) {
-          extraIds.push(extraGroup.selected);
+          const extra = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
+          extras.push(extra);
         }
-        orderItem.extraIds = orderItem.extraIds.concat(extraIds);
+        if (extraGroup.selectionType === 'MULTI_SELECT') {
+          extras = extraGroup.extras.filter(extra => extra.quantity > 0);
+        }
+        orderItem.extras = orderItem.extras.concat(extras);
       });
 
       order.totalPrice += orderItem.unitPrice * orderItem.quantity;

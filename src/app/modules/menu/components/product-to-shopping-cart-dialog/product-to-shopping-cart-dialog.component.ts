@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MultiselectCheckboxGroupComponent } from 'src/app/shared/components/multiselect-checkbox-group/multiselect-checkbox-group.component';
 import { ProductCart } from 'src/app/shared/models/product-cart';
 import { CounterButtonComponent } from './../../../../shared/components/counter-button/counter-button.component';
 import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe';
@@ -30,6 +31,7 @@ import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/
     ReactiveFormsModule,
     SumOfProductPipe,
     TranslateModule,
+    MultiselectCheckboxGroupComponent,
   ],
   templateUrl: './product-to-shopping-cart-dialog.component.html',
   styleUrls: ['./product-to-shopping-cart-dialog.component.scss'],

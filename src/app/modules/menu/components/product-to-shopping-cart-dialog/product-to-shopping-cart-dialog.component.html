@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full overflow-hidden">
   <header class="w-full">
-    <img class="object-cover h-48 w-full object-center" [src]="data.product.imageUrl" alt="google" />
+    <img class="object-cover h-48 w-full object-center" [src]="data.product.imageUrl" />
     <button mat-mini-fab color="accent" class="absolute top-2 right-2" [mat-dialog-close]="false">
       <mat-icon>close</mat-icon>
     </button>
@@ -25,7 +25,7 @@
     <ng-container *ngFor="let extraGroup of data.product.extraGroups">
       <div class="pb-2">
         <h6 class="font-medium leading-tight text-base my-2">
-          {{ extraGroup.name }}
+          {{ extraGroup.name }} {{ extraGroup.maxSelections ? ' - max. ' + extraGroup.maxSelections : '' }}
         </h6>
 
         <mat-radio-group
@@ -60,6 +60,12 @@
               </span>
             </span>
           </mat-checkbox>
+        </ng-container>
+
+        <ng-container *ngIf="extraGroup.selectionType === 'MULTI_SELECT'">
+          <oxp-multiselect-checkbox-group
+            [extras]="extraGroup.extras"
+            [maxValue]="extraGroup.maxSelections"></oxp-multiselect-checkbox-group>
         </ng-container>
       </div>
     </ng-container>

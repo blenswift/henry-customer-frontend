@@ -18,6 +18,7 @@ export interface ExtraGroup {
   name: string;
   selectionType: SelectionType;
   defaultValue: string | null;
+  maxSelections: number;
   selected: string | null;
   extras: Extra[];
 }
@@ -26,9 +27,11 @@ export interface Extra {
   id: string;
   price: number | null;
   name: string;
+  maxQuantity: number;
+  quantity: number;
   allergens: string[];
   selected: boolean;
   additives: string[];
 }
 
-export type SelectionType = 'CHECKBOX' | 'RADIO_GROUP';
+export type SelectionType = 'CHECKBOX' | 'RADIO_GROUP' | 'MULTI_SELECT';

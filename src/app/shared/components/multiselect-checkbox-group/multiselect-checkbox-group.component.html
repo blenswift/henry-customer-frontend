@@ -1,0 +1,8 @@
+<oxp-multiselect-checkbox-option
+  *ngFor="let item of extras; let last = last"
+  [item]="item"
+  [last]="last"
+  [maxValueReached]="maxValueReached"
+  (valueChange)="valueChanged()">
+  {{ item.name }}
+</oxp-multiselect-checkbox-option>

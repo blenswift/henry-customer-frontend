@@ -1,0 +1,22 @@
+<div class="flex flex-row items-center h-10">
+  <div
+    class="flex items-center justify-center border-2 w-5 h-5 mx-3 rounded-full"
+    [ngClass]="item.quantity > 0 ? 'border-blue-700 bg-blue-700 text-white' : 'border-neutral-500'"
+    (click)="trigger()">
+    {{ item.quantity > 0 ? item.quantity : '' }}
+  </div>
+  <div (click)="trigger()" class="flex flex-grow items-center h-10" [ngClass]="{ 'border-b-2': !last }"><ng-content></ng-content></div>
+  <div class="ml-auto h-10 items-center flex" [ngClass]="{ 'border-b-2': !last }">
+    {{
+      item.price && item.price > 0
+        ? '+ ' + (item.price! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang())
+        : ''
+    }}
+    <mat-button-toggle-group *ngIf="item.quantity" class="ml-2">
+      <mat-button-toggle [disabled]="maxValueReached || item.quantity === item.maxQuantity" (click)="increase()">
+        <mat-icon>add</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle [disabled]="item.quantity === 0" (click)="decrease()"><mat-icon>remove</mat-icon></mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

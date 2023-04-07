@@ -14,6 +14,12 @@ export const priceOfProduct = (item: ProductCart): number => {
           singleItemPrice += extra.price ?? 0;
         }
       });
+    } else if (extraGroup.selectionType === 'MULTI_SELECT') {
+      extraGroup.extras.forEach(extra => {
+        if (extra.quantity > 0) {
+          singleItemPrice += (extra.price ?? 0) * extra.quantity;
+        }
+      });
     }
   });
 

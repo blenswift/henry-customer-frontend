@@ -17,7 +17,6 @@ export interface OrderItem {
   quantity: number;
   imageUrl: string;
   extras: Extra[];
-  extraIds: string[];
 }
 
 export type PaymentType = 'DIGITAL' | 'CASH';
