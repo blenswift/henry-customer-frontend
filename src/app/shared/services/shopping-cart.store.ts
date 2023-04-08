@@ -126,10 +126,16 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       item.product.extraGroups.forEach(extraGroup => {
         let extras: Extra[] = [];
         if (extraGroup.selectionType === 'CHECKBOX') {
-          extras = extraGroup.extras.filter(extra => extra.selected);
+          extras = extraGroup.extras
+            .filter(extra => extra.selected)
+            .map(x => {
+              x.quantity = 1;
+              return x;
+            });
         }
         if (extraGroup.selectionType === 'RADIO_GROUP' && extraGroup.selected) {
           const extra = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
+          extra.quantity = 1;
           extras.push(extra);
         }
         if (extraGroup.selectionType === 'MULTI_SELECT') {

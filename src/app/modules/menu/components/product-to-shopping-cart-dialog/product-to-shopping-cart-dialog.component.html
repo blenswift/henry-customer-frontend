@@ -25,7 +25,7 @@
     <ng-container *ngFor="let extraGroup of data.product.extraGroups">
       <div class="pb-2">
         <h6 class="font-medium leading-tight text-base my-2">
-          {{ extraGroup.name }} {{ extraGroup.maxSelections ? ' - max. ' + extraGroup.maxSelections : '' }}
+          {{ extraGroup.name }} {{ extraGroup.maxSelections > 1 ? ' - max. ' + extraGroup.maxSelections : '' }}
         </h6>
 
         <mat-radio-group
