@@ -8,6 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, combineLatest, filter, fromEvent, map, of, startWith, switchMap, tap } from 'rxjs';
@@ -37,6 +38,7 @@ import { Filter, RestaurantStore } from './services/restaurant.store';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatBottomSheetModule,
+    MatToolbarModule,
   ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],

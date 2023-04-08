@@ -37,7 +37,28 @@
     </div>
   </main>
 
-  <button mat-fab color="primary" class="absolute right-4 bottom-4 z-10" *ngIf="restaurant.status === 'DATA'" (click)="openBottomSheet()">
+  <!-- <button mat-fab color="primary" class="absolute right-4 bottom-4 z-10" *ngIf="restaurant.status === 'DATA'" (click)="openBottomSheet()">
     <mat-icon>help</mat-icon>
-  </button>
+  </button> -->
+  <div>
+    <mat-toolbar class="flex items-center">
+      <div class="flex gap-2 flex-row">
+        <div class="flex flex-col items-center">
+          <mat-icon class="material-icons-outlined">restaurant_menu</mat-icon>
+          <div class="font-thin text-xs">Menü</div>
+        </div>
+      </div>
+      <div class="flex-auto"></div>
+      <div class="flex gap-2 flex-row">
+        <div class="flex flex-col items-center" *ngIf="(orders$ | async)?.length! > 0" routerLink="/orders">
+          <mat-icon class="material-icons-outlined">person</mat-icon>
+          <div class="font-thin text-xs">Bestellungen</div>
+        </div>
+        <div class="flex flex-col items-center" routerLink="/shoppingcart">
+          <mat-icon class="material-icons-outlined">shopping_cart</mat-icon>
+          <div class="font-thin text-xs">Warenkorb</div>
+        </div>
+      </div>
+    </mat-toolbar>
+  </div>
 </div>

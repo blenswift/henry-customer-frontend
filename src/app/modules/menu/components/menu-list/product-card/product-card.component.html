@@ -1,21 +1,13 @@
-<div class="overflow-hidden rounded-xl flex items-stretch h-32 gap-6 bg-color" [id]="product.categoryId">
-  <img class="object-cover w-1/4 h-full object-center" [src]="product.imageUrl" alt="google" />
-  <div class="flex flex-grow flex-col justify-between w-3/4 pt-4">
-    <div>
-      <div class="text-slate-900 text-base font-bold">{{ product.name }}</div>
-      <div class="text-slate-500 text-sm font-extralight dark:text-slate-400">
-        {{ product.ingredients?.join(', ') }}
-      </div>
-    </div>
-    <div class="flex items-center">
-      <span class="font-bold">
-        {{ 'FROM' | translate }}
-        {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-      </span>
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary">
-        <mat-icon>add</mat-icon>
-        {{ 'HINZUFUEGEN' | translate }}
-      </button>
-    </div>
-  </div>
-</div>
+<mat-card class="h-full">
+  <img mat-card-image [src]="product.imageUrl" [alt]="product.name" class="m-2 rounded-md" />
+  <mat-card-content class="h-full">
+    <mat-card-title class="text-slate-900 font-semibold">{{ product.name }}</mat-card-title>
+    <mat-card-subtitle>{{ product.ingredients?.join(', ') }}</mat-card-subtitle>
+  </mat-card-content>
+  <mat-card-content>
+    <span class="text-blue-700 font-semibold">
+      {{ 'FROM' | translate }}
+      {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+    </span>
+  </mat-card-content>
+</mat-card>
