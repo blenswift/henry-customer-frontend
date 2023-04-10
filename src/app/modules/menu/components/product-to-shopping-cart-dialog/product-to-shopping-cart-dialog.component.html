@@ -1,74 +1,76 @@
 <div class="flex flex-col h-full overflow-hidden">
   <header class="w-full">
-    <img class="object-cover h-48 w-full object-center" [src]="data.product.imageUrl" />
-    <button mat-mini-fab color="accent" class="absolute top-2 right-2" [mat-dialog-close]="false">
+    <button mat-mini-fab color="accent" class="absolute top-2 right-2 z-10" [mat-dialog-close]="false">
       <mat-icon>close</mat-icon>
     </button>
-    <div class="p-4 pb-0">
-      <div class="flex flex-row items-center">
-        <h4 class="font-medium leading-tight text-2xl">
-          {{ data.product.name }}
-        </h4>
-        <button mat-icon-button color="primary" class="ml-auto flex" (click)="openInfo()">
-          <mat-icon>info</mat-icon>
-        </button>
-      </div>
-
-      <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
-      <div class="flex flex-row items-center" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">
-        <h6 class="font-medium leading-tight text-base my-2">{{ 'ZUTATEN' | translate }}: &nbsp;</h6>
-        {{ data.product.ingredients.join(', ') }}
-      </div>
-    </div>
   </header>
-  <main class="flex-1 overflow-y-scroll px-4 pb-4 pt-2">
-    <ng-container *ngFor="let extraGroup of data.product.extraGroups">
-      <div class="pb-2">
-        <h6 class="font-medium leading-tight text-base my-2">
-          {{ extraGroup.name }} {{ extraGroup.maxSelections > 1 ? ' - max. ' + extraGroup.maxSelections : '' }}
-        </h6>
+  <main class="flex-1 overflow-y-scroll pb-4">
+    <img class="object-cover h-48 w-full object-center" [src]="data.product.imageUrl" />
+    <div class="px-4 pt-2">
+      <div>
+        <div class="flex flex-row items-center">
+          <h4 class="font-medium leading-tight text-2xl">
+            {{ data.product.name }}
+          </h4>
+          <button mat-icon-button color="primary" class="ml-auto flex" (click)="openInfo()">
+            <mat-icon>info</mat-icon>
+          </button>
+        </div>
 
-        <mat-radio-group
-          class="flex flex-col oxp-custom-group"
-          *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
-          color="primary"
-          [(ngModel)]="extraGroup.selected">
-          <mat-radio-button *ngFor="let extra of extraGroup.extras; let last = last" [value]="extra.id">
-            <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
-              <span>
-                {{ extra.name }}
-              </span>
-              <span class="ml-auto" *ngIf="extra.price">
-                + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-              </span>
-            </span>
-          </mat-radio-button>
-        </mat-radio-group>
-
-        <ng-container *ngIf="extraGroup.selectionType === 'CHECKBOX'">
-          <mat-checkbox
-            class="flex oxp-custom-group"
-            color="primary"
-            *ngFor="let extra of extraGroup.extras; let last = last"
-            [(ngModel)]="extra.selected">
-            <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
-              <span>
-                {{ extra.name }}
-              </span>
-              <span class="ml-auto" *ngIf="extra.price">
-                + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-              </span>
-            </span>
-          </mat-checkbox>
-        </ng-container>
-
-        <ng-container *ngIf="extraGroup.selectionType === 'MULTI_SELECT'">
-          <oxp-multiselect-checkbox-group
-            [extras]="extraGroup.extras"
-            [maxValue]="extraGroup.maxSelections"></oxp-multiselect-checkbox-group>
-        </ng-container>
+        <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
+        <div class="flex flex-row items-center" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">
+          <h6 class="font-medium leading-tight text-base my-2">{{ 'ZUTATEN' | translate }}: &nbsp;</h6>
+          {{ data.product.ingredients.join(', ') }}
+        </div>
       </div>
-    </ng-container>
+      <ng-container *ngFor="let extraGroup of data.product.extraGroups">
+        <div class="pb-2">
+          <h6 class="font-medium leading-tight text-base my-2">
+            {{ extraGroup.name }} {{ extraGroup.maxSelections > 1 ? ' - max. ' + extraGroup.maxSelections : '' }}
+          </h6>
+
+          <mat-radio-group
+            class="flex flex-col oxp-custom-group"
+            *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
+            color="primary"
+            [(ngModel)]="extraGroup.selected">
+            <mat-radio-button *ngFor="let extra of extraGroup.extras; let last = last" [value]="extra.id">
+              <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
+                <span>
+                  {{ extra.name }}
+                </span>
+                <span class="ml-auto" *ngIf="extra.price">
+                  + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+                </span>
+              </span>
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <ng-container *ngIf="extraGroup.selectionType === 'CHECKBOX'">
+            <mat-checkbox
+              class="flex oxp-custom-group"
+              color="primary"
+              *ngFor="let extra of extraGroup.extras; let last = last"
+              [(ngModel)]="extra.selected">
+              <span class="flex flex-row flex-grow py-2" [ngClass]="{ 'border-b-2': !last }">
+                <span>
+                  {{ extra.name }}
+                </span>
+                <span class="ml-auto" *ngIf="extra.price">
+                  + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+                </span>
+              </span>
+            </mat-checkbox>
+          </ng-container>
+
+          <ng-container *ngIf="extraGroup.selectionType === 'MULTI_SELECT'">
+            <oxp-multiselect-checkbox-group
+              [extras]="extraGroup.extras"
+              [maxValue]="extraGroup.maxSelections"></oxp-multiselect-checkbox-group>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
   </main>
   <footer class="w-full text-center border-t border-grey p-4">
     <div mat-dialog-actions>

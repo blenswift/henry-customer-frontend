@@ -5,6 +5,7 @@ export interface OrderTracking {
   id: string;
   trackingId: string;
   createdAt: Moment;
+  orderNumber: string;
   table: string;
   qrCode: string;
   totalPrice: number;
