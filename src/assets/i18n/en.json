@@ -30,5 +30,6 @@
   "DATUM": "Date",
   "FILTERN": "Filter",
   "ANZEIGEN": "Show",
-  "ANDERER_BETRAG": "Custom tip"
+  "ANDERER_BETRAG": "Custom tip",
+  "BESTELLNUMMER": "Ordernumber"
 }
