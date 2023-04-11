@@ -15,8 +15,5 @@ import { Restaurant } from './../../../models/restaurant';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuToolbarComponent {
-  @Input() itemCount = 0;
-  @Input() orderCount = 0;
-
   @Input() restaurant: Restaurant | null = null;
 }

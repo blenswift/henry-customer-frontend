@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -10,13 +10,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable, combineLatest, filter, fromEvent, map, of, startWith, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
+import { BottomNavigationComponent } from 'src/app/shared/components/bottom-navigation/bottom-navigation.component';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
 import { ProductCart } from './../../shared/models/product-cart';
 import { ShoppingCartState, ShoppingCartStore } from './../../shared/services/shopping-cart.store';
 import { OrderStore } from './../orders/services/order.store';
 import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
+import { MenuCategoryCarouselComponent } from './components/menu-category-carousel/menu-category-carousel.component';
 import { MenuHeaderComponent } from './components/menu-header/menu-header.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { ProductToShoppingCartDialogComponent } from './components/product-to-shopping-cart-dialog/product-to-shopping-cart-dialog.component';
@@ -37,13 +39,15 @@ import { Filter, RestaurantStore } from './services/restaurant.store';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatBottomSheetModule,
+    MenuCategoryCarouselComponent,
+    BottomNavigationComponent,
   ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
   providers: [RestaurantStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuRootComponent implements AfterViewInit {
+export class MenuRootComponent {
   private restaurantStore = inject(RestaurantStore);
   private shoppingCartStore = inject(ShoppingCartStore);
   private orderStore = inject(OrderStore);
@@ -85,14 +89,6 @@ export class MenuRootComponent implements AfterViewInit {
   );
 
   constructor(private _bottomSheet: MatBottomSheet) {}
-
-  scrolling$!: Observable<boolean>;
-
-  ngAfterViewInit(): void {
-    this.scrolling$ = fromEvent(document.getElementById('track-scrolling')!, 'scroll').pipe(
-      switchMap(() => (document.getElementById('track-scrolling')!.scrollTop > 0 ? of(true) : of(false)))
-    );
-  }
 
   openProductModal(product: Product) {
     const dialogRef = this.dialog.open(ProductToShoppingCartDialogComponent, {

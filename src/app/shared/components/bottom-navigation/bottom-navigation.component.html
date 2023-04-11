@@ -1,0 +1,26 @@
+<div class="flex">
+  <mat-toolbar class="flex items-center bg-white sticky bottom-0 rounded-tr-full">
+    <div class="flex gap-2 flex-row">
+      <div class="flex flex-col items-center">
+        <mat-icon class="material-icons-outlined">restaurant_menu</mat-icon>
+        <div class="font-thin text-xs">Menü</div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <mat-toolbar class="flex items-center bg-white sticky bottom-0 rounded-tl-full">
+    <div class="flex gap-2 flex-row">
+      <button mat-fab color="primary" class="border-white rounded-full border-2">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <!-- *ngIf="(orders$ | async)?.length! > 0" -->
+      <div class="flex flex-col items-center" (click)="navigate('/orders')">
+        <mat-icon class="material-icons-outlined">person</mat-icon>
+        <div class="font-thin text-xs">Bestellungen</div>
+      </div>
+      <div class="flex flex-col items-center" routerLink="/shoppingcart" (click)="navigate('/orders')">
+        <mat-icon class="material-icons-outlined">shopping_cart</mat-icon>
+        <div class="font-thin text-xs">Warenkorb</div>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>

@@ -1,7 +1,9 @@
-<div class="grid grid-flow-col items-center justify-items-stretch px-4 pt-4">
-  <img class="justify-self-start object-scale-down w-32" [src]="restaurant?.coverUrl" />
-  <span class="self-center justify-self-center text-slate-900 text-sm font-bold">{{ restaurant?.name }}</span>
-  <div class="flex flex-row justify-self-end demo-section" *ngIf="restaurant?.open">
+<div class="flex flex-row items-center px-4 pt-4">
+  <div class="flex-1">
+    <img class="justify-self-start object-scale-down w-32" [src]="restaurant?.coverUrl" />
+  </div>
+  <span class="text-slate-900 text-sm font-bold">{{ restaurant?.name }}</span>
+  <!-- <div class="flex flex-row justify-self-end demo-section" *ngIf="restaurant?.open">
     <button
       *ngIf="orderCount > 0"
       class="flex"
@@ -23,5 +25,5 @@
       routerLink="/shoppingcart">
       <mat-icon class="scale-150">shopping_basket</mat-icon>
     </button>
-  </div>
+  </div> -->
 </div>

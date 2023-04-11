@@ -14,7 +14,7 @@
       {{ 'FILTERN' | translate }}
     </button>
   </div>
-  <div class="grid gap-2 pb-4 bg-white">
+  <div class="grid grid-cols-2 gap-3 pb-4 bg-color">
     <oxp-product-card *ngFor="let product of products" [product]="product" (click)="openProductModal.emit(product)"></oxp-product-card>
   </div>
 </div>

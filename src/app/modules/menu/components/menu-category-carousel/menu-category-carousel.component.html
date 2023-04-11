@@ -1,0 +1,7 @@
+<div class="overflow-x-auto flex py-4 px-4 scrollbar-hide sticky top-0 z-20 bg-neutral-100">
+  <oxp-category
+    *ngFor="let category of categories"
+    [category]="category"
+    (clicked)="clicked($event)"
+    class="flex-none min-w-11 max-w-11 px-1"></oxp-category>
+</div>
