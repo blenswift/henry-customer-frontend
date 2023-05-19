@@ -8,9 +8,8 @@ describe('MenuFilterSheetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ MenuFilterSheetComponent ]
-    })
-    .compileComponents();
+      imports: [MenuFilterSheetComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MenuFilterSheetComponent);
     component = fixture.componentInstance;

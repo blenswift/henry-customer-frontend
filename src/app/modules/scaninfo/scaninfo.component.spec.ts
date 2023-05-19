@@ -8,9 +8,8 @@ describe('ScaninfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ ScaninfoComponent ]
-    })
-    .compileComponents();
+      imports: [ScaninfoComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ScaninfoComponent);
     component = fixture.componentInstance;

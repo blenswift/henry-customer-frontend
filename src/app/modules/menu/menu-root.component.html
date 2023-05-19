@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col h-full overflow-hidden"
+  class="flex h-full flex-col overflow-hidden"
   *ngIf="{
     products: filteredProductList$ | async,
     categories: categories$ | async,
@@ -21,18 +21,18 @@
   </header>
 
   <!-- Produkte -->
-  <main class="flex-1 overflow-y-scroll scrollbar-hide" id="track-scrolling">
+  <main class="scrollbar-hide flex-1 overflow-y-scroll" id="track-scrolling">
     <oxp-menu-list
       *ngIf="restaurant.status === 'DATA'"
       [products]="restaurant.products"
       [filters]="filters$ | async"
       (openProductModal)="openProductModal($event)"
       (filtersChange)="filterChanged($event)"></oxp-menu-list>
-    <div class="flex w-full h-full flex-col align-middle justify-center bg-color" *ngIf="restaurant.status === 'CLOSED'">
-      <mat-icon class="flex justify-center h-1/2 w-full" style="font-size: 15rem">lock</mat-icon>
-      <p class="text-5xl text-center m-4">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>
+    <div class="bg-color flex h-full w-full flex-col justify-center align-middle" *ngIf="restaurant.status === 'CLOSED'">
+      <mat-icon class="flex h-1/2 w-full justify-center" style="font-size: 15rem">lock</mat-icon>
+      <p class="m-4 text-center text-5xl">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>
     </div>
-    <div class="flex w-full h-full flex-row align-middle justify-center bg-color" *ngIf="restaurant.status === 'LOADING'">
+    <div class="bg-color flex h-full w-full flex-row justify-center align-middle" *ngIf="restaurant.status === 'LOADING'">
       <mat-spinner></mat-spinner>
     </div>
   </main>

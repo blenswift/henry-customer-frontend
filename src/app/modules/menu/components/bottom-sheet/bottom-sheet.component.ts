@@ -23,4 +23,12 @@ export class BottomSheetComponent {
     this._bottomSheetRef.dismiss();
     event.preventDefault();
   }
+
+  showImpressum() {
+    window.location.href = 'https://orderxpay.com/impressum';
+  }
+
+  showDatenschutz() {
+    window.location.href = 'https://orderxpay.com/datenschutz';
+  }
 }

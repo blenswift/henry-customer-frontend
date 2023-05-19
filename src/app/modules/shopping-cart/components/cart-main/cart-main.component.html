@@ -6,19 +6,19 @@
         [productCart]="product"
         (removeProduct)="removeProduct.emit(index)"></oxp-cart-product>
 
-      <h2 class="font-medium text-xl mt-4">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
-      <mat-radio-group class="flex flex-col oxp-custom-group" color="primary" formControlName="paymentType">
+      <h2 class="mt-4 text-xl font-medium">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
+      <mat-radio-group class="oxp-custom-group flex flex-col" color="primary" formControlName="paymentType">
         <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentMethods; let first = first" [value]="paymentMethod">
           <span class="py-2">{{ paymentMethod | translate | uppercase }}</span>
         </mat-radio-button>
       </mat-radio-group>
 
-      <mat-form-field class="w-full mt-4">
+      <mat-form-field class="mt-4 w-full">
         <mat-label>{{ 'SHOPPINGCART_COMMENT' | translate }}</mat-label>
         <textarea matInput formControlName="comment"></textarea>
       </mat-form-field>
 
-      <h4 class="font-medium text-xl pt-6">{{ 'TRINKGELD' | translate | uppercase }}</h4>
+      <h4 class="pt-6 text-xl font-medium">{{ 'TRINKGELD' | translate | uppercase }}</h4>
       <div class="flex flex-row items-center">
         <mat-chip-listbox formControlName="tip">
           <mat-chip-option [value]="100" (click)="otherTip = 0">1 €</mat-chip-option>
@@ -30,7 +30,7 @@
         </mat-chip-listbox>
         <mat-chip class="ml-2" [matMenuTriggerFor]="menu" *ngIf="otherTip === 0">{{ 'ANDERER_BETRAG' | translate }}</mat-chip>
         <mat-menu #menu="matMenu">
-          <div class="flex flex-row mx-2 gap-2 items-center">
+          <div class="mx-2 flex flex-row items-center gap-2">
             <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
               <mat-label>{{ 'TRINKGELD' | translate }}</mat-label>
               <input matInput #input type="number" min="1" autofocus oninput="validity.valid||(value='');" />

@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MultiselectCheckboxGroupComponent } from 'src/app/shared/components/multiselect-checkbox-group/multiselect-checkbox-group.component';
 import { ProductCart } from 'src/app/shared/models/product-cart';
+import { CheckablePipe } from '../../pipes/checkable.pipe';
 import { CounterButtonComponent } from './../../../../shared/components/counter-button/counter-button.component';
 import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe';
 import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/product-ingridients-dialog.component';
@@ -32,6 +33,7 @@ import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/
     SumOfProductPipe,
     TranslateModule,
     MultiselectCheckboxGroupComponent,
+    CheckablePipe,
   ],
   templateUrl: './product-to-shopping-cart-dialog.component.html',
   styleUrls: ['./product-to-shopping-cart-dialog.component.scss'],

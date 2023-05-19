@@ -31,5 +31,7 @@
   "FILTERN": "Filter",
   "ANZEIGEN": "Show",
   "ANDERER_BETRAG": "Custom tip",
-  "BESTELLNUMMER": "Ordernumber"
+  "BESTELLNUMMER": "Ordernumber",
+  "DATENSCHUTZ": "Data protection",
+  "IMPRESSUM": "Imprint"
 }

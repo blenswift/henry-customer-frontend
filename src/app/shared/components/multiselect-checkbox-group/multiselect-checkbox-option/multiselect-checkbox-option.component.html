@@ -1,12 +1,13 @@
-<div class="flex flex-row items-center h-10">
+<div class="flex h-10 flex-row items-center">
   <div
-    class="flex items-center justify-center border-2 w-5 h-5 mx-3 rounded-full"
+    class="mx-3 flex h-5 w-5 items-center justify-center rounded-full border-2"
     [ngClass]="item.quantity > 0 ? 'border-blue-700 bg-blue-700 text-white' : 'border-neutral-500'"
     (click)="trigger()">
     {{ item.quantity > 0 ? item.quantity : '' }}
   </div>
-  <div (click)="trigger()" class="flex flex-grow items-center h-10" [ngClass]="{ 'border-b-2': !last }"><ng-content></ng-content></div>
-  <div class="ml-auto h-10 items-center flex" [ngClass]="{ 'border-b-2': !last }">
+
+  <div (click)="trigger()" class="flex h-10 flex-grow items-center" [ngClass]="{ 'border-b-2': !last }"><ng-content></ng-content></div>
+  <div class="ml-auto flex h-10 items-center" [ngClass]="{ 'border-b-2': !last }">
     {{
       item.price && item.price > 0
         ? '+ ' + (item.price! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang())

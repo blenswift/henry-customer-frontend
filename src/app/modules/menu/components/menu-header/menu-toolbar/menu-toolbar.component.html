@@ -1,7 +1,7 @@
 <div class="grid grid-flow-col items-center justify-items-stretch px-4 pt-4">
-  <img class="justify-self-start object-scale-down w-32" [src]="restaurant?.coverUrl" />
-  <span class="self-center justify-self-center text-slate-900 text-sm font-bold">{{ restaurant?.name }}</span>
-  <div class="flex flex-row justify-self-end demo-section" *ngIf="restaurant?.open">
+  <img class="w-32 justify-self-start object-scale-down" [src]="restaurant?.coverUrl" (click)="openOrderXPay()" />
+  <span class="self-center justify-self-center text-sm font-bold text-slate-900">{{ restaurant?.name }}</span>
+  <div class="demo-section flex flex-row justify-self-end" *ngIf="restaurant?.open">
     <button
       *ngIf="orderCount > 0"
       class="flex"

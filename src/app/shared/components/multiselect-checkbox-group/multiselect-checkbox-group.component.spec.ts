@@ -8,9 +8,8 @@ describe('MultiselectCheckboxGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ MultiselectCheckboxGroupComponent ]
-    })
-    .compileComponents();
+      imports: [MultiselectCheckboxGroupComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MultiselectCheckboxGroupComponent);
     component = fixture.componentInstance;

@@ -19,4 +19,8 @@ export class MenuToolbarComponent {
   @Input() orderCount = 0;
 
   @Input() restaurant: Restaurant | null = null;
+
+  openOrderXPay() {
+    window.location.href = 'https://orderxpay.com/';
+  }
 }

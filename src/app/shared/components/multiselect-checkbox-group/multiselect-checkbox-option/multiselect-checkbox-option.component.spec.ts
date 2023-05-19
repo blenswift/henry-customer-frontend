@@ -8,9 +8,8 @@ describe('MultiselectCheckboxOptionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ MultiselectCheckboxOptionComponent ]
-    })
-    .compileComponents();
+      imports: [MultiselectCheckboxOptionComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MultiselectCheckboxOptionComponent);
     component = fixture.componentInstance;
