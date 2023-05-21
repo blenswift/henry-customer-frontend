@@ -33,5 +33,6 @@
   "ANDERER_BETRAG": "Anderer Betrag",
   "BESTELLNUMMER": "Bestellnummer",
   "DATENSCHUTZ": "Datenschutz",
-  "IMPRESSUM": "Impressum"
+  "IMPRESSUM": "Impressum",
+  "QR_NOT_FOUND": "QR-Code ist nicht vorhanden!"
 }

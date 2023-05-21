@@ -30,7 +30,7 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RestaurantStore],
 })
-export class ShoppingCartDialogComponent {
+export default class ShoppingCartDialogComponent {
   private shoppingCartStore = inject(ShoppingCartStore);
   private restaurantStore = inject(RestaurantStore);
   private fb = inject(FormBuilder);

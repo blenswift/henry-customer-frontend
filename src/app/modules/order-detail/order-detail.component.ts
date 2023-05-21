@@ -34,7 +34,7 @@ import { ExtrasShortPipe } from './pipes/extras-short.pipe';
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss'],
 })
-export class OrderDetailComponent {
+export default class OrderDetailComponent {
   router = inject(Router);
   route = inject(ActivatedRoute);
   orderService = inject(OrderService);

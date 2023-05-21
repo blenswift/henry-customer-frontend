@@ -3,22 +3,26 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'products/:qrcode',
-    loadComponent: () => import('./modules/menu/menu-root.component').then(m => m.MenuRootComponent),
+    loadComponent: () => import('./modules/menu/menu-root.component'),
   },
   {
     path: 'shoppingcart',
-    loadComponent: () => import('./modules/shopping-cart/shopping-cart-dialog.component').then(m => m.ShoppingCartDialogComponent),
+    loadComponent: () => import('./modules/shopping-cart/shopping-cart-dialog.component'),
   },
   {
     path: 'orders',
-    loadComponent: () => import('./modules/orders/orders.component').then(m => m.OrdersComponent),
+    loadComponent: () => import('./modules/orders/orders.component'),
   },
   {
     path: 'order-details/:trackingId',
-    loadComponent: () => import('./modules/order-detail/order-detail.component').then(m => m.OrderDetailComponent),
+    loadComponent: () => import('./modules/order-detail/order-detail.component'),
+  },
+  {
+    path: 'notfound',
+    loadComponent: () => import('./modules/not-found/not-found.component'),
   },
   {
     path: '**',
-    loadComponent: () => import('./modules/scaninfo/scaninfo.component').then(m => m.ScaninfoComponent),
+    loadComponent: () => import('./modules/scaninfo/scaninfo.component'),
   },
 ];

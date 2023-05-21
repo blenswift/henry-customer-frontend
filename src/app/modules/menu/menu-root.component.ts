@@ -8,7 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, combineLatest, filter, fromEvent, map, of, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
@@ -43,12 +43,13 @@ import { Filter, RestaurantStore } from './services/restaurant.store';
   providers: [RestaurantStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuRootComponent implements AfterViewInit {
+export default class MenuRootComponent implements AfterViewInit {
   private restaurantStore = inject(RestaurantStore);
   private shoppingCartStore = inject(ShoppingCartStore);
   private orderStore = inject(OrderStore);
   private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   filterCtrl = new FormControl('', { nonNullable: true });
 
@@ -71,7 +72,13 @@ export class MenuRootComponent implements AfterViewInit {
   filters$ = this.restaurantStore.filters$;
 
   restaurant$ = this.restaurantStore.info$;
-  status$ = this.restaurantStore.status$;
+  status$ = this.restaurantStore.status$.pipe(
+    tap(x => {
+      if (x === 'ERROR') {
+        this.router.navigate(['notfound']);
+      }
+    })
+  );
   orders$ = this.orderStore.orders$;
   shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
   filteredProductList$ = combineLatest([this.products$, this.filterCtrl.valueChanges.pipe(startWith('')), this.filters$]).pipe(

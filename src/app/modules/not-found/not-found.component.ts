@@ -5,11 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'oxp-scaninfo',
+  selector: 'oxp-not-found',
   standalone: true,
   imports: [CommonModule, TranslateModule, MatIconModule, MatButtonModule],
-  templateUrl: './scaninfo.component.html',
-  styleUrls: ['./scaninfo.component.scss'],
+  templateUrl: './not-found.component.html',
+  styleUrls: ['./not-found.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ScaninfoComponent {}
+export default class NotFoundComponent {}

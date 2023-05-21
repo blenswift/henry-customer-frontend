@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, concat, switchMap, tap } from 'rxjs';
@@ -35,7 +36,8 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private menuService: MenuService,
     private restaurantService: RestaurantService,
     private snackBar: MatSnackBar,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private titleService: Title
   ) {
     super({ categories: [], filters: [], products: [], info: null, status: 'LOADING' });
   }
@@ -63,6 +65,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
             tapResponse(
               info => {
                 this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED' });
+                this.titleService.setTitle('OrderXPay - ' + info.name);
               },
               err => {
                 this.patchState({ status: 'ERROR' });

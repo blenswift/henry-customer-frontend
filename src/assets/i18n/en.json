@@ -33,5 +33,6 @@
   "ANDERER_BETRAG": "Custom tip",
   "BESTELLNUMMER": "Ordernumber",
   "DATENSCHUTZ": "Data protection",
-  "IMPRESSUM": "Imprint"
+  "IMPRESSUM": "Imprint",
+  "QR_NOT_FOUND": "QR-Code not found!"
 }

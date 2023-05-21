@@ -29,7 +29,7 @@ import { OrderStore } from './services/order.store';
   styleUrls: ['./orders.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrdersComponent {
+export default class OrdersComponent {
   orderStore = inject(OrderStore);
   route = inject(ActivatedRoute);
   router = inject(Router);
