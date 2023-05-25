@@ -11,7 +11,7 @@ export class ShoppingCartService {
   private httpClient = inject(HttpClient);
   url = getApiUrl() + '/orders';
 
-  public createOrder(qrCode: string, order: Order): Observable<{ url: string }> {
-    return this.httpClient.post<{ url: string }>(this.url + '/' + qrCode, order);
+  public createOrder(qrCode: string, order: Order): Observable<{ redirectUrl: string; checkoutId: string; PaymentProvider: string }> {
+    return this.httpClient.post<{ redirectUrl: string; checkoutId: string; PaymentProvider: string }>(this.url + '/' + qrCode, order);
   }
 }

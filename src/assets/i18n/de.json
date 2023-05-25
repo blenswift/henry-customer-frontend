@@ -34,5 +34,6 @@
   "BESTELLNUMMER": "Bestellnummer",
   "DATENSCHUTZ": "Datenschutz",
   "IMPRESSUM": "Impressum",
-  "QR_NOT_FOUND": "QR-Code ist nicht vorhanden!"
+  "QR_NOT_FOUND": "QR-Code ist nicht vorhanden!",
+  "BEZAHLEN": "Bezahlen"
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
@@ -22,7 +23,7 @@ export interface ShoppingCartState {
 export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
 
-  constructor(private shoppingCartService: ShoppingCartService) {
+  constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
     super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '' });
   }
 
@@ -66,7 +67,11 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         this.shoppingCartService.createOrder(sessionStorage.getItem('qrcode')!, order).pipe(
           tapResponse(
             data => {
-              window.location.href = data.url;
+              if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+              } else {
+                this.router.navigate(['checkout/' + data.checkoutId]);
+              }
             },
             () => {}
           )

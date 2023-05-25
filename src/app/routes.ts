@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/order-detail/order-detail.component'),
   },
   {
+    path: 'checkout/:id',
+    loadComponent: () => import('./modules/sumup-widget/sumup-widget.component'),
+  },
+  {
     path: 'notfound',
     loadComponent: () => import('./modules/not-found/not-found.component'),
   },
