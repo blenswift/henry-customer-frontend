@@ -24,9 +24,10 @@ export default class SumupWidgetComponent implements OnInit {
     SumUpCard.mount({
       id: 'sumup-card',
       checkoutId: this.route.snapshot.params['id'],
-      onResponse: function (type: any, body: any) {
-        console.log('Type', type);
-        console.log('Body', body);
+      onResponse: (type: any, body: any) => {
+        if (body['status'] === 'PAID') {
+          this.router.navigate(['/orders'], { queryParams: { trackingId: body['reference'] } });
+        }
       },
     });
   }

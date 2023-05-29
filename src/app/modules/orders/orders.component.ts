@@ -44,6 +44,7 @@ export default class OrdersComponent {
   ordersOlderThanAWeek$ = this.orders$.pipe(
     map(orders => orders.filter((x: OrderTracking) => moment(x.createdAt).add(7, 'days').isBefore(moment())))
   );
+
   ordersLastWeek$ = this.orders$.pipe(
     map(orders => orders.filter((x: OrderTracking) => moment(x.createdAt).add(7, 'days').isAfter(moment())))
   );
