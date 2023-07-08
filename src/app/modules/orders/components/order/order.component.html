@@ -2,6 +2,7 @@
   <mat-card-header>
     <mat-card-title-group>
       <mat-card-title>{{ 'TISCH' | translate }} {{ order.table }}</mat-card-title>
+      <div>{{ 'BESTELLNUMMER' | translate }}: {{ order.orderNumber }}</div>
       <mat-card-subtitle>{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</mat-card-subtitle>
     </mat-card-title-group>
   </mat-card-header>
