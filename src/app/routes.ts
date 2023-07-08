@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'products/:qrcode',
+    path: 'menu/:qrcode',
     loadComponent: () => import('./modules/menu/menu-root.component'),
   },
   {

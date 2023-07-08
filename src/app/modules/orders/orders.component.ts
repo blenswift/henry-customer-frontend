@@ -50,7 +50,7 @@ export default class OrdersComponent {
   );
 
   navigate() {
-    this.router.navigate(['/products/' + sessionStorage.getItem('qrcode')]);
+    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);
   }
 
   navigateToOrder(order: OrderTracking) {

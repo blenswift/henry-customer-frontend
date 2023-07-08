@@ -73,6 +73,6 @@ export default class ShoppingCartDialogComponent {
   }
 
   navigateToProducts() {
-    this.router.navigate(['/products/' + sessionStorage.getItem('qrcode')]);
+    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);
   }
 }
