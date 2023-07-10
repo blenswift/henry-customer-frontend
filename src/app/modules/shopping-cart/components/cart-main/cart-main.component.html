@@ -6,6 +6,8 @@
         [productCart]="product"
         (removeProduct)="removeProduct.emit(index)"></oxp-cart-product>
 
+      <div *ngIf="ageRestricted">{{ 'AGE_RESTRICTION_HINT' | translate }}</div>
+
       <h2 class="mt-4 text-xl font-medium">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
       <mat-radio-group class="oxp-custom-group flex flex-col" color="primary" formControlName="paymentType">
         <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentMethods; let first = first" [value]="paymentMethod">

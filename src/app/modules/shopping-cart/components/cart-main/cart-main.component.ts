@@ -36,6 +36,7 @@ import { CartProductComponent } from './cart-product/cart-product.component';
 export class CartMainComponent {
   @Input() form!: FormGroup;
   @Input() restaurantInfo: Restaurant | null = null;
+  @Input() ageRestricted = false;
   @Output() removeProduct = new EventEmitter<number>();
   translateService = inject(TranslateService);
   otherTip = 0;

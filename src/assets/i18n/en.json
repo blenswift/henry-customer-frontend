@@ -35,5 +35,7 @@
   "DATENSCHUTZ": "Data protection",
   "IMPRESSUM": "Imprint",
   "QR_NOT_FOUND": "QR-Code not found!",
-  "BEZAHLEN": "Checkout"
+  "BEZAHLEN": "Checkout",
+  "AGE_RESTRICTION_HINT": "Please note: For products with an age restriction, an age check will be carried out upon delivery.",
+  "AGE_RESTRICTED": "Age restricted"
 }

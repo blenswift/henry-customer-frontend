@@ -39,6 +39,7 @@ export default class ShoppingCartDialogComponent {
 
   public shoppingCartVm$ = this.shoppingCartStore.vm$;
   public restaurantInfoVm$ = this.restaurantStore.info$;
+  public ageRestrictedProducts$ = this.restaurantStore.ageRestrictedProducts$;
 
   public form$ = combineLatest([this.shoppingCartVm$, this.restaurantStore.info$]).pipe(
     switchMap(([vm, restaurantInfo]) => {

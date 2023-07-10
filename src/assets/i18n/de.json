@@ -35,5 +35,7 @@
   "DATENSCHUTZ": "Datenschutz",
   "IMPRESSUM": "Impressum",
   "QR_NOT_FOUND": "QR-Code ist nicht vorhanden!",
-  "BEZAHLEN": "Bezahlen"
+  "BEZAHLEN": "Bezahlen",
+  "AGE_RESTRICTION_HINT": "Bitte beachten Sie: Bei Produkten mit Altersbeschränkung erfolgt bei Übergabe eine Alterskontrolle.",
+  "AGE_RESTRICTED": "Altersbeschränkt"
 }

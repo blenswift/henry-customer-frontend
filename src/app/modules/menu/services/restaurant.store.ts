@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, concat, switchMap, tap } from 'rxjs';
+import { Observable, concat, map, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { LoadingStatus } from 'src/app/shared/models/loading-status';
 import { Product } from 'src/app/shared/models/product';
@@ -31,6 +31,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   readonly info$ = this.select(state => state.info);
   readonly status$ = this.select(state => state.status);
   readonly filters$ = this.select(state => state.filters);
+  readonly ageRestrictedProducts$ = this.products$.pipe(map(y => y.filter(x => x.legalAge > 0)));
 
   constructor(
     private menuService: MenuService,

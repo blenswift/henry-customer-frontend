@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ShoppingCartDialogComponent } from './shopping-cart-dialog.component';
+import ShoppingCartDialogComponent from './shopping-cart-dialog.component';
 
 describe('ShoppingCartDialogComponent', () => {
   let component: ShoppingCartDialogComponent;
