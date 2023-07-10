@@ -1,4 +1,6 @@
 <div class="flex h-full flex-col overflow-hidden">
   <oxp-page-header (closeCard)="navigateToCart()">{{ 'BEZAHLEN' | translate | uppercase }}</oxp-page-header>
-  <div id="sumup-card"></div>
+  <div class="scrollbar-hide flex-1 overflow-y-scroll p-4">
+    <div id="sumup-card"></div>
+  </div>
 </div>
