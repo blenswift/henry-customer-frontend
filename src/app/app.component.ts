@@ -37,8 +37,7 @@ export class AppComponent implements OnInit {
     filter(params => !!params['qrcode']),
     tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
     tap(params => this.orderStore.loadCache(params['qrcode'])),
-    tap(params => this.shoppingCartStore.loadCache(params['qrcode'])),
-    tap(() => this.orderStore.checkOrderStatus())
+    tap(params => this.shoppingCartStore.loadCache(params['qrcode']))
   );
 
   constructor(private swPush: SwPush) {
@@ -57,8 +56,12 @@ export class AppComponent implements OnInit {
       .requestSubscription({
         serverPublicKey: environment.firebase.vapidKey,
       })
-      .then(console.log)
-      .catch(err => console.error('Could not subscribe to notifications', err));
+      .then()
+      .catch(err => {
+        console.error('Could not subscribe to notifications', err);
+        // long polling für den Status der Bestellungen sollte keine Push Notifications möglich sein
+        this.orderStore.checkOrderStatus();
+      });
   }
 
   ngOnInit(): void {
@@ -84,7 +87,7 @@ export class AppComponent implements OnInit {
     onMessage(messaging, payload => {
       navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
       const snackBarRef = this.snackBar.open(payload.data?.['body'] ?? '', this.translateService.instant('ANZEIGEN'), {
-        duration: 15000,
+        duration: 30000,
         verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {

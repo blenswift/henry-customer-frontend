@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { map, switchMap, tap } from 'rxjs';
 import { OrderComponent } from './components/order/order.component';
 import { OrderTracking } from './models/order-tracking';
@@ -41,13 +40,9 @@ export default class OrdersComponent {
     switchMap(() => this.orderStore.orders$)
   );
 
-  ordersOlderThanAWeek$ = this.orders$.pipe(
-    map(orders => orders.filter((x: OrderTracking) => moment(x.createdAt).add(7, 'days').isBefore(moment())))
-  );
+  openOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status !== 'APPROVED')));
 
-  ordersLastWeek$ = this.orders$.pipe(
-    map(orders => orders.filter((x: OrderTracking) => moment(x.createdAt).add(7, 'days').isAfter(moment())))
-  );
+  approvedOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status === 'APPROVED')));
 
   navigate() {
     this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);

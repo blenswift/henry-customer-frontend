@@ -27,8 +27,8 @@ export class OrderService {
 
   showSnackbarWhenOrderFinished(order: OrderTracking) {
     navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
-    const snackBarRef = this.snackBar.open(order.orderNumber + 'is ready!', this.translateService.instant('ANZEIGEN'), {
-      duration: 15000,
+    const snackBarRef = this.snackBar.open('Your order is ready (' + order.orderNumber + ')!', this.translateService.instant('ANZEIGEN'), {
+      duration: 30000,
       verticalPosition: 'top',
     });
     snackBarRef.onAction().subscribe(() => {

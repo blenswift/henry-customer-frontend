@@ -40,7 +40,7 @@ export class OrderStore extends ComponentStore<OrderState> {
   });
 
   checkOrderStatus = this.effect($ => {
-    return timer(0, 6000).pipe(
+    return timer(0, 60000).pipe(
       withLatestFrom(this.orders$),
       map(([, orders]) => orders.filter(x => x.status !== 'APPROVED' && moment(x.createdAt).add(1, 'days').isAfter(moment()))),
       filter(orders => orders.length > 0),
@@ -49,7 +49,7 @@ export class OrderStore extends ComponentStore<OrderState> {
       map(orders => {
         orders.map(order => {
           this.updateOrder(order);
-          if (order.status === 'APPROVED' && !this.swPush.isEnabled) {
+          if (order.status === 'APPROVED') {
             this.orderService.showSnackbarWhenOrderFinished(order);
           }
         });
@@ -61,6 +61,7 @@ export class OrderStore extends ComponentStore<OrderState> {
     const orders = state.orders;
     const newOrders = orders.filter(x => x.id != order.id);
     newOrders.push(order);
+    localStorage.setItem('ORDER' + sessionStorage.getItem('qrcode'), JSON.stringify(newOrders));
     return { ...state, orders: newOrders };
   });
 
