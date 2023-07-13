@@ -59,6 +59,7 @@ export default class MenuRootComponent implements AfterViewInit {
     tap(params => this.restaurantStore.load(params['qrcode'])),
     tap(params => this.orderStore.loadCache(params['qrcode'])),
     tap(params => this.shoppingCartStore.loadCache(params['qrcode'])),
+    tap(() => this.orderStore.checkOrderStatus()),
     switchMap(() => this.restaurantStore.products$)
   );
 

@@ -26,7 +26,7 @@ export default class SumupWidgetComponent implements OnInit {
       checkoutId: this.route.snapshot.params['id'],
       onResponse: (type: any, body: any) => {
         if (body['status'] === 'PAID') {
-          this.router.navigate(['/orders'], { queryParams: { trackingId: body['reference'] } });
+          this.router.navigate(['/orders'], { queryParams: { trackingId: body['checkout_reference'] } });
         }
       },
     });

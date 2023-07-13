@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { SwPush } from '@angular/service-worker';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, filter, switchMap, withLatestFrom } from 'rxjs';
-import { OrderTracking } from '../models/order-tracking';
+import * as moment from 'moment';
+import { Observable, filter, map, switchMap, timer, withLatestFrom } from 'rxjs';
 import { ShoppingCartStore } from './../../../shared/services/shopping-cart.store';
+import { OrderTracking } from './../models/order-tracking';
 import { OrderService } from './order.service';
 
 export interface OrderState {
@@ -13,7 +15,7 @@ export interface OrderState {
 export class OrderStore extends ComponentStore<OrderState> {
   readonly orders$ = this.select(state => state.orders);
 
-  constructor(private orderService: OrderService, private shoppingCartStore: ShoppingCartStore) {
+  constructor(private orderService: OrderService, private shoppingCartStore: ShoppingCartStore, private swPush: SwPush) {
     super({
       orders: [],
     });
@@ -35,6 +37,31 @@ export class OrderStore extends ComponentStore<OrderState> {
         )
       )
     );
+  });
+
+  checkOrderStatus = this.effect($ => {
+    return timer(0, 6000).pipe(
+      withLatestFrom(this.orders$),
+      map(([, orders]) => orders.filter(x => x.status !== 'APPROVED' && moment(x.createdAt).add(1, 'days').isAfter(moment()))),
+      filter(orders => orders.length > 0),
+      map(orders => orders.map(order => order.trackingId)),
+      switchMap(orderIds => this.orderService.getStatusOfOrders(orderIds)),
+      map(orders => {
+        orders.map(order => {
+          this.updateOrder(order);
+          if (order.status === 'APPROVED' && !this.swPush.isEnabled) {
+            this.orderService.showSnackbarWhenOrderFinished(order);
+          }
+        });
+      })
+    );
+  });
+
+  updateOrder = this.updater((state, order: OrderTracking) => {
+    const orders = state.orders;
+    const newOrders = orders.filter(x => x.id != order.id);
+    newOrders.push(order);
+    return { ...state, orders: newOrders };
   });
 
   loadCache = this.updater((state, qrCode: string) => {

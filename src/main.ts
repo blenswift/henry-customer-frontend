@@ -1,6 +1,7 @@
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -32,6 +33,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     importProvidersFrom([
       ServiceWorkerModule.register('/firebase-messaging-sw.js', { enabled: true }),
+      MatSnackBarModule,
       TranslateModule.forRoot({
         defaultLanguage: 'en',
         loader: {
