@@ -4,6 +4,7 @@ import { OrderStore } from './modules/orders/services/order.store';
 import { ShoppingCartStore } from './shared/services/shopping-cart.store';
 // import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { CommonModule, registerLocaleData } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeEn from '@angular/common/locales/en';
 import localeDeExtra from '@angular/common/locales/extra/de';
@@ -13,7 +14,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
-import { filter, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
+
+// eslint-disable-next-line no-var
+declare var ApplePaySession: any;
 
 @Component({
   selector: 'oxp-root',
@@ -40,7 +44,7 @@ export class AppComponent implements OnInit {
     tap(params => this.shoppingCartStore.loadCache(params['qrcode']))
   );
 
-  constructor(private swPush: SwPush) {
+  constructor(private swPush: SwPush, private httpClient: HttpClient) {
     const language = navigator.language.substring(0, 2);
     const languageExists = ['de', 'en'].includes(language);
     this.translateService.use(languageExists ? language : 'en');
@@ -49,6 +53,55 @@ export class AppComponent implements OnInit {
     } else {
       registerLocaleData(localeEn, 'en', localeEnExtra);
     }
+
+    const paymentRequest = {
+      countryCode: 'DE',
+      currencyCode: 'EUR',
+      merchantCapabilities: ['supports3DS'],
+      supportedNetworks: ['visa', 'masterCard'],
+      total: {
+        label: 'Your Merchant Name',
+        amount: '10.00',
+      },
+      // Fügen Sie hier die eindeutige Bestell-ID hinzu, die Sie vom Server erhalten haben
+      applicationData: '123456',
+    };
+
+    if ((window as any).ApplePaySession && ApplePaySession.canMakePayments()) {
+      const session = new ApplePaySession(1, paymentRequest);
+
+      session.onvalidatemerchant = (event: any) => {
+        // Rufen Sie Ihren Server auf, um das Merchant Validation Certificate zu erhalten
+        const validationURL = event.validationURL;
+        this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
+          session.completeMerchantValidation(response);
+        });
+      };
+
+      session.onpaymentauthorized = (event: any) => {
+        // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
+        const paymentToken = event.payment.token;
+        this.httpClient
+          .post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken })
+          .subscribe(response => {
+            session.completePayment(ApplePaySession.STATUS_SUCCESS);
+          });
+      };
+
+      session.begin();
+    } else {
+      console.log('????');
+      // Behandeln Sie den Fall, dass Apple Pay nicht verfügbar ist
+    }
+  }
+
+  public createOrder(test: any): Observable<any> {
+    return this.httpClient.post<any>('https://api.sumup.com/v0.1/checkouts', test, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
   }
 
   subscribeToNotifications() {
