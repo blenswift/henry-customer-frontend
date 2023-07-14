@@ -3,4 +3,41 @@
   <div class="scrollbar-hide flex-1 overflow-y-scroll p-4">
     <div id="sumup-card"></div>
   </div>
+
+  <google-pay-button
+    environment="TEST"
+    buttonType="buy"
+    buttonColor="black"
+    [paymentRequest]="{
+      apiVersion: 2,
+      apiVersionMinor: 0,
+      allowedPaymentMethods: [
+        {
+          type: 'CARD',
+          parameters: {
+            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+            allowedCardNetworks: ['MASTERCARD', 'VISA']
+          },
+          tokenizationSpecification: {
+            type: 'PAYMENT_GATEWAY',
+            parameters: {
+              gateway: 'sumup',
+              gatewayMerchantId: 'exampleGatewayMerchantId'
+            }
+          }
+        }
+      ],
+      merchantInfo: {
+        merchantId: 'MCKL6CKF',
+        merchantName: 'Diplomatic Consulting Ltd.'
+      },
+      transactionInfo: {
+        totalPriceStatus: 'FINAL',
+        totalPriceLabel: 'Total',
+        totalPrice: '1.20',
+        currencyCode: 'EUR',
+        countryCode: 'DE'
+      }
+    }"
+    (loadpaymentdata)="onLoadPaymentData($event)"></google-pay-button>
 </div>
