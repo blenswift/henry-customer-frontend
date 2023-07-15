@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
 declare let SumUpCard: any;
+declare let ApplePaySession: any;
 
 @Component({
   selector: 'oxp-sumup-widget',
@@ -15,6 +18,7 @@ declare let SumUpCard: any;
 export default class SumupWidgetComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
+  httpClient = inject(HttpClient);
 
   navigateToCart() {
     this.router.navigate(['/shoppingcart']);
@@ -28,6 +32,63 @@ export default class SumupWidgetComponent implements OnInit {
         if (body['status'] === 'PAID') {
           this.router.navigate(['/orders'], { queryParams: { trackingId: body['checkout_reference'] } });
         }
+      },
+    });
+
+    const paymentRequest = {
+      countryCode: 'DE',
+      currencyCode: 'EUR',
+      merchantCapabilities: ['supports3DS'],
+      supportedNetworks: ['visa', 'masterCard'],
+      total: {
+        label: 'Diplomatic Consulting Ltd.',
+        amount: '1.20',
+      },
+    };
+
+    // if ((window as any).ApplePaySession && ApplePaySession.canMakePayments()) {
+    const session = new ApplePaySession(1, paymentRequest);
+
+    session.onvalidatemerchant = (event: any) => {
+      // Rufen Sie Ihren Server auf, um das Merchant Validation Certificate zu erhalten
+      const validationURL = event.validationURL;
+      const merchantSession = {
+        target: 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
+        context: 'https://dev.orderxpay.eu',
+      };
+
+      this.createMerchantSession(this.route.snapshot.params['id']).subscribe(console.log);
+
+      // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
+      //   session.completeMerchantValidation(response);
+      // });
+    };
+
+    session.completeMerchantValidation = (event: any) => {
+      console.log('COMPLETE MERCHANT VALIDATION');
+      console.log(event);
+    };
+
+    session.onpaymentauthorized = (event: any) => {
+      // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
+      const paymentToken = event.payment.token;
+      this.httpClient.post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken }).subscribe(response => {
+        session.completePayment(ApplePaySession.STATUS_SUCCESS);
+      });
+    };
+
+    session.begin();
+    // } else {
+    //   console.log('????');
+    //   // Behandeln Sie den Fall, dass Apple Pay nicht verfügbar ist
+    // }
+  }
+
+  public createMerchantSession(checkoutId: string): Observable<any> {
+    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     });
   }
