@@ -50,14 +50,17 @@ export default class SumupWidgetComponent implements OnInit {
     };
 
     if ((window as any).ApplePaySession && ApplePaySession.canMakePayments()) {
-      const session = new ApplePaySession(1, paymentRequest);
+      const session = new ApplePaySession(3, paymentRequest);
 
       session.onvalidatemerchant = (event: any) => {
         // Rufen Sie Ihren Server auf, um das Merchant Validation Certificate zu erhalten
         const validationURL = event.validationURL;
+        console.log("validation: " + validationURL);
+
+        //{"target":"https://apple-pay-gateway.apple.com/paymentservices/startSession","context":"pay.sumup.io"}
         const merchantSession = {
-          target: 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
-          context: 'https://dev.orderxpay.eu',
+          target: validationURL,
+          context: 'dev.orderxpay.eu',
         };
 
         this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);
