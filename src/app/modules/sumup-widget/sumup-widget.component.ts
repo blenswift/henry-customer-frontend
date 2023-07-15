@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ declare let ApplePaySession: any;
   imports: [CommonModule, PageHeaderComponent, TranslateModule],
   templateUrl: './sumup-widget.component.html',
   styleUrls: ['./sumup-widget.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export default class SumupWidgetComponent implements OnInit {
   router = inject(Router);
@@ -34,7 +35,9 @@ export default class SumupWidgetComponent implements OnInit {
         }
       },
     });
+  }
 
+  public testApplePay() {
     const paymentRequest = {
       countryCode: 'DE',
       currencyCode: 'EUR',
@@ -46,42 +49,44 @@ export default class SumupWidgetComponent implements OnInit {
       },
     };
 
-    // if ((window as any).ApplePaySession && ApplePaySession.canMakePayments()) {
-    const session = new ApplePaySession(1, paymentRequest);
+    if ((window as any).ApplePaySession && ApplePaySession.canMakePayments()) {
+      const session = new ApplePaySession(1, paymentRequest);
 
-    session.onvalidatemerchant = (event: any) => {
-      // Rufen Sie Ihren Server auf, um das Merchant Validation Certificate zu erhalten
-      const validationURL = event.validationURL;
-      const merchantSession = {
-        target: 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
-        context: 'https://dev.orderxpay.eu',
+      session.onvalidatemerchant = (event: any) => {
+        // Rufen Sie Ihren Server auf, um das Merchant Validation Certificate zu erhalten
+        const validationURL = event.validationURL;
+        const merchantSession = {
+          target: 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession',
+          context: 'https://dev.orderxpay.eu',
+        };
+
+        this.createMerchantSession(this.route.snapshot.params['id']).subscribe(console.log);
+
+        // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
+        //   session.completeMerchantValidation(response);
+        // });
       };
 
-      this.createMerchantSession(this.route.snapshot.params['id']).subscribe(console.log);
+      session.completeMerchantValidation = (event: any) => {
+        console.log('COMPLETE MERCHANT VALIDATION');
+        console.log(event);
+      };
 
-      // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
-      //   session.completeMerchantValidation(response);
-      // });
-    };
+      session.onpaymentauthorized = (event: any) => {
+        // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
+        const paymentToken = event.payment.token;
+        this.httpClient
+          .post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken })
+          .subscribe(response => {
+            session.completePayment(ApplePaySession.STATUS_SUCCESS);
+          });
+      };
 
-    session.completeMerchantValidation = (event: any) => {
-      console.log('COMPLETE MERCHANT VALIDATION');
-      console.log(event);
-    };
-
-    session.onpaymentauthorized = (event: any) => {
-      // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
-      const paymentToken = event.payment.token;
-      this.httpClient.post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken }).subscribe(response => {
-        session.completePayment(ApplePaySession.STATUS_SUCCESS);
-      });
-    };
-
-    session.begin();
-    // } else {
-    //   console.log('????');
-    //   // Behandeln Sie den Fall, dass Apple Pay nicht verfügbar ist
-    // }
+      session.begin();
+    } else {
+      console.log('????');
+      // Behandeln Sie den Fall, dass Apple Pay nicht verfügbar ist
+    }
   }
 
   public createMerchantSession(checkoutId: string): Observable<any> {
