@@ -60,7 +60,7 @@ export default class SumupWidgetComponent implements OnInit {
           context: 'https://dev.orderxpay.eu',
         };
 
-        this.createMerchantSession(this.route.snapshot.params['id']).subscribe(console.log);
+        this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);
 
         // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
         //   session.completeMerchantValidation(response);
@@ -89,12 +89,7 @@ export default class SumupWidgetComponent implements OnInit {
     }
   }
 
-  public createMerchantSession(checkoutId: string): Observable<any> {
-    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
+  public createMerchantSession(checkoutId: string, merchantSession: any): Observable<any> {
+    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession);
   }
 }
