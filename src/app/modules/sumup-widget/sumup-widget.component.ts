@@ -39,13 +39,14 @@ export default class SumupWidgetComponent implements OnInit {
 
   public testApplePay() {
     const paymentRequest = {
-      countryCode: 'DE',
       currencyCode: 'EUR',
+      countryCode: 'DE',
       merchantCapabilities: ['supports3DS'],
-      supportedNetworks: ['visa', 'masterCard'],
+      supportedNetworks: ['masterCard', 'visa'],
       total: {
         label: 'Diplomatic Consulting Ltd.',
         amount: '1.20',
+        type: 'final',
       },
     };
 
@@ -91,6 +92,7 @@ export default class SumupWidgetComponent implements OnInit {
       // Behandeln Sie den Fall, dass Apple Pay nicht verfügbar ist
     }
   }
+  
 
   public createMerchantSession(checkoutId: string, merchantSession: any): Observable<any> {
     return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession);
