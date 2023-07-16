@@ -95,6 +95,7 @@ export default class SumupWidgetComponent implements OnInit {
   
 
   public createMerchantSession(checkoutId: string, merchantSession: any): Observable<any> {
-    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession);
+    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession,
+    {headers: {Authorization: 'Bearer sup_sk_atnfkdB1WoBqljw3pSep243tZHmD8PZIv'}});
   }
 }
