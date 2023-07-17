@@ -40,7 +40,7 @@ export default class SumupWidgetComponent implements OnInit {
       },
     ],
     merchantInfo: {
-      merchantId: '12345678901234567890',
+      merchantId: 'BCR2DN4TR3IL7SSC',
       merchantName: 'Demo Merchant',
     },
     transactionInfo: {
@@ -52,32 +52,20 @@ export default class SumupWidgetComponent implements OnInit {
     },
   };
 
-  obj = {
-    payment_type: 'google_pay',
-    id: '76e79bd9-236f-4dce-af33-1ffcdc392120',
-    amount: 1.2,
-    currency: 'EUR',
-    google_pay: {
-      apiVersionMinor: 0,
-      apiVersion: 2,
-      paymentMethodData: {
-        description: 'Visa •••• 8020',
-        tokenizationData: {
-          type: 'PAYMENT_GATEWAY',
-          token:
-            '{"signature":"MEQCIENii/wopYL1IX/1AZsdU/iKNyoiJJM0DM5zQtrvojf+AiBvpxPALUMW9eLYx7NU0G/lBhpwbQ4Kn4BFd784BeXnfQ\u003d\u003d","intermediateSigningKey":{"signedKey":"{"keyValue":"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAExGM+HkzIK7vAqc1HQgfQKSpK9w9zmZvn+w68Fn9FrVFUijDEg0R3REHWYKnNSEI2odK3lw1C9qlEXIXrPhPiWg\\u003d\\u003d","keyExpiration":"1690055951355"}","signatures":["MEQCIAeTbtrW1rJH+fbT9NMYzcn13oxeHU6lGqz9JA6l8tqJAiBMbeEjKwfHe/Hv65k0o6yiGp0bw5DLA2y0XJqjW1lDew\u003d\u003d"]},"protocolVersion":"ECv2","signedMessage":"{"encryptedMessage":"CdZqf5HZ6NUqrh56wA/uA5ATosipH/DiafAduv5AI79SnhjLPFaw0LM09N+oBb2vWEc4jJwBAwt/J4Ert5cs5uiaU0+joR39eugbI+pRMPzHNEBM0M5ZHPe5lTbZnb0iQs9XpUi+/sIAwcOrc9+tPB+ojc246fZ2LFnhK5a8L6DpE6msKxDGllsAO1Kn+hNlsUhj/aNqwwv5EV1dN+CmJccZtan9kZaaivQ3Ahh8TFvu0AARE8zXdiyPaFer5x6+TXz17iU6MagJn0yW4TCD106vNOLBR3MZvL57jCHot2Bq58M8OpDwexwWt5SPrPU3iG4yUnCRS2YG2+noz1qB3KVgwwRd3OMLPNw8tcFRaIDxxZOO0V2Ld5t6SP7VrR3w1C15J710VKyJG0TcYY8U9UxHKvNLxqGHBO5eG2b6bJnrsAmfSpvR5lEFkSEVWX1J4JQhpVkRm44Bt8HJNj3HpcpLPvQBzw2AAMUqgINYtiKYDd2/QwvaEvx3jCM0kzYcq8bHh5Z/liR1/WKmWVNzDKiIvucxQJTVsCBlaohmbSucxncQQ6IguGPJv4Xu3lhLjSiO/smO29L2Apu0PZQ9vTyPJaH+I3E\\u003d","ephemeralPublicKey":"BCG/uGY1gFCMNcDvFZSazmbmPKf39BEACtJAvKnbV90127oC0ZNKhVIABETeXrmqXahF0JGZS8fxjYxY7t8I3pA\\u003d","tag":"nQHvUwGc3N24NJvItBXEJGK5I2Kqga8wDHscLqcLuSI\\u003d"}"}',
-        },
-        type: 'CARD',
-        info: {
-          cardNetwork: 'VISA',
-          cardDetails: '8020',
-        },
-      },
-    },
-  };
-
   onLoadPaymentData(data: any) {
     console.log(data);
+
+    const temp = {
+      payment_type: 'google_pay',
+      id: this.route.snapshot.params['id'],
+      amount: 1.2,
+      currency: 'EUR',
+      google_pay: data['detail'],
+    };
+
+    console.log(temp);
+
+    this.createOrder(temp, this.route.snapshot.params['id']).subscribe(data => console.log(data));
   }
 
   navigateToCart() {
@@ -86,8 +74,8 @@ export default class SumupWidgetComponent implements OnInit {
 
   httpClient = inject(HttpClient);
 
-  public createOrder(test: any): Observable<any> {
-    return this.httpClient.put<any>('https://api.sumup.com/v0.1/checkouts/76e79bd9-236f-4dce-af33-1ffcdc392120', test, {
+  public createOrder(test: any, checkoutId: string): Observable<any> {
+    return this.httpClient.put<any>('https://api.sumup.com/v0.1/checkouts/' + checkoutId, test, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -105,11 +93,6 @@ export default class SumupWidgetComponent implements OnInit {
         }
       },
     });
-
-    this.createOrder(this.obj).subscribe(
-      data => console.log(data),
-      err => console.log(err)
-    );
 
     // const paymentsClient = new google.payments.api.PaymentsClient({
     //   environment: 'TEST',
