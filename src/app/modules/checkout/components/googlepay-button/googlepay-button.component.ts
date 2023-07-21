@@ -74,7 +74,7 @@ export class GooglepayButtonComponent {
       if (data['checkout_reference']) {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
-        this.threeDCheck(data.url, data.payload).subscribe(console.log);
+        this.threeDCheck(data.next_step.url, data.next_step.payload).subscribe(console.log);
       }
     });
   }
