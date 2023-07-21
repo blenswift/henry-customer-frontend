@@ -75,7 +75,6 @@ export class GooglepayButtonComponent {
     const paymentData = {
       payment_type: 'google_pay',
       id: this.route.snapshot.params['id'],
-      amount: 1.2,
       currency: 'EUR',
       google_pay: data['detail'],
     };
