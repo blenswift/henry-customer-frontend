@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, switchMap, tap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
 declare let google: any;
@@ -23,9 +23,16 @@ export class GooglepayButtonComponent {
   shoppingCartStore = inject(ShoppingCartStore);
   sumOfProductsPipe = inject(SumOfProductsPipe);
 
-  @ViewChild('autoSubmitForm') autoSubmitForm!: any;
+  @ViewChild('submitButton') submitButton!: ElementRef;
 
-  nextStep: any | null = null;
+  nextStepSubject = new BehaviorSubject<any>(null);
+  nextStep$ = this.nextStepSubject.asObservable().pipe(
+    tap(data => {
+      if (data) {
+        setTimeout(() => document.getElementById('submitButton')?.click());
+      }
+    })
+  );
 
   paymentDataRequest$ = this.shoppingCartStore.vm$.pipe(
     map(x => this.sumOfProductsPipe.transform(x.items, x.tip)),
@@ -78,11 +85,7 @@ export class GooglepayButtonComponent {
       if (data['checkout_reference']) {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
-        this.nextStep = data.next_step;
-        console.log(this.nextStep);
-        // setTimeout(() => {
-        //   this.autoSubmitForm.nativeElement.submit();
-        // }, 100);
+        this.nextStepSubject.next(data.next_step);
       }
     });
   }
