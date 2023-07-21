@@ -1,0 +1,9 @@
+<div class="flex h-full flex-col overflow-hidden">
+  <oxp-page-header (closeCard)="navigateToCart()">{{ 'BEZAHLEN' | translate | uppercase }}</oxp-page-header>
+  <div class="scrollbar-hide my-2 flex-1 self-center overflow-y-scroll">
+    <div class="rounded-xl border-2 p-4">
+      <oxp-googlepay-button></oxp-googlepay-button>
+      <oxp-sumup-widget></oxp-sumup-widget>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'checkout/:id',
-    loadComponent: () => import('./modules/sumup-widget/sumup-widget.component'),
+    loadComponent: () => import('./modules/checkout/checkout.component'),
   },
   {
     path: 'notfound',

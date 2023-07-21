@@ -1,0 +1,9 @@
+<google-pay-button
+  environment="PRODUCTION"
+  buttonType="buy"
+  buttonColor="black"
+  buttonSizeMode="fill"
+  [paymentRequest]="data"
+  (loadpaymentdata)="onLoadPaymentData($event)"
+  *ngIf="paymentDataRequest$ | async as data"
+  class="w-full"></google-pay-button>

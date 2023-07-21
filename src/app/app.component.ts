@@ -51,10 +51,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onLoadPaymentData(event: any) {
-    console.log(event);
-  }
-
   subscribeToNotifications() {
     this.swPush
       .requestSubscription({
