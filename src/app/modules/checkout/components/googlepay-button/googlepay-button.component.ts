@@ -35,7 +35,7 @@ export class GooglepayButtonComponent {
   );
 
   paymentDataRequest$ = this.shoppingCartStore.vm$.pipe(
-    map(x => this.sumOfProductsPipe.transform(x.items, x.tip)),
+    map(x => x.order?.totalPrice),
     switchMap(price => {
       return of({
         apiVersion: 2,
@@ -63,7 +63,7 @@ export class GooglepayButtonComponent {
         transactionInfo: {
           totalPriceStatus: 'FINAL',
           totalPriceLabel: 'Total',
-          totalPrice: '' + price / 100,
+          totalPrice: '' + price! / 100,
           currencyCode: 'EUR',
           countryCode: 'DE',
         },
