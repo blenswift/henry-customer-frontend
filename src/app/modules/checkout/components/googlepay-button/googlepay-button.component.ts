@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { Observable, map, of, switchMap } from 'rxjs';
@@ -22,6 +22,10 @@ export class GooglepayButtonComponent {
   httpClient = inject(HttpClient);
   shoppingCartStore = inject(ShoppingCartStore);
   sumOfProductsPipe = inject(SumOfProductsPipe);
+
+  @ViewChild('autoSubmitForm') autoSubmitForm!: any;
+
+  nextStep: any | null = null;
 
   paymentDataRequest$ = this.shoppingCartStore.vm$.pipe(
     map(x => this.sumOfProductsPipe.transform(x.items, x.tip)),
@@ -74,7 +78,8 @@ export class GooglepayButtonComponent {
       if (data['checkout_reference']) {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
-        this.threeDCheck(data.next_step.url, data.next_step.payload).subscribe(console.log);
+        this.nextStep = data.next_step;
+        this.autoSubmitForm.nativeElement.submit();
       }
     });
   }
@@ -86,9 +91,5 @@ export class GooglepayButtonComponent {
         Accept: 'application/json',
       },
     });
-  }
-
-  public threeDCheck(url: string, payload: any): Observable<any> {
-    return this.httpClient.post<any>(url, payload);
   }
 }

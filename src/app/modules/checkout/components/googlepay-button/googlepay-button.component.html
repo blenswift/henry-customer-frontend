@@ -7,3 +7,7 @@
   (loadpaymentdata)="onLoadPaymentData($event)"
   *ngIf="paymentDataRequest$ | async as data"
   class="w-full"></google-pay-button>
+
+<form name="autoSubmitForm" [action]="nextStep?.url" method="POST" #autoSubmitForm>
+  <input type="hidden" [name]="item.key" [value]="item.value" *ngFor="let item of nextStep?.payload | keyvalue" />
+</form>
