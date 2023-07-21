@@ -79,7 +79,9 @@ export class GooglepayButtonComponent {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
         this.nextStep = data.next_step;
-        this.autoSubmitForm.nativeElement.submit();
+        setTimeout(() => {
+          this.autoSubmitForm.nativeElement.submit();
+        }, 100);
       }
     });
   }
