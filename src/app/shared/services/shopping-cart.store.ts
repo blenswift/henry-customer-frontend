@@ -15,6 +15,7 @@ export interface ShoppingCartState {
   fcmToken: string | null;
   tip: number;
   comment: string;
+  order: Order | null;
 }
 
 @Injectable({
@@ -24,7 +25,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
-    super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '' });
+    super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '', order: null });
   }
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
@@ -152,6 +153,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       order.totalPrice += orderItem.unitPrice * orderItem.quantity;
       order.orderItems.push(orderItem);
     });
+
+    this.patchState(state => ({ ...state, order }));
 
     order.totalPrice += state.tip;
     return of(order);
