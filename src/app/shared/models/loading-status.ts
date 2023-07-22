@@ -1,1 +1,1 @@
-export type LoadingStatus = 'LOADING' | 'DATA' | 'ERROR' | 'CLOSED' | 'OPEN';
+export type LoadingStatus = 'LOADING' | 'DATA' | 'ERROR' | 'CLOSED' | 'OPEN' | 'INIT';

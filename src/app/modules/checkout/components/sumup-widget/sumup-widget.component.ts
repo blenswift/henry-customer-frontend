@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
+import { CheckoutStore } from '../../services/checkout.store';
 import { GooglepayButtonComponent } from '../googlepay-button/googlepay-button.component';
 declare let SumUpCard: any;
 
@@ -17,6 +18,7 @@ declare let SumUpCard: any;
 export default class SumupWidgetComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
+  checkoutStore = inject(CheckoutStore);
 
   @ViewChild('submitButton') submitButton!: ElementRef;
 

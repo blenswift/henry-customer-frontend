@@ -6,6 +6,7 @@ import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { BehaviorSubject, Observable, map, of, switchMap, tap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
+import { CheckoutStore } from '../../services/checkout.store';
 declare let google: any;
 
 @Component({
@@ -22,6 +23,7 @@ export class GooglepayButtonComponent {
   httpClient = inject(HttpClient);
   shoppingCartStore = inject(ShoppingCartStore);
   sumOfProductsPipe = inject(SumOfProductsPipe);
+  checkoutStore = inject(CheckoutStore);
 
   @ViewChild('submitButton') submitButton!: ElementRef;
 
@@ -79,8 +81,8 @@ export class GooglepayButtonComponent {
       google_pay: data['detail'],
     };
 
+    this.checkoutStore.updateStatus('LOADING');
     this.createOrder(paymentData).subscribe(data => {
-      console.log(data);
       if (data['checkout_reference']) {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
