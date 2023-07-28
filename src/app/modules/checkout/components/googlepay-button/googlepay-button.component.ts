@@ -53,7 +53,7 @@ export class GooglepayButtonComponent {
               type: 'PAYMENT_GATEWAY',
               parameters: {
                 gateway: 'sumup',
-                gatewayMerchantId: 'MCKL6CKF',
+                gatewayMerchantId: this.route.snapshot.params['gatewayMerchantId'],
               },
             },
           },
@@ -82,7 +82,7 @@ export class GooglepayButtonComponent {
     };
 
     this.checkoutStore.updateStatus('LOADING');
-    this.createOrder(paymentData).subscribe(data => {
+    this.createCheckoutAtSumupWithGooglePay(paymentData).subscribe(data => {
       if (data['checkout_reference']) {
         this.router.navigate(['/orders'], { queryParams: { trackingId: data['checkout_reference'] } });
       } else {
@@ -91,7 +91,7 @@ export class GooglepayButtonComponent {
     });
   }
 
-  public createOrder(paymentData: any): Observable<any> {
+  public createCheckoutAtSumupWithGooglePay(paymentData: any): Observable<any> {
     return this.httpClient.put<any>('https://api.sumup.com/v0.1/checkouts/' + this.route.snapshot.params['id'], paymentData, {
       headers: {
         'Content-Type': 'application/json',

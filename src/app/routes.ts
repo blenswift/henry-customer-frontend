@@ -18,7 +18,7 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/order-detail/order-detail.component'),
   },
   {
-    path: 'checkout/:id',
+    path: 'checkout/:id/:gatewayMerchantId',
     loadComponent: () => import('./modules/checkout/checkout.component'),
   },
   {

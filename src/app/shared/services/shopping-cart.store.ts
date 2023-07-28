@@ -71,7 +71,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
               if (data.redirectUrl) {
                 window.location.href = data.redirectUrl;
               } else {
-                this.router.navigate(['checkout/' + data.checkoutId]);
+                this.router.navigate(['checkout/' + data.checkoutId + '/' + data.merchantId]);
               }
             },
             () => {}
