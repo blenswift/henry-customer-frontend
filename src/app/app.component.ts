@@ -9,11 +9,10 @@ import localeEn from '@angular/common/locales/en';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeEnExtra from '@angular/common/locales/extra/en';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
-import { filter, tap } from 'rxjs';
 
 @Component({
   selector: 'oxp-root',
@@ -29,17 +28,7 @@ export class AppComponent implements OnInit {
   private shoppingCartStore = inject(ShoppingCartStore);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private orderStore = inject(OrderStore);
-
-  // das sollte in eine Initializer Datei ausgelagert werden...
-  init$ = this.route.params.pipe(
-    filter(params => !!params['qrcode'] && !!params['restaurantId']),
-    tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
-    tap(params => sessionStorage.setItem('restaurantId', params['restaurantId'])),
-    tap(() => this.orderStore.loadCache()),
-    tap(() => this.shoppingCartStore.loadCache())
-  );
 
   constructor(private swPush: SwPush) {
     const language = navigator.language.substring(0, 2);

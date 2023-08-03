@@ -62,7 +62,7 @@ export default class ShoppingCartDialogComponent {
 
   constructor() {
     this.shoppingCartStore.loadCache();
-    this.restaurantStore.load(this.route.snapshot.params['qrcode']!);
+    this.restaurantStore.load();
   }
 
   //ShoppingCartState

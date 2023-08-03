@@ -18,8 +18,9 @@ export default class RedirectComponent {
 
   public redirect$ = this.route.params.pipe(
     filter(params => !!params['qrcode']),
+    tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
     switchMap(params =>
-      of(this.restaurantStore.load(params['qrcode'])).pipe(
+      of(this.restaurantStore.load()).pipe(
         switchMap(() => this.restaurantStore.restaurantId$),
         tap(restaurantId => {
           this.router.navigate(['menu/' + params['qrcode'] + '/' + restaurantId]);
