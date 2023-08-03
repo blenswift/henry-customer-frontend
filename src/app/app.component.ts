@@ -34,10 +34,11 @@ export class AppComponent implements OnInit {
 
   // das sollte in eine Initializer Datei ausgelagert werden...
   init$ = this.route.params.pipe(
-    filter(params => !!params['qrcode']),
+    filter(params => !!params['qrcode'] && !!params['restaurantId']),
     tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
-    tap(params => this.orderStore.loadCache(params['qrcode'])),
-    tap(params => this.shoppingCartStore.loadCache(params['qrcode']))
+    tap(params => sessionStorage.setItem('restaurantId', params['restaurantId'])),
+    tap(() => this.orderStore.loadCache()),
+    tap(() => this.shoppingCartStore.loadCache())
   );
 
   constructor(private swPush: SwPush) {

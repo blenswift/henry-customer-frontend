@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, of, switchMap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
@@ -36,6 +36,7 @@ export default class ShoppingCartDialogComponent {
   private fb = inject(FormBuilder);
   router = inject(Router);
   translateService = inject(TranslateService);
+  route = inject(ActivatedRoute);
 
   public shoppingCartVm$ = this.shoppingCartStore.vm$;
   public restaurantInfoVm$ = this.restaurantStore.info$;
@@ -60,8 +61,8 @@ export default class ShoppingCartDialogComponent {
   );
 
   constructor() {
-    this.shoppingCartStore.loadCache(sessionStorage.getItem('qrcode')!);
-    this.restaurantStore.load(sessionStorage.getItem('qrcode')!);
+    this.shoppingCartStore.loadCache();
+    this.restaurantStore.load(this.route.snapshot.params['qrcode']!);
   }
 
   //ShoppingCartState
@@ -74,6 +75,6 @@ export default class ShoppingCartDialogComponent {
   }
 
   navigateToProducts() {
-    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);
+    this.router.navigate(['/menu/' + this.route.snapshot.params['qrcode'] + '/' + this.route.snapshot.params['restaurantId']]);
   }
 }

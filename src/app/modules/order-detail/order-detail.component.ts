@@ -45,7 +45,7 @@ export default class OrderDetailComponent {
   );
 
   navigateToProducts() {
-    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);
+    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId')]);
   }
 
   downloadBill() {

@@ -12,6 +12,7 @@ import { MenuService } from './menu.service';
 import { RestaurantService } from './restaurant.service';
 
 export interface RestaurantState {
+  id: string;
   categories: Category[];
   products: Product[];
   info: Restaurant | null;
@@ -24,8 +25,11 @@ export interface Filter {
   active: boolean;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RestaurantStore extends ComponentStore<RestaurantState> {
+  readonly restaurantId$ = this.select(state => state.id);
   readonly categories$ = this.select(state => state.categories);
   readonly products$ = this.select(state => state.products);
   readonly info$ = this.select(state => state.info);
@@ -40,15 +44,15 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private translateService: TranslateService,
     private titleService: Title
   ) {
-    super({ categories: [], filters: [], products: [], info: null, status: 'LOADING' });
+    super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING' });
   }
 
-  load = this.effect((qrCode$: Observable<string>) => {
-    return qrCode$.pipe(
+  load = this.effect($ => {
+    return $.pipe(
       tap(() => this.patchState({ status: 'LOADING' })),
-      switchMap(qrCode =>
+      switchMap(() =>
         concat(
-          this.menuService.getMenu(qrCode).pipe(
+          this.menuService.getMenu(sessionStorage.getItem('qrcode')!).pipe(
             tapResponse(
               menu => {
                 this.patchState({
@@ -62,11 +66,12 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
               }
             )
           ),
-          this.restaurantService.getRestaurant(qrCode).pipe(
+          this.restaurantService.getRestaurant(sessionStorage.getItem('qrcode')!).pipe(
             tapResponse(
               info => {
-                this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED' });
+                this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED', id: info.id });
                 this.titleService.setTitle('OrderXPay - ' + info.name);
+                sessionStorage.setItem('restaurantId', info.id);
               },
               err => {
                 this.patchState({ status: 'ERROR' });

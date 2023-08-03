@@ -35,7 +35,7 @@ export default class OrdersComponent {
   translateService = inject(TranslateService);
 
   orders$ = this.route.queryParams.pipe(
-    tap(() => this.orderStore.loadCache(sessionStorage.getItem('qrcode')!)),
+    tap(() => this.orderStore.loadCache()),
     tap(params => this.orderStore.cacheOrder(params['trackingId'])),
     switchMap(() => this.orderStore.orders$)
   );
@@ -45,10 +45,12 @@ export default class OrdersComponent {
   approvedOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status === 'APPROVED')));
 
   navigate() {
-    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode')]);
+    this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId')]);
   }
 
   navigateToOrder(order: OrderTracking) {
-    this.router.navigate(['/order-details/' + order.trackingId]);
+    this.router.navigate([
+      '/order-details/' + order.trackingId + '/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId'),
+    ]);
   }
 }

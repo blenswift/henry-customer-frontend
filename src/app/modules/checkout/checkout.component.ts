@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
 import { GooglepayButtonComponent } from './components/googlepay-button/googlepay-button.component';
@@ -18,11 +18,12 @@ import { CheckoutStore } from './services/checkout.store';
 })
 export default class CheckoutComponent {
   router = inject(Router);
+  route = inject(ActivatedRoute);
   checkoutStore = inject(CheckoutStore);
 
   vm$ = this.checkoutStore.vm$;
 
   navigateToCart() {
-    this.router.navigate(['/shoppingcart']);
+    this.router.navigate(['/shoppingcart/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId')]);
   }
 }

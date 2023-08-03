@@ -40,7 +40,7 @@ import { Filter, RestaurantStore } from './services/restaurant.store';
   ],
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
-  providers: [RestaurantStore],
+  // providers: [RestaurantStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class MenuRootComponent implements AfterViewInit {
@@ -54,11 +54,11 @@ export default class MenuRootComponent implements AfterViewInit {
   filterCtrl = new FormControl('', { nonNullable: true });
 
   private products$ = this.route.params.pipe(
-    filter(params => !!params['qrcode']),
-    tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
+    filter(params => !!params['qrcode'] && !!params['restaurantId']),
     tap(params => this.restaurantStore.load(params['qrcode'])),
-    tap(params => this.orderStore.loadCache(params['qrcode'])),
-    tap(params => this.shoppingCartStore.loadCache(params['qrcode'])),
+    tap(params => sessionStorage.setItem('qrcode', params['qrcode'])),
+    tap(() => this.orderStore.loadCache()),
+    tap(() => this.shoppingCartStore.loadCache()),
     tap(() => this.orderStore.checkOrderStatus()),
     switchMap(() => this.restaurantStore.products$)
   );

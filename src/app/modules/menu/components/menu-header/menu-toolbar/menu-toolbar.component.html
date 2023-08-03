@@ -20,7 +20,7 @@
       [matBadge]="itemCount"
       [matBadgeHidden]="itemCount <= 0"
       matBadgeSize="medium"
-      routerLink="/shoppingcart">
+      (click)="openShoppingCart()">
       <mat-icon class="scale-150">shopping_basket</mat-icon>
     </button>
   </div>

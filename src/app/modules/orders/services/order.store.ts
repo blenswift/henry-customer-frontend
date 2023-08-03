@@ -30,7 +30,7 @@ export class OrderStore extends ComponentStore<OrderState> {
           tapResponse(
             data => {
               this.cache(data);
-              this.shoppingCartStore.clearShoppingCart(sessionStorage.getItem('qrcode')!);
+              this.shoppingCartStore.clearShoppingCart(sessionStorage.getItem('restaurantId')!);
             },
             err => {}
           )
@@ -61,18 +61,18 @@ export class OrderStore extends ComponentStore<OrderState> {
     const orders = state.orders;
     const newOrders = orders.filter(x => x.id != order.id);
     newOrders.push(order);
-    localStorage.setItem('ORDER' + sessionStorage.getItem('qrcode'), JSON.stringify(newOrders));
+    localStorage.setItem('ORDER' + sessionStorage.getItem('restaurantId'), JSON.stringify(newOrders));
     return { ...state, orders: newOrders };
   });
 
-  loadCache = this.updater((state, qrCode: string) => {
-    const orders = JSON.parse(localStorage.getItem('ORDER' + qrCode) ?? '[]');
+  loadCache = this.updater(state => {
+    const orders = JSON.parse(localStorage.getItem('ORDER' + sessionStorage.getItem('restaurantId')) ?? '[]');
     return { orders };
   });
 
   cache = this.updater((state, orderTracking: OrderTracking) => {
     const orders = [orderTracking, ...state.orders];
-    localStorage.setItem('ORDER' + sessionStorage.getItem('qrcode'), JSON.stringify(orders));
+    localStorage.setItem('ORDER' + sessionStorage.getItem('restaurantId'), JSON.stringify(orders));
     return {
       orders,
     };

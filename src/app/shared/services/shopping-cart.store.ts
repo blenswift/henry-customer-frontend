@@ -33,8 +33,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       tap(productCart => {
         this.patchState(state => {
           const items = [...state.items, productCart];
-          const qrCode = sessionStorage.getItem('qrcode');
-          localStorage.setItem('ITEMS' + qrCode!, JSON.stringify(items));
+          const restaurantId = sessionStorage.getItem('restaurantId');
+          localStorage.setItem('ITEMS' + restaurantId!, JSON.stringify(items));
           return {
             ...state,
             items,
@@ -50,8 +50,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         this.patchState(state => {
           const items = state.items;
           items.splice(itemIndex, 1);
-          const qrCode = sessionStorage.getItem('qrcode');
-          localStorage.setItem('ITEMS' + qrCode!, JSON.stringify(items));
+          const restaurantId = sessionStorage.getItem('restaurantId');
+          localStorage.setItem('ITEMS' + restaurantId!, JSON.stringify(items));
           return {
             ...state,
             items: [...items],
@@ -81,13 +81,13 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     );
   });
 
-  loadCache = this.updater((state, qrCode: string) => {
-    const items = JSON.parse(localStorage.getItem('ITEMS' + qrCode) ?? '[]');
+  loadCache = this.updater(state => {
+    const items = JSON.parse(localStorage.getItem('ITEMS' + sessionStorage.getItem('restaurantId')) ?? '[]');
     return { ...state, items };
   });
 
-  clearShoppingCart = this.updater((state, qrCode: string) => {
-    localStorage.removeItem('ITEMS' + qrCode);
+  clearShoppingCart = this.updater((state, restaurantId: string) => {
+    localStorage.removeItem('ITEMS' + restaurantId);
     return {
       ...state,
       items: [],
