@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, concat, map, switchMap, tap } from 'rxjs';
@@ -42,7 +43,8 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private restaurantService: RestaurantService,
     private snackBar: MatSnackBar,
     private translateService: TranslateService,
-    private titleService: Title
+    private titleService: Title,
+    private router: Router
   ) {
     super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING' });
   }
@@ -63,6 +65,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
               },
               err => {
                 this.patchState({ status: 'ERROR' });
+                this.router.navigate(['notfound']);
               }
             )
           ),
@@ -75,6 +78,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
               },
               err => {
                 this.patchState({ status: 'ERROR' });
+                this.router.navigate(['notfound']);
               }
             )
           )
