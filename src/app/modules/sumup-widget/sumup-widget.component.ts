@@ -59,31 +59,37 @@ export default class SumupWidgetComponent implements OnInit {
         console.log("validation: " + validationURL);
 
         //{"target":"https://apple-pay-gateway.apple.com/paymentservices/startSession","context":"pay.sumup.io"}
-        const merchantSession = {
+        /*const merchantSession = {
           target: validationURL,
-          context: 'dev.orderxpay.eu',
+          context: 'www.dev.orderxpay.eu',
         };
 
-        this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);
+        this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);*/
+
+        const merchantSession = {
+          merchantIdentifier: "merchant.com.blenswift-technology.orderxpay",
+          displayName: "QSkip",
+          initiative: "web",
+          initiativeContext: "www.dev.orderxpay.eu"
+        };
+        console.log(merchantSession);
+        this.createMerchantSessionOxp(this.route.snapshot.params['id'], merchantSession)
+        .subscribe((ms:any) => session.completeMerchantValidation(ms));
 
         // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
         //   session.completeMerchantValidation(response);
         // });
       };
 
-      session.completeMerchantValidation = (event: any) => {
-        console.log('COMPLETE MERCHANT VALIDATION');
-        console.log(event);
-      };
-
       session.onpaymentauthorized = (event: any) => {
         // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
+        console.log(event);
         const paymentToken = event.payment.token;
-        this.httpClient
+       /* this.httpClient
           .post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken })
           .subscribe(response => {
             session.completePayment(ApplePaySession.STATUS_SUCCESS);
-          });
+          });*/
       };
 
       session.begin();
@@ -95,7 +101,10 @@ export default class SumupWidgetComponent implements OnInit {
   
 
   public createMerchantSession(checkoutId: string, merchantSession: any): Observable<any> {
-    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession,
-    {headers: {Authorization: 'Bearer sup_sk_atnfkdB1WoBqljw3pSep243tZHmD8PZIv'}});
+    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}/apple-pay-session`, merchantSession);
+  }
+
+  public createMerchantSessionOxp(checkoutId: string, merchantSession: any): Observable<any> {
+    return this.httpClient.post<any>(`https://www.dev.orderxpay.eu/apple/orders/${checkoutId}/apple-pay-session`, merchantSession);
   }
 }
