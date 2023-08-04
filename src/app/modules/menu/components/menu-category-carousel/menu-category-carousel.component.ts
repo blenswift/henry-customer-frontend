@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Category } from '../../../../../shared/models/category';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { Category } from 'src/app/shared/models/category';
 import { CategoryComponent } from './category/category.component';
 
 @Component({
   selector: 'oxp-menu-category-carousel',
   standalone: true,
-  imports: [CommonModule, CategoryComponent],
+  imports: [CommonModule, CategoryComponent, MatDividerModule, MatIconModule],
   templateUrl: './menu-category-carousel.component.html',
   styleUrls: ['./menu-category-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,8 +26,6 @@ export class MenuCategoryCarouselComponent {
   public get categories(): Category[] | null {
     return this._categories;
   }
-
-  @Input() scrolling: boolean | null = false;
 
   @Output() categoryClicked = new EventEmitter<Category>();
 

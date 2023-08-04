@@ -1,0 +1,15 @@
+<div class="mb-4 bg-white shadow-md shadow-slate-200">
+  <mat-divider></mat-divider>
+  <div class="flex flex-row">
+    <div class="scrollbar-hide flex gap-2 overflow-x-auto px-4 py-2">
+      <oxp-category
+        *ngFor="let category of categories"
+        [category]="category"
+        (clicked)="clicked($event)"
+        class="max-w-11 min-w-11 flex-none"></oxp-category>
+    </div>
+    <span class="ml-auto flex items-center pr-4">
+      <mat-icon>search</mat-icon>
+    </span>
+  </div>
+</div>

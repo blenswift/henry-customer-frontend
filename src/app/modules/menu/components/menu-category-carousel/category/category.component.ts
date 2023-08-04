@@ -12,6 +12,5 @@ import { Category } from 'src/app/shared/models/category';
 })
 export class CategoryComponent {
   @Input() category!: Category;
-  @Input() scrolling: boolean | null = false;
   @Output() clicked = new EventEmitter<Category>();
 }
