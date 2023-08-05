@@ -68,7 +68,7 @@ export default class SumupWidgetComponent implements OnInit {
 
         const merchantSession = {
           merchantIdentifier: "merchant.com.blenswift-technology.orderxpay",
-          displayName: "QSkip",
+          displayName: "Diplomatic Consulting Ltd.",
           initiative: "web",
           initiativeContext: "www.dev.orderxpay.eu"
         };
