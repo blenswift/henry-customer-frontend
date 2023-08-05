@@ -83,8 +83,8 @@ export default class SumupWidgetComponent implements OnInit {
 
       session.onpaymentauthorized = (event: any) => {
         // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
-        console.log(event);
-        const paymentToken = event.payment.token;
+        //console.log(event);
+        //const paymentToken = event.payment.token;
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
         console.log(event);
        /* this.httpClient
