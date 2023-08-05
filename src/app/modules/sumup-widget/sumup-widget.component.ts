@@ -85,7 +85,7 @@ export default class SumupWidgetComponent implements OnInit {
         // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
         //console.log(event);
         //const paymentToken = event.payment.token;
-        session.completePayment(ApplePaySession.STATUS_SUCCESS);
+        session.completePayment({status: 0});
         console.log(event);
        /* this.httpClient
           .post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken })
