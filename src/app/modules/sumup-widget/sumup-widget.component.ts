@@ -116,10 +116,12 @@ export default class SumupWidgetComponent implements OnInit {
 
   public processCheckout(checkoutId: string, token: any): Observable<any> {
     return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}`, {
-      "payment_type": "apple_pay",
-  "id": "9be2da07-a7bd-4877-bc0a-e16cd909a876",
-  "amount": 1.2,
-  "currency": "EUR",
+      payment_type:"apple_pay",
+      merchant_code:"MCKL6CKF",
+      id:"d30ed085-909b-4daa-98ed-b7cf43d3444a",
+      status:"PENDING",
+      amount: 1.2, 
+      currency:"EUR",
   "apple_pay": {
     token: token 
     }});
