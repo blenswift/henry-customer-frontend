@@ -59,19 +59,19 @@ export default class SumupWidgetComponent implements OnInit {
         console.log("validation: " + validationURL);
 
         //{"target":"https://apple-pay-gateway.apple.com/paymentservices/startSession","context":"pay.sumup.io"}
-        /*const merchantSession = {
+        const merchantSession = {
           target: validationURL,
           context: 'www.dev.orderxpay.eu',
         };
 
-        this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);*/
+        //this.createMerchantSession(this.route.snapshot.params['id'], merchantSession).subscribe(console.log);*/
 
-        const merchantSession = {
+        /*const merchantSession = {
           merchantIdentifier: "merchant.com.blenswift-technology.orderxpay",
           displayName: "Diplomatic Consulting Ltd.",
           initiative: "web",
           initiativeContext: "www.dev.orderxpay.eu"
-        };
+        };*/
         console.log(merchantSession);
         this.createMerchantSessionOxp(this.route.snapshot.params['id'], merchantSession)
         .subscribe((ms:any) => {
