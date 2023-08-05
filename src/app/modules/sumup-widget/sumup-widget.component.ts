@@ -74,7 +74,10 @@ export default class SumupWidgetComponent implements OnInit {
         };
         console.log(merchantSession);
         this.createMerchantSessionOxp(this.route.snapshot.params['id'], merchantSession)
-        .subscribe((ms:any) => session.completeMerchantValidation(ms));
+        .subscribe((ms:any) => {
+          console.log('onvalidatemerchant');
+          session.completeMerchantValidation(ms);
+        });
 
         // this.httpClient.get('https://your-server/validate-merchant?validationUrl=' + validationURL).subscribe(response => {
         //   session.completeMerchantValidation(response);
@@ -83,10 +86,11 @@ export default class SumupWidgetComponent implements OnInit {
 
       session.onpaymentauthorized = (event: any) => {
         // Senden Sie das Zahlungstoken und die Bestell-ID an Ihren Server zur Verarbeitung
-        //console.log(event);
-        //const paymentToken = event.payment.token;
-        session.completePayment({status: 0});
+        console.log('onpaymentauthorized')
         console.log(event);
+        const paymentToken = event.payment.token;
+        this.processCheckout(this.route.snapshot.params['id'], paymentToken).subscribe(()=>session.completePayment({status: 0}),console.log);
+        //console.log(event);
        /* this.httpClient
           .post('https://your-server/process-payment', { orderId: '123456', paymentToken: paymentToken })
           .subscribe(response => {
@@ -108,5 +112,16 @@ export default class SumupWidgetComponent implements OnInit {
 
   public createMerchantSessionOxp(checkoutId: string, merchantSession: any): Observable<any> {
     return this.httpClient.post<any>(`https://www.dev.orderxpay.eu/apple/orders/${checkoutId}/apple-pay-session`, merchantSession);
+  }
+
+  public processCheckout(checkoutId: string, token: any): Observable<any> {
+    return this.httpClient.put<any>(`https://api.sumup.com/v0.1/checkouts/${checkoutId}`, {
+      "payment_type": "apple_pay",
+  "id": "9be2da07-a7bd-4877-bc0a-e16cd909a876",
+  "amount": 1.2,
+  "currency": "EUR",
+  "apple_pay": {
+    token: token 
+    }});
   }
 }
