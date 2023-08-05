@@ -1,3 +1,4 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +13,16 @@ import { ProductCardComponent } from './product-card/product-card.component';
 @Component({
   selector: 'oxp-menu-list',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, MatIconModule, MatButtonModule, MatChipsModule, TranslateModule, MatDividerModule],
+  imports: [
+    CommonModule,
+    ProductCardComponent,
+    MatIconModule,
+    MatButtonModule,
+    MatChipsModule,
+    TranslateModule,
+    MatDividerModule,
+    ScrollingModule,
+  ],
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

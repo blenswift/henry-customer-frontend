@@ -8,8 +8,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
@@ -43,6 +44,9 @@ import { RestaurantStore } from './services/restaurant.store';
     MatSnackBarModule,
     MatBottomSheetModule,
     MenuCategoryCarouselComponent,
+    MatButtonModule,
+    TranslateModule,
+    MatToolbarModule,
   ],
 })
 export default class MenuRootComponent {
@@ -52,6 +56,7 @@ export default class MenuRootComponent {
   private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  public translateService = inject(TranslateService);
 
   filterCtrl = new FormControl('', { nonNullable: true });
 
@@ -64,6 +69,12 @@ export default class MenuRootComponent {
     tap(() => this.shoppingCartStore.loadCache()),
     tap(() => this.orderStore.checkOrderStatus()),
     switchMap(() => this.restaurantStore.products$)
+  );
+
+  shoppingCartAmount$ = this.shoppingCartStore.order$.pipe(
+    map(order => order?.orderItems),
+    map(orderItems => (orderItems ? orderItems.map(item => item.quantity) : [])),
+    map(quantities => quantities.reduce((sum, current) => sum + current, 0))
   );
 
   categories$ = this.restaurantStore.categories$.pipe(
@@ -115,6 +126,7 @@ export default class MenuRootComponent {
   }
 
   categoryClicked(category: Category) {
+    console.log(category);
     const htmlElement = document.getElementById(category.id);
     if (htmlElement) {
       htmlElement.scrollIntoView({
