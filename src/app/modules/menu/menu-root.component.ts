@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -17,7 +17,6 @@ import { Product } from 'src/app/shared/models/product';
 import { ProductCart } from './../../shared/models/product-cart';
 import { ShoppingCartState, ShoppingCartStore } from './../../shared/services/shopping-cart.store';
 import { OrderStore } from './../orders/services/order.store';
-import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
 import { MenuCategoryCarouselComponent } from './components/menu-category-carousel/menu-category-carousel.component';
 import { MenuHeaderComponent } from './components/menu-header/menu-header.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
@@ -48,12 +47,15 @@ import { RestaurantStore } from './services/restaurant.store';
     TranslateModule,
     MatToolbarModule,
   ],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+  ],
 })
 export default class MenuRootComponent {
   private restaurantStore = inject(RestaurantStore);
   private shoppingCartStore = inject(ShoppingCartStore);
   private orderStore = inject(OrderStore);
-  private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   public translateService = inject(TranslateService);
@@ -87,13 +89,7 @@ export default class MenuRootComponent {
   filters$ = this.restaurantStore.filters$;
 
   restaurant$ = this.restaurantStore.info$;
-  status$ = this.restaurantStore.status$.pipe(
-    tap(x => {
-      if (x === 'ERROR') {
-        this.router.navigate(['notfound']);
-      }
-    })
-  );
+  status$ = this.restaurantStore.status$;
   orders$ = this.orderStore.orders$;
   shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
   filteredProductList$ = combineLatest([this.products$, this.filterCtrl.valueChanges.pipe(startWith('')), this.filters$]).pipe(
@@ -109,16 +105,12 @@ export default class MenuRootComponent {
   constructor(private _bottomSheet: MatBottomSheet) {}
 
   openProductModal(product: Product) {
-    const dialogRef = this.dialog.open(ProductToShoppingCartDialogComponent, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
+    const dialogRef = this._bottomSheet.open(ProductToShoppingCartDialogComponent, {
       data: { product: structuredClone(product), quantity: 1 } as ProductCart,
     });
 
     dialogRef
-      .afterClosed()
+      .afterDismissed()
       .pipe(filter(x => x))
       .subscribe((result: ProductCart) => {
         this.shoppingCartStore.addItem(result);
@@ -126,7 +118,6 @@ export default class MenuRootComponent {
   }
 
   categoryClicked(category: Category) {
-    console.log(category);
     const htmlElement = document.getElementById(category.id);
     if (htmlElement) {
       htmlElement.scrollIntoView({
@@ -137,7 +128,11 @@ export default class MenuRootComponent {
     }
   }
 
-  openBottomSheet(): void {
-    this._bottomSheet.open(BottomSheetComponent);
+  openShoppingCart() {
+    this.router.navigate(['/shoppingcart/' + this.route.snapshot.params['qrcode'] + '/' + this.route.snapshot.params['restaurantId']]);
+  }
+
+  openOrders() {
+    this.router.navigate(['/orders']);
   }
 }

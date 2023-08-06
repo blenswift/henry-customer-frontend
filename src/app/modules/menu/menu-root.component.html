@@ -27,13 +27,13 @@
   <div class="bg-color flex h-full w-full flex-row justify-center align-middle" *ngIf="restaurant.status === 'LOADING'">
     <mat-spinner></mat-spinner>
   </div>
-  <mat-toolbar class="top-shadow sticky bottom-0 flex h-[75px] flex-row items-center bg-white">
+  <mat-toolbar class="top-shadow sticky bottom-0 flex h-[75px] flex-row items-center bg-white" *ngIf="restaurant.status === 'DATA'">
     <button class="flex flex-1 flex-col items-center justify-center font-medium">
       <mat-icon class="scale-150">restaurant_menu</mat-icon>
       Menü
     </button>
     <div class="mb-[3.25rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
-      <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white">
+      <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
         <mat-icon class="scale-125">shopping_cart</mat-icon>
       </button>
       <div class="text-lg font-semibold" *ngIf="restaurant.shoppingCart?.order?.totalPrice">
@@ -43,7 +43,7 @@
       </div>
       <div class="text-lg font-semibold" *ngIf="!restaurant.shoppingCart?.order?.totalPrice">&nbsp;</div>
     </div>
-    <button class="flex flex-1 flex-col items-center justify-center font-medium">
+    <button class="flex flex-1 flex-col items-center justify-center font-medium" (click)="openOrders()">
       <mat-icon class="scale-150">receipt_long</mat-icon>
       Bestellungen
     </button>

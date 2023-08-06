@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { map, switchMap, tap } from 'rxjs';
+import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
 import { OrderComponent } from './components/order/order.component';
 import { OrderTracking } from './models/order-tracking';
 import { OrderStore } from './services/order.store';
@@ -23,6 +24,7 @@ import { OrderStore } from './services/order.store';
     MatProgressSpinnerModule,
     MatExpansionModule,
     OrderComponent,
+    PageHeaderComponent,
   ],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],

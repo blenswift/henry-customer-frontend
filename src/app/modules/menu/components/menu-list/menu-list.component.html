@@ -1,17 +1,14 @@
 <div class="overflow-auto">
   <div class="grid bg-white pb-4">
-    <ng-container *ngFor="let product of products; let index = index; let even = even">
+    <ng-container *ngFor="let product of products; let index = index">
       <div
         class="w-full border-b border-t p-4 text-center text-2xl font-semibold"
         *ngIf="index === 0 || products![index - 1].categoryId !== product.categoryId"
         [id]="product.categoryId">
         {{ product.categoryName }}
       </div>
-      <oxp-product-card
-        class="py-2 px-4"
-        [ngClass]="even ? 'bg-slate-50' : ''"
-        [product]="product"
-        (click)="openProductModal.emit(product)"></oxp-product-card>
+      <oxp-product-card class="py-2 px-4" [product]="product" (click)="openProductModal.emit(product)"></oxp-product-card>
+      <mat-divider></mat-divider>
     </ng-container>
   </div>
 </div>

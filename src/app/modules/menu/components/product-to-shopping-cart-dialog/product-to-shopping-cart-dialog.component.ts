@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
@@ -43,8 +44,8 @@ import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/
 })
 export class ProductToShoppingCartDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<ProductToShoppingCartDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ProductCart,
+    public bottomSheetRef: MatBottomSheetRef<ProductToShoppingCartDialogComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: ProductCart,
     public translateService: TranslateService,
     private dialog: MatDialog
   ) {
