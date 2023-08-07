@@ -1,0 +1,25 @@
+<mat-toolbar class="top-shadow fixed bottom-0 flex h-[75px] w-full flex-row items-center bg-white">
+  <button
+    class="flex flex-1 flex-col items-center justify-center font-medium"
+    [ngClass]="active === 'Menu' ? 'text-black' : 'text-gray-500'"
+    (click)="openMenu()">
+    <mat-icon class="scale-150">restaurant_menu</mat-icon>
+    Menü
+  </button>
+  <div class="mb-[3.25rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
+    <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
+      <mat-icon class="scale-125">shopping_cart</mat-icon>
+    </button>
+    <div class="text-lg font-semibold" *ngIf="order.totalPrice">
+      {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+    </div>
+    <div class="text-lg font-semibold" *ngIf="!order.totalPrice">&nbsp;</div>
+  </div>
+  <button
+    class="flex flex-1 flex-col items-center justify-center font-medium"
+    (click)="openOrders()"
+    [ngClass]="active === 'Orders' ? 'text-black' : 'text-gray-500'">
+    <mat-icon class="scale-150">receipt_long</mat-icon>
+    Bestellungen
+  </button>
+</mat-toolbar>

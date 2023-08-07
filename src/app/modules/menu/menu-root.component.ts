@@ -14,6 +14,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
+import { ToolbarBottomComponent } from '../../shared/components/toolbar-bottom/toolbar-bottom.component';
 import { ProductCart } from './../../shared/models/product-cart';
 import { ShoppingCartState, ShoppingCartStore } from './../../shared/services/shopping-cart.store';
 import { OrderStore } from './../orders/services/order.store';
@@ -28,8 +29,11 @@ import { RestaurantStore } from './services/restaurant.store';
   standalone: true,
   templateUrl: './menu-root.component.html',
   styleUrls: ['./menu-root.component.scss'],
-  // providers: [RestaurantStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+  ],
   imports: [
     CommonModule,
     MenuHeaderComponent,
@@ -46,10 +50,7 @@ import { RestaurantStore } from './services/restaurant.store';
     MatButtonModule,
     TranslateModule,
     MatToolbarModule,
-  ],
-  providers: [
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
+    ToolbarBottomComponent,
   ],
 })
 export default class MenuRootComponent {
@@ -126,13 +127,5 @@ export default class MenuRootComponent {
         inline: 'nearest',
       });
     }
-  }
-
-  openShoppingCart() {
-    this.router.navigate(['/shoppingcart/' + this.route.snapshot.params['qrcode'] + '/' + this.route.snapshot.params['restaurantId']]);
-  }
-
-  openOrders() {
-    this.router.navigate(['/orders']);
   }
 }

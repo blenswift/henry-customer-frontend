@@ -1,51 +1,33 @@
-<div
+<ng-container
   *ngIf="{
     products: filteredProductList$ | async,
     categories: categories$ | async,
     info: restaurant$ | async,
     status: status$ | async,
     shoppingCart: shoppingCart$ | async
-  } as restaurant"
-  class="h-full">
-  <oxp-menu-header *ngIf="restaurant.info" [restaurant]="restaurant.info"></oxp-menu-header>
-  <oxp-menu-category-carousel
-    class="sticky top-0"
-    *ngIf="restaurant?.info?.open"
-    [categories]="restaurant.categories"
-    (categoryClicked)="categoryClicked($event)"></oxp-menu-category-carousel>
+  } as restaurant">
+  <div class="flex flex-col">
+    <oxp-menu-header *ngIf="restaurant.info" [restaurant]="restaurant.info"></oxp-menu-header>
+    <oxp-menu-category-carousel
+      class="sticky top-0"
+      *ngIf="restaurant?.info?.open"
+      [categories]="restaurant.categories"
+      (categoryClicked)="categoryClicked($event)"></oxp-menu-category-carousel>
 
-  <!-- Produkte -->
-  <oxp-menu-list
-    *ngIf="restaurant.status === 'DATA'"
-    [products]="restaurant.products"
-    [filters]="filters$ | async"
-    (openProductModal)="openProductModal($event)"></oxp-menu-list>
-  <div class="bg-color flex h-full w-full flex-col justify-center align-middle" *ngIf="restaurant.status === 'CLOSED'">
-    <mat-icon class="flex h-1/2 w-full justify-center" style="font-size: 15rem">lock</mat-icon>
-    <p class="m-4 text-center text-5xl">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>
-  </div>
-  <div class="bg-color flex h-full w-full flex-row justify-center align-middle" *ngIf="restaurant.status === 'LOADING'">
-    <mat-spinner></mat-spinner>
-  </div>
-  <mat-toolbar class="top-shadow sticky bottom-0 flex h-[75px] flex-row items-center bg-white" *ngIf="restaurant.status === 'DATA'">
-    <button class="flex flex-1 flex-col items-center justify-center font-medium">
-      <mat-icon class="scale-150">restaurant_menu</mat-icon>
-      Menü
-    </button>
-    <div class="mb-[3.25rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
-      <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
-        <mat-icon class="scale-125">shopping_cart</mat-icon>
-      </button>
-      <div class="text-lg font-semibold" *ngIf="restaurant.shoppingCart?.order?.totalPrice">
-        {{
-          +restaurant.shoppingCart?.order?.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
-        }}
-      </div>
-      <div class="text-lg font-semibold" *ngIf="!restaurant.shoppingCart?.order?.totalPrice">&nbsp;</div>
+    <!-- Produkte -->
+    <oxp-menu-list
+      *ngIf="restaurant.status === 'DATA'"
+      [products]="restaurant.products"
+      [filters]="filters$ | async"
+      (openProductModal)="openProductModal($event)"
+      class="pb-16"></oxp-menu-list>
+    <div class="bg-color flex h-full w-full flex-col justify-center align-middle" *ngIf="restaurant.status === 'CLOSED'">
+      <mat-icon class="flex h-1/2 w-full justify-center" style="font-size: 15rem">lock</mat-icon>
+      <p class="m-4 text-center text-5xl">{{ 'RESTAURANT_CLOSED' | translate | uppercase }}</p>
     </div>
-    <button class="flex flex-1 flex-col items-center justify-center font-medium" (click)="openOrders()">
-      <mat-icon class="scale-150">receipt_long</mat-icon>
-      Bestellungen
-    </button>
-  </mat-toolbar>
-</div>
+    <div class="bg-color flex h-full w-full flex-row justify-center align-middle" *ngIf="restaurant.status === 'LOADING'">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <oxp-toolbar-bottom [order]="restaurant.shoppingCart?.order!" [active]="'Menu'" *ngIf="restaurant.status === 'DATA'"></oxp-toolbar-bottom>
+</ng-container>

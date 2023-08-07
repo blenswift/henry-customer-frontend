@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { map, switchMap, tap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
+import { ShoppingCartState, ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
+import { ToolbarBottomComponent } from '../../shared/components/toolbar-bottom/toolbar-bottom.component';
 import { OrderComponent } from './components/order/order.component';
 import { OrderTracking } from './models/order-tracking';
 import { OrderStore } from './services/order.store';
@@ -15,6 +17,9 @@ import { OrderStore } from './services/order.store';
 @Component({
   selector: 'oxp-orders',
   standalone: true,
+  templateUrl: './orders.component.html',
+  styleUrls: ['./orders.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterModule,
@@ -25,16 +30,17 @@ import { OrderStore } from './services/order.store';
     MatExpansionModule,
     OrderComponent,
     PageHeaderComponent,
+    ToolbarBottomComponent,
   ],
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class OrdersComponent {
   orderStore = inject(OrderStore);
   route = inject(ActivatedRoute);
   router = inject(Router);
   translateService = inject(TranslateService);
+  shoppingCartStore = inject(ShoppingCartStore);
+
+  shoppingCart$: Observable<ShoppingCartState> = this.shoppingCartStore.vm$;
 
   orders$ = this.route.queryParams.pipe(
     tap(() => this.orderStore.loadCache()),

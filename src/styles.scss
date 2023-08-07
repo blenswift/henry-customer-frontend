@@ -1,14 +1,20 @@
 html,
 body {
   height: 100%;
+  font-family: 'Open Sans';
 }
 body {
   margin: 0;
 }
 
+// @font-face {
+//   font-family: 'Open Sans', sans-serif;
+//   src: url(assets/fonts/static/OpenSans-Regular.ttf);
+// }
+
 @font-face {
-  font-family: Mulish;
-  src: url(assets/fonts/static/Mulish-Regular.ttf);
+  font-family: 'Open Sans';
+  src: url('assets/fonts/OpenSans-Regular.woff2') format('woff2');
 }
 
 // .bg-color {
