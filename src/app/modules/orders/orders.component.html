@@ -1,13 +1,6 @@
-<header class="border-grey w-full border-b">
-  <div class="p-4">
-    <h4 class="text-2xl font-medium leading-tight">{{ 'BESTELLUNGEN' | translate }}</h4>
-  </div>
-  <button mat-mini-fab color="accent" class="absolute top-2 right-2" (click)="navigate()">
-    <mat-icon>close</mat-icon>
-  </button>
-</header>
+<oxp-page-header (closeCard)="navigate()">{{ 'BESTELLUNGEN' | translate | uppercase }}</oxp-page-header>
 
-<ng-container *ngIf="orders$ | async as orders; else loading">
+<div *ngIf="orders$ | async as orders; else loading" class="pb-16">
   <div class="mx-4">
     <p class="py-2 text-lg font-medium leading-tight">{{ 'AUSSTEHEND' | translate }}</p>
 
@@ -23,7 +16,8 @@
       <oxp-order *ngFor="let order of approvedOrders$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
     </div>
   </div>
-</ng-container>
+</div>
+<oxp-toolbar-bottom [order]="shoppingCart.order!" [active]="'Orders'" *ngIf="shoppingCart$ | async as shoppingCart"></oxp-toolbar-bottom>
 <ng-template #loading>
   <div class="bg-color flex h-full w-full flex-col justify-center align-middle">
     <mat-spinner></mat-spinner>

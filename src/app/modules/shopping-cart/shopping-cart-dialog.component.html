@@ -11,7 +11,7 @@
       <div class="flex">
         <button
           mat-flat-button
-          class="ml-auto rounded-tl-xl rounded-br-xl"
+          class="ml-auto"
           color="primary"
           [disabled]="(vm.items | sumOfProducts : form.getRawValue().tip!) < 0"
           (click)="bezahlen(form.getRawValue())">

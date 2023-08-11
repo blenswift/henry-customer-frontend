@@ -63,9 +63,11 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
                   filters: menu.filters.map(filter => ({ name: filter, active: false })),
                 });
               },
-              err => {
+              (err: any) => {
                 this.patchState({ status: 'ERROR' });
-                this.router.navigate(['notfound']);
+                if (err['error']['errorCode'] !== 'BAD_REQUEST_CONTENT') {
+                  this.router.navigate(['notfound']);
+                }
               }
             )
           ),

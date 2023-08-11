@@ -1,6 +1,5 @@
-<div class="bg-color flex h-32 items-stretch gap-6 overflow-hidden rounded-xl" [id]="product.categoryId">
-  <img class="h-full w-1/4 object-cover object-center" [src]="product.imageUrl" alt="google" />
-  <div class="flex w-3/4 flex-grow flex-col justify-between pt-4">
+<div class="bg-color flex h-32 items-stretch gap-6 overflow-hidden">
+  <div class="flex w-3/4 flex-grow flex-col justify-between">
     <div>
       <div class="text-base font-bold text-slate-900">{{ product.name }}</div>
       <div class="text-sm font-extralight text-slate-500 dark:text-slate-400">
@@ -8,14 +7,11 @@
       </div>
     </div>
     <div class="flex items-center">
-      <span class="font-bold">
+      <span class="font-semibold">
         {{ 'FROM' | translate }}
         {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
       </span>
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary">
-        <mat-icon>add</mat-icon>
-        {{ 'HINZUFUEGEN' | translate }}
-      </button>
     </div>
   </div>
+  <img class="h-full w-1/4 rounded object-cover object-center" [src]="product.imageUrl" alt="google" />
 </div>

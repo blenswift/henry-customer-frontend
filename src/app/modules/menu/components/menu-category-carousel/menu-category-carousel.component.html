@@ -1,0 +1,21 @@
+<div class="bg-white shadow-md shadow-slate-200">
+  <mat-divider></mat-divider>
+  <div class="flex flex-row">
+    <div class="scrollbar-hide flex gap-2 overflow-x-auto px-4 py-2">
+      <oxp-category
+        *ngFor="let category of categories"
+        [category]="category"
+        (click)="clicked(category)"
+        class="max-w-11 min-w-11 flex-none"></oxp-category>
+    </div>
+    <span class="ml-auto flex items-center pr-4" [matMenuTriggerFor]="menu" (click)="focus()">
+      <mat-icon matBadge="0" [matBadgeHidden]="!filterCtrl.value">search</mat-icon>
+    </span>
+    <mat-menu #menu="matMenu" class="mr-4 w-56">
+      <mat-form-field (click)="$event.stopPropagation()" class="w-full">
+        <mat-label>{{ 'FILTERN' | translate }}</mat-label>
+        <input type="search" name="search" matInput [formControl]="filterCtrl" id="filterCtrl" />
+      </mat-form-field>
+    </mat-menu>
+  </div>
+</div>

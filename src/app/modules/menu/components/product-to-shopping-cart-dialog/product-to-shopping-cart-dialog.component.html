@@ -1,11 +1,11 @@
 <div class="flex h-full flex-col overflow-hidden">
   <header class="w-full">
-    <button mat-mini-fab color="accent" class="absolute top-2 right-2 z-10" [mat-dialog-close]="false">
-      <mat-icon>close</mat-icon>
+    <button mat-mini-fab color="accent" class="absolute top-4 right-4 z-10" (click)="bottomSheetRef.dismiss()">
+      <mat-icon>arrow_back</mat-icon>
     </button>
   </header>
   <main class="flex-1 overflow-y-scroll pb-4">
-    <img class="h-48 w-full object-cover object-center" [src]="data.product.imageUrl" />
+    <img class="h-56 w-full object-cover object-center" [src]="data.product.imageUrl" />
     <div class="px-4 pt-2">
       <div>
         <div class="flex flex-row items-center">
@@ -78,13 +78,11 @@
       </ng-container>
     </div>
   </main>
-  <footer class="border-grey w-full border-t p-4 text-center">
-    <div mat-dialog-actions>
-      <oxp-counter-button [(value)]="data.quantity"></oxp-counter-button>
-      <button mat-flat-button class="ml-auto rounded-tl-xl rounded-br-xl" color="primary" [mat-dialog-close]="data">
-        {{ 'HINZUFUEGEN' | translate }}
-        {{ ((data | sumOfProduct) * data.quantity) / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-      </button>
-    </div>
+  <footer class="border-grey flex w-full border-t p-4 text-center">
+    <oxp-counter-button [(value)]="data.quantity"></oxp-counter-button>
+    <button mat-flat-button class="ml-auto" color="primary" (click)="bottomSheetRef.dismiss(data)">
+      {{ 'HINZUFUEGEN' | translate }}
+      {{ ((data | sumOfProduct) * data.quantity) / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+    </button>
   </footer>
 </div>

@@ -23,6 +23,7 @@ export interface ShoppingCartState {
 })
 export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
+  readonly order$ = this.select(state => state.order);
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
     super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '', order: null });
@@ -35,9 +36,14 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
           const items = [...state.items, productCart];
           const restaurantId = sessionStorage.getItem('restaurantId');
           localStorage.setItem('ITEMS' + restaurantId!, JSON.stringify(items));
+          const order = this.prepareOrder({
+            ...state,
+            items,
+          });
           return {
             ...state,
             items,
+            order,
           };
         });
       })
@@ -52,9 +58,14 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
           items.splice(itemIndex, 1);
           const restaurantId = sessionStorage.getItem('restaurantId');
           localStorage.setItem('ITEMS' + restaurantId!, JSON.stringify(items));
+          const order = this.prepareOrder({
+            ...state,
+            items,
+          });
           return {
             ...state,
             items: [...items],
+            order,
           };
         });
       })
@@ -83,7 +94,11 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
 
   loadCache = this.updater(state => {
     const items = JSON.parse(localStorage.getItem('ITEMS' + sessionStorage.getItem('restaurantId')) ?? '[]');
-    return { ...state, items };
+    const order = this.prepareOrder({
+      ...state,
+      items,
+    });
+    return { ...state, items, order };
   });
 
   clearShoppingCart = this.updater((state, restaurantId: string) => {
@@ -106,6 +121,57 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     ...state,
     fcmToken,
   }));
+
+  private prepareOrder(state: ShoppingCartState): Order {
+    const order = {
+      fcmToken: state.fcmToken,
+      orderItems: [],
+      tip: state.tip,
+      totalPrice: 0,
+      paymentMethod: state.paymentType,
+      comment: state.comment,
+    } as Order;
+
+    state.items.forEach(item => {
+      const orderItem = {
+        productId: item.product.id,
+        basePrice: item.product.basePrice,
+        unitPrice: priceOfProduct(item),
+        quantity: item.quantity,
+        extraIds: [],
+        productName: item.product.name,
+        imageUrl: item.product.imageUrl,
+        extras: [],
+      } as OrderItem;
+
+      item.product.extraGroups.forEach(extraGroup => {
+        let extras: Extra[] = [];
+        if (extraGroup.selectionType === 'CHECKBOX') {
+          extras = extraGroup.extras
+            .filter(extra => extra.selected)
+            .map(x => {
+              x.quantity = 1;
+              return x;
+            });
+        }
+        if (extraGroup.selectionType === 'RADIO_GROUP' && extraGroup.selected) {
+          const extra = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
+          extra.quantity = 1;
+          extras.push(extra);
+        }
+        if (extraGroup.selectionType === 'MULTI_SELECT') {
+          extras = extraGroup.extras.filter(extra => extra.quantity > 0);
+        }
+        orderItem.extras = orderItem.extras.concat(extras);
+      });
+
+      order.totalPrice += orderItem.unitPrice * orderItem.quantity;
+      order.orderItems.push(orderItem);
+    });
+
+    order.totalPrice += state.tip;
+    return order;
+  }
 
   private getFinalOrder(state: ShoppingCartState): Observable<Order> {
     const order = {
