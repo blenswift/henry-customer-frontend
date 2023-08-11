@@ -8,8 +8,14 @@
         (click)="clicked(category)"
         class="max-w-11 min-w-11 flex-none"></oxp-category>
     </div>
-    <span class="ml-auto flex items-center pr-4">
-      <mat-icon>search</mat-icon>
+    <span class="ml-auto flex items-center pr-4" [matMenuTriggerFor]="menu" (click)="focus()">
+      <mat-icon matBadge="0" [matBadgeHidden]="!filterCtrl.value">search</mat-icon>
     </span>
+    <mat-menu #menu="matMenu" class="mr-4 w-56">
+      <mat-form-field (click)="$event.stopPropagation()" class="w-full">
+        <mat-label>{{ 'FILTERN' | translate }}</mat-label>
+        <input type="search" name="search" matInput [formControl]="filterCtrl" id="filterCtrl" />
+      </mat-form-field>
+    </mat-menu>
   </div>
 </div>

@@ -12,6 +12,7 @@
       class="sticky top-0"
       *ngIf="restaurant?.info?.open"
       [categories]="restaurant.categories"
+      [filterCtrl]="filterCtrl"
       (categoryClicked)="categoryClicked($event)"></oxp-menu-category-carousel>
 
     <!-- Produkte -->
