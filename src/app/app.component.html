@@ -1,1 +1,8 @@
 <router-outlet></router-outlet>
+<div class="flex h-40 flex-col items-center border-t pb-16">
+  <img class="w-32 object-scale-down" src="https://orderxpay.fra1.cdn.digitaloceanspaces.com/oxp.png" (click)="openOrderXPay()" />
+  <div>
+    {{ 'DATENSCHUTZ' | translate | uppercase }}
+    & {{ 'IMPRESSUM' | translate | uppercase }}
+  </div>
+</div>

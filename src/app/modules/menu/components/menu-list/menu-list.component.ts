@@ -22,6 +22,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
     TranslateModule,
     MatDividerModule,
     ScrollingModule,
+    TranslateModule,
   ],
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss'],

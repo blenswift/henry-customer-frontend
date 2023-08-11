@@ -8,10 +8,12 @@ import localeDe from '@angular/common/locales/de';
 import localeEn from '@angular/common/locales/en';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeEnExtra from '@angular/common/locales/extra/en';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
 
 @Component({
@@ -19,7 +21,7 @@ import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, MatSnackBarModule],
+  imports: [CommonModule, RouterModule, MatSnackBarModule, MatButtonModule, MatIconModule, TranslateModule],
   providers: [OrderStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -84,5 +86,17 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/order-details/' + payload.data?.['trackingId']]);
       });
     });
+  }
+
+  openOrderXPay() {
+    window.location.href = 'https://orderxpay.com/';
+  }
+
+  showImpressum() {
+    window.location.href = 'https://orderxpay.com/impressum';
+  }
+
+  showDatenschutz() {
+    window.location.href = 'https://orderxpay.com/datenschutz';
   }
 }
