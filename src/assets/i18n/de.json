@@ -39,5 +39,6 @@
   "AGE_RESTRICTION_HINT": "Bitte beachten Sie: Bei Produkten mit Altersbeschränkung erfolgt bei Übergabe eine Alterskontrolle.",
   "AGE_RESTRICTED": "Altersbeschränkt",
   "AUSSTEHEND": "Ausstehend",
-  "FERTIG": "Fertig"
+  "FERTIG": "Fertig",
+  "NOPRODUCTFOUND": "Whoops - Es existiert kein Produkt mit dem Namen!"
 }

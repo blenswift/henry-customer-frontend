@@ -10,5 +10,6 @@
       <oxp-product-card class="py-2 px-4" [product]="product" (click)="openProductModal.emit(product)"></oxp-product-card>
       <mat-divider></mat-divider>
     </ng-container>
+    <div *ngIf="products?.length === 0" class="h-28 p-4 text-center align-middle">{{ 'NOPRODUCTFOUND' | translate }}</div>
   </div>
 </div>
