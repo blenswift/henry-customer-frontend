@@ -5,5 +5,5 @@ export interface Restaurant {
   name: string;
   coverUrl: string;
   open: boolean;
-  acceptedPaymentMethods: PaymentType[];
+  acceptedPaymentChannels: PaymentType[];
 }

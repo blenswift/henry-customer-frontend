@@ -1,31 +1,30 @@
-<div class="scrollbar-hide flex h-full flex-col">
-  <oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
-  <div class="scrollbar-hide flex-1 p-4" *ngIf="order$ | async as order; else loading">
-    <p class="text-lg font-thin text-slate-900">{{ 'INFORMATIONEN' | translate }}</p>
-    <div>
-      <div class="flex h-9 flex-row items-center">
-        <p matListItemTitle>{{ 'PREIS' | translate }}</p>
-        <div class="ml-auto">
-          {{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-        </div>
+<oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
+<div class="scrollbar-hide flex-1 p-4" *ngIf="order$ | async as order; else loading">
+  <p class="text-lg font-thin text-slate-900">{{ 'INFORMATIONEN' | translate }}</p>
+  <div>
+    <div class="flex h-9 flex-row items-center">
+      <p matListItemTitle>{{ 'PREIS' | translate }}</p>
+      <div class="ml-auto">
+        {{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
       </div>
-      <div class="flex h-9 flex-row items-center">
-        <p matListItemTitle>Status</p>
-        <mat-chip class="ml-auto" (click)="updateStatus()">
-          <mat-spinner color="primary" class="h-6 w-6" *ngIf="order.status !== 'APPROVED' && order.status !== 'CANCELED'"></mat-spinner>
-          <mat-icon class="font-bold text-green-500" *ngIf="order.status === 'APPROVED'">done</mat-icon>
-          <mat-icon class="font-bold text-red-500" *ngIf="order.status === 'CANCELED'">close</mat-icon>
-        </mat-chip>
-      </div>
-      <div class="flex h-9 flex-row items-center">
-        <p matListItemTitle>{{ 'BESTELLNUMMER' | translate }}</p>
-        <div class="ml-auto">{{ order.orderNumber }}</div>
-      </div>
-      <div class="flex h-9 flex-row items-center">
-        <p matListItemTitle>{{ 'DATUM' | translate }}</p>
-        <div class="ml-auto">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</div>
-      </div>
-      <!-- <div class="flex flex-row items-center h-9">
+    </div>
+    <div class="flex h-9 flex-row items-center">
+      <p matListItemTitle>Status</p>
+      <mat-chip class="ml-auto" (click)="updateStatus()">
+        <mat-spinner color="primary" class="h-6 w-6" *ngIf="order.status !== 'COMPLETED' && order.status !== 'CANCELLED'"></mat-spinner>
+        <mat-icon class="font-bold text-green-500" *ngIf="order.status === 'COMPLETED'">done</mat-icon>
+        <mat-icon class="font-bold text-red-500" *ngIf="order.status === 'CANCELLED'">close</mat-icon>
+      </mat-chip>
+    </div>
+    <div class="flex h-9 flex-row items-center">
+      <p matListItemTitle>{{ 'BESTELLNUMMER' | translate }}</p>
+      <div class="ml-auto">{{ order.orderNumber }}</div>
+    </div>
+    <div class="flex h-9 flex-row items-center">
+      <p matListItemTitle>{{ 'DATUM' | translate }}</p>
+      <div class="ml-auto">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</div>
+    </div>
+    <!-- <div class="flex flex-row items-center h-9">
         <p matListItemTitle>{{ 'RECHNUNG' | translate }}</p>
         <mat-chip class="ml-auto">
           <div>PDF</div>
@@ -34,25 +33,24 @@
           </button>
         </mat-chip>
       </div> -->
-    </div>
-    <mat-divider class="my-2"></mat-divider>
-    <div class="flex flex-row">
-      <p class="text-lg font-thin text-slate-900">{{ 'PRODUKTE' | translate }}</p>
-    </div>
-    <div class="mt-1 grid grid-cols-2 gap-2">
-      <mat-card *ngFor="let product of order.orderItems">
-        <mat-card-title class="my-2 text-center text-2xl text-slate-900">{{ product.quantity }}x</mat-card-title>
-        <img mat-card-image [src]="product.imageUrl" [alt]="product.productName" class="mx-4 mb-4 rounded-full" />
-        <mat-card-content class="h-full">
-          <mat-card-title class="text-center text-base text-slate-900">{{ product.productName }}</mat-card-title>
-          <mat-card-subtitle class="text-center">{{ product.extras | extrasShort }}</mat-card-subtitle>
-        </mat-card-content>
-      </mat-card>
-    </div>
   </div>
-  <ng-template #loading>
-    <div class="bg-color flex h-full w-full flex-col justify-center align-middle">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
+  <mat-divider class="my-2"></mat-divider>
+  <div class="flex flex-row">
+    <p class="text-lg font-thin text-slate-900">{{ 'PRODUKTE' | translate }}</p>
+  </div>
+  <div class="mt-1 grid grid-cols-2 gap-2">
+    <mat-card *ngFor="let product of order.orderItems">
+      <mat-card-title class="my-2 text-center text-2xl text-slate-900">{{ product.quantity }}x</mat-card-title>
+      <img mat-card-image [src]="product.imageUrl" [alt]="product.productName" class="mx-4 mb-4 rounded-full" />
+      <mat-card-content class="h-full">
+        <mat-card-title class="text-center text-base text-slate-900">{{ product.productName }}</mat-card-title>
+        <mat-card-subtitle class="text-center">{{ product.extras | extrasShort }}</mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+<ng-template #loading>
+  <div class="bg-color flex h-full w-full flex-col justify-center align-middle">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

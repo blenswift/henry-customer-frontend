@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { OrderItem } from './order';
+import { OrderItem, PaymentType } from './order';
 
 export interface OrderTracking {
   id: string;
@@ -9,8 +9,10 @@ export interface OrderTracking {
   table: string;
   qrCode: string;
   totalPrice: number;
+  notes: string;
   status: OrderTrackingType;
+  paymentChannel: PaymentType;
   orderItems: OrderItem[];
 }
 
-export type OrderTrackingType = 'PENDING' | 'PAID' | 'CASH_PAYMENT' | 'CANCELING' | 'CANCELED' | 'APPROVED';
+export type OrderTrackingType = 'CREATED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLING' | 'CANCELLED';

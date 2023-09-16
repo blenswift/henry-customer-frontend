@@ -13,7 +13,7 @@
     <p class="py-2 text-lg font-medium leading-tight">{{ 'FERTIG' | translate }}</p>
 
     <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-      <oxp-order *ngFor="let order of approvedOrders$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      <oxp-order *ngFor="let order of completedOrders$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
     </div>
   </div>
 </div>

@@ -14,7 +14,7 @@ export interface ShoppingCartState {
   paymentType: PaymentType | null;
   fcmToken: string | null;
   tip: number;
-  comment: string;
+  notes: string;
   order: Order | null;
 }
 
@@ -26,7 +26,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly order$ = this.select(state => state.order);
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
-    super({ items: [], paymentType: null, fcmToken: null, tip: 0, comment: '', order: null });
+    super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null });
   }
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
@@ -82,7 +82,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
               if (data.redirectUrl) {
                 window.location.href = data.redirectUrl;
               } else {
-                this.router.navigate(['checkout/' + data.checkoutId + '/' + data.merchantId]);
+                this.router.navigate(['checkout/' + data.checkoutId]);
               }
             },
             () => {}
@@ -128,8 +128,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       orderItems: [],
       tip: state.tip,
       totalPrice: 0,
-      paymentMethod: state.paymentType,
-      comment: state.comment,
+      paymentChannel: state.paymentType,
+      notes: state.notes,
     } as Order;
 
     state.items.forEach(item => {
@@ -179,8 +179,8 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       orderItems: [],
       tip: state.tip,
       totalPrice: 0,
-      paymentMethod: state.paymentType,
-      comment: state.comment,
+      paymentChannel: state.paymentType,
+      notes: state.notes,
     } as Order;
 
     state.items.forEach(item => {

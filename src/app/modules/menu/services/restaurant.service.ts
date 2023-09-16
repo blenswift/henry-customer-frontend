@@ -14,7 +14,7 @@ export class RestaurantService {
   constructor(private httpClient: HttpClient) {}
 
   public getRestaurant(qrCode: string): Observable<Restaurant> {
-    return this.httpClient.get<Restaurant>(this.url + '?qrCodeId=' + qrCode);
+    return this.httpClient.get<Restaurant>(this.url + '?qrCode=' + qrCode);
   }
 
   public callService(qrCode: string): Observable<void> {

@@ -10,14 +10,14 @@
 
       <h2 class="mt-4 text-xl font-medium">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
       <mat-radio-group class="oxp-custom-group flex flex-col" color="primary" formControlName="paymentType">
-        <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentMethods; let first = first" [value]="paymentMethod">
+        <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentChannels; let first = first" [value]="paymentMethod">
           <span class="py-2">{{ paymentMethod | translate | uppercase }}</span>
         </mat-radio-button>
       </mat-radio-group>
 
       <mat-form-field class="mt-4 w-full">
         <mat-label>{{ 'SHOPPINGCART_COMMENT' | translate }}</mat-label>
-        <textarea matInput formControlName="comment"></textarea>
+        <textarea matInput formControlName="notes"></textarea>
       </mat-form-field>
 
       <h4 class="pt-6 text-xl font-medium">{{ 'TRINKGELD' | translate | uppercase }}</h4>

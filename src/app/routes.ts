@@ -22,7 +22,7 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/order-detail/order-detail.component'),
   },
   {
-    path: 'checkout/:id/:gatewayMerchantId',
+    path: 'checkout/:id',
     loadComponent: () => import('./modules/checkout/checkout.component'),
   },
   {

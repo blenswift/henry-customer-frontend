@@ -1,6 +1,0 @@
-<div id="sumup-card"></div>
-
-<form [action]="nextStep?.url" method="POST" *ngIf="nextStep$ | async as nextStep">
-  <input type="hidden" [name]="item.key" [value]="item.value" *ngFor="let item of nextStep?.payload | keyvalue" />
-  <button type="submit" id="submitButton"></button>
-</form>
