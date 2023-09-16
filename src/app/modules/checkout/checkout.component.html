@@ -2,8 +2,6 @@
   <oxp-page-header (closeCard)="navigateToCart()">{{ 'BEZAHLEN' | translate | uppercase }}</oxp-page-header>
   <div class="scrollbar-hide m-4 flex-1 self-center overflow-y-scroll">
     <div class="flex flex-col items-center rounded-xl border-2 p-4" *ngIf="vm$ | async as vm">
-      <oxp-googlepay-button class="w-full" *ngIf="vm.status !== 'LOADING'"></oxp-googlepay-button>
-      <oxp-sumup-widget *ngIf="vm.status !== 'LOADING'"></oxp-sumup-widget>
       <mat-spinner *ngIf="vm.status === 'LOADING'"></mat-spinner>
     </div>
   </div>

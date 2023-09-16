@@ -48,9 +48,9 @@ export default class OrdersComponent {
     switchMap(() => this.orderStore.orders$)
   );
 
-  openOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status !== 'APPROVED')));
+  openOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status !== 'COMPLETED')));
 
-  approvedOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status === 'APPROVED')));
+  completedOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status === 'COMPLETED')));
 
   navigate() {
     this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId')]);

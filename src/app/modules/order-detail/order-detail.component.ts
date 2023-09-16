@@ -10,7 +10,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, switchMap } from 'rxjs';
 import { MomentPipe } from 'src/app/shared/pipes/moment.pipe';
 import { OrderTracking } from '../orders/models/order-tracking';
-import { OrderTrackingTypeToIconPipe } from '../orders/pipes/order-tracking-type-to-icon.pipe';
+import { OrderPaymentTypeToIconPipe } from '../orders/pipes/order-payment-type-to-icon.pipe';
 import { PageHeaderComponent } from './../../shared/components/page-header/page-header.component';
 import { OrderService } from './../orders/services/order.service';
 import { ExtrasShortPipe } from './pipes/extras-short.pipe';
@@ -27,7 +27,7 @@ import { ExtrasShortPipe } from './pipes/extras-short.pipe';
     MatListModule,
     MatIconModule,
     MatChipsModule,
-    OrderTrackingTypeToIconPipe,
+    OrderPaymentTypeToIconPipe,
     MomentPipe,
     MatProgressSpinnerModule,
   ],

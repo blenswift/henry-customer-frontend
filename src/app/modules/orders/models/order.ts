@@ -3,10 +3,10 @@ import { Extra } from 'src/app/shared/models/product';
 export interface Order {
   totalPrice: number;
   fcmToken: string | null;
-  paymentMethod: PaymentType;
+  paymentChannel: PaymentType;
   tip: number;
   orderItems: OrderItem[];
-  comment: string;
+  notes: string;
 }
 
 export interface OrderItem {
@@ -19,4 +19,4 @@ export interface OrderItem {
   extras: Extra[];
 }
 
-export type PaymentType = 'DIGITAL' | 'CASH';
+export type PaymentType = 'DIGITAL' | 'PHYSICAL';

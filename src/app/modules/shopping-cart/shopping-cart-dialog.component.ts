@@ -45,16 +45,16 @@ export default class ShoppingCartDialogComponent {
   public form$ = combineLatest([this.shoppingCartVm$, this.restaurantStore.info$]).pipe(
     switchMap(([vm, restaurantInfo]) => {
       const itemsArray = vm.items.map(item => this.fb.group({ quantity: item.quantity, product: item.product }));
-      const paymentType = restaurantInfo?.acceptedPaymentMethods.includes('DIGITAL')
+      const paymentType = restaurantInfo?.acceptedPaymentChannels.includes('DIGITAL')
         ? 'DIGITAL'
-        : restaurantInfo?.acceptedPaymentMethods[0];
+        : restaurantInfo?.acceptedPaymentChannels[0];
       return of(
         this.fb.group({
           items: new FormArray(itemsArray),
           paymentType: new FormControl(paymentType),
           fcmToken: new FormControl(vm.fcmToken),
           tip: new FormControl(vm.tip),
-          comment: new FormControl(vm.comment),
+          notes: new FormControl(vm.notes),
         })
       );
     })

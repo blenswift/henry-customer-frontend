@@ -42,14 +42,14 @@ export class OrderStore extends ComponentStore<OrderState> {
   checkOrderStatus = this.effect($ => {
     return timer(0, 60000).pipe(
       withLatestFrom(this.orders$),
-      map(([, orders]) => orders.filter(x => x.status !== 'APPROVED' && moment(x.createdAt).add(1, 'days').isAfter(moment()))),
+      map(([, orders]) => orders.filter(x => x.status !== 'COMPLETED' && moment(x.createdAt).add(1, 'days').isAfter(moment()))),
       filter(orders => orders.length > 0),
       map(orders => orders.map(order => order.trackingId)),
       switchMap(orderIds => this.orderService.getStatusOfOrders(orderIds)),
       map(orders => {
         orders.map(order => {
           this.updateOrder(order);
-          if (order.status === 'APPROVED') {
+          if (order.status === 'COMPLETED') {
             this.orderService.showSnackbarWhenOrderFinished(order);
           }
         });

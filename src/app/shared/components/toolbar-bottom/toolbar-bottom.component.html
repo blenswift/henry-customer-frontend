@@ -10,10 +10,10 @@
     <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
       <mat-icon class="scale-125">shopping_cart</mat-icon>
     </button>
-    <div class="text-lg font-semibold" *ngIf="order.totalPrice">
+    <div class="text-lg font-semibold" *ngIf="order?.totalPrice">
       {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
     </div>
-    <div class="text-lg font-semibold" *ngIf="!order.totalPrice">&nbsp;</div>
+    <div class="text-lg font-semibold" *ngIf="!order?.totalPrice">&nbsp;</div>
   </div>
   <button
     class="flex flex-1 flex-col items-center justify-center font-medium"

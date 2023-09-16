@@ -18,7 +18,7 @@ export class OrderService {
   router = inject(Router);
 
   public getOrderTracking(trackingId: string): Observable<OrderTracking> {
-    return this.httpClient.get<OrderTracking>(this.url + '/' + trackingId + '?lang=' + this.translateService.currentLang);
+    return this.httpClient.get<OrderTracking>(this.url + '?trackingId=' + trackingId + '&lang=' + this.translateService.currentLang);
   }
 
   public getStatusOfOrders(trackingIds: string[]): Observable<OrderTracking[]> {
