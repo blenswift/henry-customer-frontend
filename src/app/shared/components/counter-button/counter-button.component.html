@@ -1,11 +1,15 @@
-<div class="flex w-24 flex-row justify-center gap-2 rounded border p-2">
-  <button mat-icon-button class="flex items-center" (click)="decrease()">
+<a matListItemTitle><ng-content></ng-content></a>
+<div class="flex h-10 w-28 flex-row justify-center rounded border">
+  <button mat-icon-button class="flex w-full items-center px-2 hover:bg-gray-100" (click)="decrease()">
     <mat-icon>remove</mat-icon>
   </button>
-  <p>
+  <div *ngIf="value" class="w-full self-center text-center">
     {{ value }}
-  </p>
-  <button mat-icon-button class="flex items-center" (click)="increase()">
+  </div>
+  <div *ngIf="formCtrl" class="w-full self-center text-center">
+    {{ formCtrl.getRawValue() }}
+  </div>
+  <button mat-icon-button class="flex w-full items-center px-2 hover:bg-gray-100" (click)="increase()">
     <mat-icon>add</mat-icon>
   </button>
 </div>

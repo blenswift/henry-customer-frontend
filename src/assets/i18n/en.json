@@ -40,5 +40,7 @@
   "AGE_RESTRICTED": "Age restricted",
   "AUSSTEHEND": "Pending",
   "FERTIG": "Ready",
-  "NOPRODUCTFOUND": "Whoops - We couldn't find your product!"
+  "NOPRODUCTFOUND": "Whoops - We couldn't find your product!",
+  "KEINTRINKGELD": "No tip",
+  "DEINTRINKGELD": "Your tip:"
 }

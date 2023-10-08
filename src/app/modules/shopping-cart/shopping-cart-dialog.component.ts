@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -24,6 +25,7 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
     TranslateModule,
     MatSnackBarModule,
     PageHeaderComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './shopping-cart-dialog.component.html',
   styleUrls: ['./shopping-cart-dialog.component.scss'],
@@ -53,7 +55,7 @@ export default class ShoppingCartDialogComponent {
           items: new FormArray(itemsArray),
           paymentType: new FormControl(paymentType),
           fcmToken: new FormControl(vm.fcmToken),
-          tip: new FormControl(vm.tip),
+          tip: new FormControl(vm.tip, [Validators.min(0)]),
           notes: new FormControl(vm.notes),
         })
       );

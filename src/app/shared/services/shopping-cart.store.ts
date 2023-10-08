@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
+import { LoadingStatus } from '../models/loading-status';
 import { Extra } from '../models/product';
 import { priceOfProduct } from '../utils/priceUtils';
 import { PaymentType } from './../../modules/orders/models/order';
@@ -16,6 +17,7 @@ export interface ShoppingCartState {
   tip: number;
   notes: string;
   order: Order | null;
+  state: LoadingStatus;
 }
 
 @Injectable({
@@ -26,7 +28,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly order$ = this.select(state => state.order);
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
-    super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null });
+    super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null, state: 'DATA' });
   }
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
@@ -74,6 +76,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
 
   createOrder = this.effect((shoppingCartState$: Observable<ShoppingCartState>) => {
     return shoppingCartState$.pipe(
+      tap(() => this.patchState(state => ({ ...state, state: 'LOADING' }))),
       concatMap(shoppingCartState => this.getFinalOrder(shoppingCartState)),
       exhaustMap(order =>
         this.shoppingCartService.createOrder(sessionStorage.getItem('qrcode')!, order).pipe(

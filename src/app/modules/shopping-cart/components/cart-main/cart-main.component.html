@@ -21,27 +21,31 @@
       </mat-form-field>
 
       <h4 class="pt-6 text-xl font-medium">{{ 'TRINKGELD' | translate | uppercase }}</h4>
-      <div class="flex flex-row items-center">
-        <mat-chip-listbox formControlName="tip">
-          <mat-chip-option [value]="100" (click)="otherTip = 0">1 €</mat-chip-option>
-          <mat-chip-option [value]="200" (click)="otherTip = 0">2 €</mat-chip-option>
-          <mat-chip-option [value]="500" (click)="otherTip = 0">5 €</mat-chip-option>
-          <mat-chip-option [value]="otherTip" selected *ngIf="otherTip > 0" (click)="otherTip = 0">
-            {{ otherTip / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-          </mat-chip-option>
-        </mat-chip-listbox>
-        <mat-chip class="ml-2" [matMenuTriggerFor]="menu" *ngIf="otherTip === 0">{{ 'ANDERER_BETRAG' | translate }}</mat-chip>
-        <mat-menu #menu="matMenu">
-          <div class="mx-2 flex flex-row items-center gap-2">
-            <mat-form-field appearance="fill" (click)="$event.stopPropagation()">
-              <mat-label>{{ 'TRINKGELD' | translate }}</mat-label>
-              <input matInput #input type="number" min="1" autofocus oninput="validity.valid||(value='');" />
-            </mat-form-field>
-            <button class="h-14" mat-raised-button color="primary" (click)="addTip(input.value)">
-              <mat-icon class="m-0">done</mat-icon>
-            </button>
-          </div>
-        </mat-menu>
+      <div class="flex flex-col justify-start gap-2">
+        <div>
+          <mat-button-toggle-group name="tiptype" [formControl]="tipType">
+            <mat-button-toggle value="none">{{ 'KEINTRINKGELD' | translate }}</mat-button-toggle>
+            <mat-button-toggle value="%">%</mat-button-toggle>
+            <mat-button-toggle value="custom">Custom</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div *ngIf="tipType.value === 'custom'">
+          <mat-form-field floatLabel="always">
+            <mat-label>{{ 'TRINKGELD' | translate }}</mat-label>
+            <input matInput type="number" [formControl]="tipValueCustom" min="0,01" max="100000000" />
+            <span matTextPrefix>€&nbsp;</span>
+          </mat-form-field>
+        </div>
+        <div *ngIf="tipType.value === '%'">
+          <oxp-counter-button [formCtrl]="tipValuePercent"></oxp-counter-button>
+        </div>
+        <div *ngIf="tipType.value === '%'">
+          {{ 'DEINTRINKGELD' | translate }}
+          {{
+            (this.currentPriceWithoutTip * (tipValuePercent.value! / 100)) / 100
+              | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+          }}
+        </div>
       </div>
     </ng-container>
     <ng-template #noProduct>

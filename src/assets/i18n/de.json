@@ -40,5 +40,7 @@
   "AGE_RESTRICTED": "Altersbeschränkt",
   "AUSSTEHEND": "Ausstehend",
   "FERTIG": "Fertig",
-  "NOPRODUCTFOUND": "Whoops - Es existiert kein Produkt mit dem Namen!"
+  "NOPRODUCTFOUND": "Whoops - Es existiert kein Produkt mit dem Namen!",
+  "KEINTRINKGELD": "Kein Trinkgeld",
+  "DEINTRINKGELD": "Dein Trinkgeld:"
 }
