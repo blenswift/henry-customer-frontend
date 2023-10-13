@@ -51,6 +51,7 @@ import { RestaurantStore } from './services/restaurant.store';
     TranslateModule,
     MatToolbarModule,
     ToolbarBottomComponent,
+    MatButtonModule,
   ],
 })
 export default class MenuRootComponent {

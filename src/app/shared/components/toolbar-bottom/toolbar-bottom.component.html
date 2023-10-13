@@ -4,9 +4,34 @@
     [ngClass]="active === 'Menu' ? 'text-black' : 'text-gray-500'"
     (click)="openMenu()">
     <mat-icon class="scale-125">restaurant_menu</mat-icon>
-    Menü
+    {{ 'MENU' | translate }}
   </button>
-  <div class="mb-[2.75rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
+
+  <button
+    class="flex flex-1 flex-col items-center justify-center font-medium"
+    [ngClass]="order.totalPrice > 0 ? 'text-black' : 'text-gray-500'"
+    (click)="openShoppingCart()">
+    <mat-icon class="scale-125">shopping_cart</mat-icon>
+    {{
+      order.totalPrice > 0
+        ? (+order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang())
+        : ('WARENKORB' | translate)
+    }}
+  </button>
+
+  <button
+    class="flex flex-1 flex-col items-center justify-center font-medium"
+    (click)="openOrders()"
+    [ngClass]="active === 'Orders' ? 'text-black' : 'text-gray-500'">
+    <mat-icon class="scale-125">receipt_long</mat-icon>
+    {{ 'BESTELLUNGEN' | translate }}
+  </button>
+  <button class="flex flex-1 flex-col items-center justify-center font-medium text-gray-500" (click)="callService()">
+    <mat-icon class="scale-125">notifications</mat-icon>
+    {{ 'CALLSERVICE' | translate }}
+  </button>
+
+  <!-- <div class="mb-[2.75rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
     <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
       <mat-icon class="scale-125">shopping_cart</mat-icon>
     </button>
@@ -14,12 +39,5 @@
       {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
     </div>
     <div class="text-lg font-semibold" *ngIf="!order?.totalPrice">&nbsp;</div>
-  </div>
-  <button
-    class="flex flex-1 flex-col items-center justify-center font-medium"
-    (click)="openOrders()"
-    [ngClass]="active === 'Orders' ? 'text-black' : 'text-gray-500'">
-    <mat-icon class="scale-125">receipt_long</mat-icon>
-    Bestellungen
-  </button>
+  </div> -->
 </mat-toolbar>

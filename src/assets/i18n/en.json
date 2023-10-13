@@ -42,5 +42,6 @@
   "FERTIG": "Ready",
   "NOPRODUCTFOUND": "Whoops - We couldn't find your product!",
   "KEINTRINKGELD": "No tip",
-  "DEINTRINKGELD": "Your tip:"
+  "DEINTRINKGELD": "Your tip:",
+  "MENU": "Menu"
 }

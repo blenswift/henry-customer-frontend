@@ -159,8 +159,10 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         }
         if (extraGroup.selectionType === 'RADIO_GROUP' && extraGroup.selected) {
           const extra = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
-          extra.quantity = 1;
-          extras.push(extra);
+          if (extra) {
+            extra.quantity = 1;
+            extras.push(extra);
+          }
         }
         if (extraGroup.selectionType === 'MULTI_SELECT') {
           extras = extraGroup.extras.filter(extra => extra.quantity > 0);
@@ -210,8 +212,10 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
         }
         if (extraGroup.selectionType === 'RADIO_GROUP' && extraGroup.selected) {
           const extra = extraGroup.extras.filter(x => x.id === extraGroup.selected)[0];
-          extra.quantity = 1;
-          extras.push(extra);
+          if (extra) {
+            extra.quantity = 1;
+            extras.push(extra);
+          }
         }
         if (extraGroup.selectionType === 'MULTI_SELECT') {
           extras = extraGroup.extras.filter(extra => extra.quantity > 0);
