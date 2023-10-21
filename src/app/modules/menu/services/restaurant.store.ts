@@ -75,7 +75,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
             tapResponse(
               info => {
                 this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED', id: info.id });
-                this.titleService.setTitle('OrderXPay - ' + info.name);
+                this.titleService.setTitle('HENRY - ' + info.name);
                 sessionStorage.setItem('restaurantId', info.id);
               },
               err => {

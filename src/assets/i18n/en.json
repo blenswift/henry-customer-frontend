@@ -43,5 +43,6 @@
   "NOPRODUCTFOUND": "Whoops - We couldn't find your product!",
   "KEINTRINKGELD": "No tip",
   "DEINTRINKGELD": "Your tip:",
-  "MENU": "Menu"
+  "MENU": "Menu",
+  "AUSVERKAUFT": "Out of stock"
 }

@@ -34,7 +34,7 @@
             {{ extraGroup.name }} {{ extraGroup.maxSelections > 1 ? ' - max. ' + extraGroup.maxSelections : '' }}
           </h6>
 
-          <mat-radio-group
+          <!-- <mat-radio-group
             class="oxp-custom-group flex flex-col"
             *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
             color="primary"
@@ -62,6 +62,43 @@
                 <span>
                   {{ extra.name }}
                 </span>
+                <span class="ml-auto" *ngIf="extra.price">
+                  + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+                </span>
+              </span>
+            </mat-checkbox>
+          </ng-container> -->
+
+          <mat-radio-group
+            class="oxp-custom-group flex flex-col"
+            *ngIf="extraGroup.selectionType === 'RADIO_GROUP'"
+            color="primary"
+            [(ngModel)]="extraGroup.selected">
+            <mat-radio-button *ngFor="let extra of extraGroup.extras; let last = last" [value]="extra.id" [disabled]="!extra.available">
+              <span class="flex flex-grow flex-row py-2" [ngClass]="{ 'border-b-2': !last }">
+                <span>
+                  {{ extra.name }}
+                </span>
+                <span class="pl-2 text-rose-300" *ngIf="!extra.available">{{ 'AUSVERKAUFT' | translate }}</span>
+                <span class="ml-auto" *ngIf="extra.price">
+                  + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+                </span>
+              </span>
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <ng-container *ngIf="extraGroup.selectionType === 'CHECKBOX'">
+            <mat-checkbox
+              class="oxp-custom-group flex"
+              color="primary"
+              *ngFor="let extra of extraGroup.extras; let last = last"
+              [disabled]="!(extraGroup | checkable : extra) || !extra.available"
+              [(ngModel)]="extra.selected">
+              <span class="flex flex-grow flex-row py-2" [ngClass]="{ 'border-b-2': !last }">
+                <span [ngClass]="{ 'line-through': !extra.available }">
+                  {{ extra.name }}
+                </span>
+                <span class="pl-2 text-rose-300" *ngIf="!extra.available">{{ 'AUSVERKAUFT' | translate }}</span>
                 <span class="ml-auto" *ngIf="extra.price">
                   + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
                 </span>

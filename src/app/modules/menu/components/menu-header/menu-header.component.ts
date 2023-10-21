@@ -12,8 +12,4 @@ import { Restaurant } from './../../models/restaurant';
 })
 export class MenuHeaderComponent {
   @Input() restaurant: Restaurant | null = null;
-
-  openOrderXPay() {
-    window.location.href = 'https://orderxpay.com/';
-  }
 }

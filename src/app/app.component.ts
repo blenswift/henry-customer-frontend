@@ -89,14 +89,14 @@ export class AppComponent implements OnInit {
   }
 
   openOrderXPay() {
-    window.location.href = 'https://orderxpay.com/';
+    window.location.href = 'https://www.henryapp.de/';
   }
 
   showImpressum() {
-    window.location.href = 'https://orderxpay.com/impressum';
+    window.location.href = 'https://www.henryapp.de/impressum';
   }
 
   showDatenschutz() {
-    window.location.href = 'https://orderxpay.com/datenschutz';
+    window.location.href = 'https://www.henryapp.de/datenschutz';
   }
 }

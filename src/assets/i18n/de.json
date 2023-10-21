@@ -43,5 +43,6 @@
   "NOPRODUCTFOUND": "Whoops - Es existiert kein Produkt mit dem Namen!",
   "KEINTRINKGELD": "Kein Trinkgeld",
   "DEINTRINKGELD": "Dein Trinkgeld:",
-  "MENU": "Menü"
+  "MENU": "Menü",
+  "AUSVERKAUFT": "Ausverkauft"
 }

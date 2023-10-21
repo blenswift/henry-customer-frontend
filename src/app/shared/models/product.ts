@@ -33,6 +33,7 @@ export interface Extra {
   allergens: string[];
   selected: boolean;
   additives: string[];
+  available: boolean;
 }
 
 export type SelectionType = 'CHECKBOX' | 'RADIO_GROUP' | 'MULTI_SELECT';

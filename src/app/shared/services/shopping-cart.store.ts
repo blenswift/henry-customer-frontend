@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
 import { LoadingStatus } from '../models/loading-status';
@@ -27,7 +29,12 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
   readonly order$ = this.select(state => state.order);
 
-  constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
+  ) {
     super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null, state: 'DATA' });
   }
 
@@ -88,7 +95,11 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
                 this.router.navigate(['checkout/' + data.checkoutId]);
               }
             },
-            () => {}
+            (err: any) => {
+              console.log(err);
+              this.patchState(state => ({ ...state, state: 'DATA' }));
+              this.openSnackBar(err.error.message);
+            }
           )
         )
       )
@@ -231,5 +242,9 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
 
     order.totalPrice += state.tip;
     return of(order);
+  }
+
+  openSnackBar(msg: string) {
+    this.snackBar.open(msg, undefined, { duration: 3000 });
   }
 }
