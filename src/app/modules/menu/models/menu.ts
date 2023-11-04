@@ -4,4 +4,5 @@ export interface Menu {
   categories: Category[];
   filters: string[];
   products: Product[];
+  qrCodeType: 'MENU' | 'DINE_IN' | 'TAKEAWAY';
 }

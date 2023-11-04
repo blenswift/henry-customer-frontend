@@ -12,8 +12,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { distinctUntilChanged } from 'rxjs';
 import { CounterButtonComponent } from 'src/app/shared/components/counter-button/counter-button.component';
+import { PreorderStatus } from '../../models/PreorderStatus';
 import { Restaurant } from './../../../menu/models/restaurant';
 import { CartProductComponent } from './cart-product/cart-product.component';
+import { CartTimeslotsTakeawayComponent } from './cart-timeslots-takeaway/cart-timeslots-takeaway.component';
 
 @Component({
   selector: 'oxp-cart-main',
@@ -35,6 +37,7 @@ import { CartProductComponent } from './cart-product/cart-product.component';
     MatButtonToggleModule,
     CurrencyPipe,
     CounterButtonComponent,
+    CartTimeslotsTakeawayComponent,
   ],
   templateUrl: './cart-main.component.html',
   styleUrls: ['./cart-main.component.scss'],
@@ -56,6 +59,8 @@ export class CartMainComponent implements OnInit {
   @Input() currentPriceWithoutTip = 0;
   @Input() restaurantInfo: Restaurant | null = null;
   @Input() ageRestricted = false;
+  @Input() preorderStatus: PreorderStatus | null = null;
+  @Input() qrCodeType: string | null = '';
   @Output() removeProduct = new EventEmitter<number>();
   translateService = inject(TranslateService);
 
@@ -63,13 +68,10 @@ export class CartMainComponent implements OnInit {
   tipValueCustom = new FormControl(0);
   tipValuePercent = new FormControl(10);
 
-  constructor() {}
-
   ngOnInit(): void {
     this.tipType.valueChanges.pipe(distinctUntilChanged()).subscribe(value => {
       if (value === '%' || value === 'custom') {
         this.form.patchValue({ tip: this.currentPriceWithoutTip * 0.1 });
-        console.log(this.form.getRawValue());
         this.form.updateValueAndValidity();
         this.tipValuePercent.setValue(10);
         this.tipValueCustom.setValue((this.currentPriceWithoutTip * 0.1) / 100);

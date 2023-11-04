@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
+import { PreorderStatus } from 'src/app/modules/shopping-cart/models/PreorderStatus';
+import { PreorderStatusService } from 'src/app/modules/shopping-cart/services/preorder-status.service';
 import { LoadingStatus } from '../models/loading-status';
 import { Extra } from '../models/product';
 import { priceOfProduct } from '../utils/priceUtils';
@@ -19,6 +20,8 @@ export interface ShoppingCartState {
   tip: number;
   notes: string;
   order: Order | null;
+  scheduledTime: Date | null;
+  preorderStatus: PreorderStatus | null;
   state: LoadingStatus;
 }
 
@@ -28,15 +31,45 @@ export interface ShoppingCartState {
 export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
   readonly order$ = this.select(state => state.order);
+  readonly preorderStatus$ = this.select(state => state.preorderStatus);
 
   constructor(
     private shoppingCartService: ShoppingCartService,
+    private preorderStatusService: PreorderStatusService,
     private router: Router,
-    private snackBar: MatSnackBar,
-    private translateService: TranslateService
+    private snackBar: MatSnackBar
   ) {
-    super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null, state: 'DATA' });
+    super({
+      items: [],
+      paymentType: null,
+      fcmToken: null,
+      tip: 0,
+      notes: '',
+      order: null,
+      preorderStatus: null,
+      scheduledTime: null,
+      state: 'DATA',
+    });
   }
+
+  loadPreorderStatus = this.effect((qrCode$: Observable<string>) => {
+    return qrCode$.pipe(
+      tap(() => this.patchState({ state: 'LOADING' })),
+      exhaustMap(qrCode =>
+        this.preorderStatusService.getPreorderStatus(qrCode).pipe(
+          tapResponse(
+            data => {
+              this.patchState({ preorderStatus: data, state: 'DATA' });
+            },
+            (err: any) => {
+              this.patchState({ state: 'DATA' });
+              this.openSnackBar(err.error.message);
+            }
+          )
+        )
+      )
+    );
+  });
 
   addItem = this.effect((productCart$: Observable<ProductCart>) => {
     return productCart$.pipe(
@@ -144,6 +177,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       totalPrice: 0,
       paymentChannel: state.paymentType,
       notes: state.notes,
+      scheduleDate: state.scheduledTime,
     } as Order;
 
     state.items.forEach(item => {
@@ -197,6 +231,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
       totalPrice: 0,
       paymentChannel: state.paymentType,
       notes: state.notes,
+      scheduleDate: state.scheduledTime,
     } as Order;
 
     state.items.forEach(item => {

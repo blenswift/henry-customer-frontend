@@ -6,6 +6,8 @@
         class="h-full flex-1 overflow-y-scroll"
         [form]="form"
         [restaurantInfo]="restaurantInfoVm$ | async"
+        [qrCodeType]="qrCodeType$ | async"
+        [preorderStatus]="preorderStatus$ | async"
         [currentPriceWithoutTip]="vm.items | sumOfProducts : 0"
         [ageRestricted]="(ageRestrictedProducts$ | async)!.length > 0"
         (removeProduct)="removeProduct($event)"></oxp-cart-main>

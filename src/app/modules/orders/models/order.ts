@@ -7,6 +7,7 @@ export interface Order {
   tip: number;
   orderItems: OrderItem[];
   notes: string;
+  scheduleDate: Date | null;
 }
 
 export interface OrderItem {

@@ -10,7 +10,7 @@
     <oxp-menu-header *ngIf="restaurant.info" [restaurant]="restaurant.info"></oxp-menu-header>
     <oxp-menu-category-carousel
       class="sticky top-0"
-      *ngIf="restaurant?.info?.open"
+      *ngIf="restaurant.status === 'CLOSED'"
       [categories]="restaurant.categories"
       [filterCtrl]="filterCtrl"
       (categoryClicked)="categoryClicked($event)"></oxp-menu-category-carousel>
@@ -31,3 +31,15 @@
   </div>
   <oxp-toolbar-bottom [order]="restaurant.shoppingCart?.order!" [active]="'Menu'" *ngIf="restaurant.status === 'DATA'"></oxp-toolbar-bottom>
 </ng-container>
+
+<div class="flex h-40 flex-col items-center pb-16">
+  <img
+    class="w-32 object-scale-down"
+    src="https://static.wixstatic.com/media/5a9324_50b1ccc02fc342478249460ccbd77527~mv2.png/v1/crop/x_0,y_328,w_600,h_205/fill/w_136,h_46,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo_Henry.png"
+    (click)="openOrderXPay()" />
+  <div class="flex flex-row">
+    <p (click)="showDatenschutz()">{{ 'DATENSCHUTZ' | translate | uppercase }}</p>
+    &
+    <p (click)="showImpressum()">{{ 'IMPRESSUM' | translate | uppercase }}</p>
+  </div>
+</div>

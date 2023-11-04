@@ -6,7 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { combineLatest, of, switchMap } from 'rxjs';
+import { combineLatest, filter, of, switchMap, tap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
 import { PageHeaderComponent } from './../../shared/components/page-header/page-header.component';
@@ -40,25 +40,44 @@ export default class ShoppingCartDialogComponent {
   translateService = inject(TranslateService);
   route = inject(ActivatedRoute);
 
-  public shoppingCartVm$ = this.shoppingCartStore.vm$;
+  public shoppingCartVm$ = this.route.params.pipe(
+    filter(params => !!params['qrcode']),
+    tap(params => this.shoppingCartStore.loadPreorderStatus(params['qrcode'])),
+    switchMap(() => this.shoppingCartStore.vm$)
+  );
   public restaurantInfoVm$ = this.restaurantStore.info$;
   public ageRestrictedProducts$ = this.restaurantStore.ageRestrictedProducts$;
+  public qrCodeType$ = this.restaurantStore.qrCodeType$;
+  public preorderStatus$ = this.shoppingCartStore.preorderStatus$;
 
-  public form$ = combineLatest([this.shoppingCartVm$, this.restaurantStore.info$]).pipe(
-    switchMap(([vm, restaurantInfo]) => {
+  public form$ = combineLatest([this.shoppingCartVm$, this.restaurantStore.info$, this.restaurantStore.qrCodeType$]).pipe(
+    switchMap(([vm, restaurantInfo, qrCodeType]) => {
       const itemsArray = vm.items.map(item => this.fb.group({ quantity: item.quantity, product: item.product }));
       const paymentType = restaurantInfo?.acceptedPaymentChannels.includes('DIGITAL')
         ? 'DIGITAL'
         : restaurantInfo?.acceptedPaymentChannels[0];
-      return of(
-        this.fb.group({
+
+      let form;
+
+      if (qrCodeType === 'TAKEAWAY') {
+        form = this.fb.group({
+          items: new FormArray(itemsArray),
+          paymentType: new FormControl(paymentType),
+          fcmToken: new FormControl(vm.fcmToken),
+          tip: new FormControl(vm.tip, [Validators.min(0)]),
+          scheduledTime: new FormControl(null, Validators.required),
+          notes: new FormControl(vm.notes),
+        });
+      } else {
+        form = this.fb.group({
           items: new FormArray(itemsArray),
           paymentType: new FormControl(paymentType),
           fcmToken: new FormControl(vm.fcmToken),
           tip: new FormControl(vm.tip, [Validators.min(0)]),
           notes: new FormControl(vm.notes),
-        })
-      );
+        });
+      }
+      return of(form);
     })
   );
 

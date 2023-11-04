@@ -1,0 +1,49 @@
+<h4 class="pt-6 text-xl font-medium">{{ 'ABHOLZEIT' | uppercase }}</h4>
+<ng-container class="flex flex-col justify-start gap-2">
+  <div class="flex flex-row gap-2">
+    <div
+      class="cursor-pointer rounded border-2 px-10 py-5 text-xl"
+      [ngClass]="{ 'bg-gray-200': selectedDay === 'today' }"
+      *ngIf="preorderSettings?.openingHours?.today?.isOpen"
+      (click)="selectDay('today')">
+      <div>{{ today | date : 'EEEE' : '' : translateService.getBrowserLang() }}</div>
+      {{ today | date : 'd. MMM' : '' : translateService.getBrowserLang() }}
+    </div>
+    <div
+      class="cursor-pointer rounded border-2 px-10 py-5 text-xl"
+      [ngClass]="{ 'bg-gray-200': selectedDay === 'tomorrow' }"
+      *ngIf="preorderSettings?.openingHours?.tomorrow?.isOpen"
+      (click)="selectDay('tomorrow')">
+      <div>{{ tomorrow | date : 'EEEE' : '' : translateService.getBrowserLang() }}</div>
+      {{ tomorrow | date : 'd. MMM' : '' : translateService.getBrowserLang() }}
+    </div>
+  </div>
+  <div class="pt-2">
+    <ng-container *ngIf="selectedDay === 'today'">
+      <div
+        class="scrollbar-hide grid grid-flow-col grid-rows-4 gap-3 overflow-x-scroll"
+        *ngFor="let interval of preorderSettings?.openingHours?.today?.intervals">
+        <div
+          class="cursor-pointer rounded border-2 px-7 py-3 text-center text-xl"
+          [ngClass]="{ 'bg-gray-200': formCtrl.value === timeslot }"
+          *ngFor="let timeslot of interval | timeslots"
+          (click)="selectTime(timeslot)">
+          {{ timeslot | date : 'H:mm' }}
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="selectedDay === 'tomorrow'">
+      <div
+        class="scrollbar-hide grid grid-flow-col grid-rows-4 gap-3 overflow-x-scroll"
+        *ngFor="let interval of preorderSettings?.openingHours?.tomorrow?.intervals">
+        <div
+          class="cursor-pointer rounded border-2 px-7 py-3 text-center text-xl"
+          [ngClass]="{ 'bg-gray-200': formCtrl.value === timeslot }"
+          *ngFor="let timeslot of interval | timeslots"
+          (click)="selectTime(timeslot)">
+          {{ timeslot | date : 'H:mm' }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

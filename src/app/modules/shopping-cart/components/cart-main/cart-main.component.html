@@ -8,6 +8,11 @@
 
       <div *ngIf="ageRestricted">{{ 'AGE_RESTRICTION_HINT' | translate }}</div>
 
+      <oxp-cart-timeslots-takeaway
+        *ngIf="qrCodeType === 'TAKEAWAY'"
+        [formCtrl]="$any(form.get('scheduledTime'))"
+        [preorderStatus]="preorderStatus"></oxp-cart-timeslots-takeaway>
+
       <h2 class="mt-4 text-xl font-medium">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
       <mat-radio-group class="oxp-custom-group flex flex-col" color="primary" formControlName="paymentType">
         <mat-radio-button *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentChannels; let first = first" [value]="paymentMethod">

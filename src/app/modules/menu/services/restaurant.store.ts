@@ -18,6 +18,7 @@ export interface RestaurantState {
   products: Product[];
   info: Restaurant | null;
   filters: Filter[];
+  qrCodeType: 'MENU' | 'DINE_IN' | 'TAKEAWAY' | '';
   status: LoadingStatus;
 }
 
@@ -36,6 +37,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   readonly info$ = this.select(state => state.info);
   readonly status$ = this.select(state => state.status);
   readonly filters$ = this.select(state => state.filters);
+  readonly qrCodeType$ = this.select(state => state.qrCodeType);
   readonly ageRestrictedProducts$ = this.products$.pipe(map(y => y.filter(x => x.legalAge > 0)));
 
   constructor(
@@ -46,7 +48,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private titleService: Title,
     private router: Router
   ) {
-    super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING' });
+    super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING', qrCodeType: '' });
   }
 
   load = this.effect($ => {
@@ -60,6 +62,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
                 this.patchState({
                   categories: menu.categories,
                   products: menu.products,
+                  qrCodeType: menu.qrCodeType,
                   filters: menu.filters.map(filter => ({ name: filter, active: false })),
                 });
               },
@@ -74,7 +77,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
           this.restaurantService.getRestaurant(sessionStorage.getItem('qrcode')!).pipe(
             tapResponse(
               info => {
-                this.patchState({ info, status: info.open ? 'DATA' : 'CLOSED', id: info.id });
+                this.patchState(state => ({ info, status: !info.open && state.qrCodeType === 'DINE_IN' ? 'CLOSED' : 'DATA', id: info.id }));
                 this.titleService.setTitle('HENRY - ' + info.name);
                 sessionStorage.setItem('restaurantId', info.id);
               },
