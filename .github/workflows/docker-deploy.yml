@@ -19,5 +19,4 @@ jobs:
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
             cd ~
             docker-compose pull frontend
-            docker-compose down
-            docker-compose up -d frontend
+            docker-compose up -d --no-deps --build frontend
