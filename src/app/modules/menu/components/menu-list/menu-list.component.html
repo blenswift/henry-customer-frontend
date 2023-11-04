@@ -2,7 +2,7 @@
   <div class="grid bg-white pb-4">
     <ng-container *ngFor="let product of products; let index = index">
       <div
-        class="w-full border-b border-t p-4 text-center text-2xl font-semibold"
+        class="w-full border-b border-t p-4 text-center text-xl font-bold"
         *ngIf="index === 0 || products![index - 1].categoryId !== product.categoryId"
         [id]="product.categoryId">
         {{ product.categoryName }}

@@ -1,3 +1,5 @@
-<div [ngClass]="category.selected ? ' bg-black text-white' : 'bg-white text-black'" class="rounded p-1 text-center font-semibold">
+<div
+  [ngClass]="category.selected ? ' bg-black font-semibold text-white' : 'bg-white font-light text-black'"
+  class="rounded p-1 text-center">
   {{ category.name }}
 </div>
