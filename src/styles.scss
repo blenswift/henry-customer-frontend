@@ -1,25 +1,16 @@
 html,
 body {
   height: 100%;
-  font-family: 'Open Sans';
+  font-family: 'Roboto';
 }
 body {
   margin: 0;
 }
 
-// @font-face {
-//   font-family: 'Open Sans', sans-serif;
-//   src: url(assets/fonts/static/OpenSans-Regular.ttf);
-// }
-
 @font-face {
-  font-family: 'Open Sans';
-  src: url('assets/fonts/OpenSans-Regular.woff2') format('woff2');
+  font-family: 'Roboto';
+  src: url('assets/fonts/Roboto-Light.ttf');
 }
-
-// .bg-color {
-//   background-color: #fcf8f5;
-// }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
