@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, concatMap, exhaustMap, of, tap } from 'rxjs';
 import { Order, OrderItem } from 'src/app/modules/orders/models/order';
 import { LoadingStatus } from '../models/loading-status';
@@ -14,7 +13,7 @@ import { ProductCart } from './../models/product-cart';
 
 export interface ShoppingCartState {
   items: ProductCart[];
-  paymentType: PaymentType | null;
+  paymentType: PaymentType | null | undefined;
   fcmToken: string | null;
   tip: number;
   notes: string;
@@ -29,12 +28,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
   readonly vm$ = this.select(state => state);
   readonly order$ = this.select(state => state.order);
 
-  constructor(
-    private shoppingCartService: ShoppingCartService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private translateService: TranslateService
-  ) {
+  constructor(private shoppingCartService: ShoppingCartService, private router: Router, private snackBar: MatSnackBar) {
     super({ items: [], paymentType: null, fcmToken: null, tip: 0, notes: '', order: null, state: 'DATA' });
   }
 
@@ -140,7 +134,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     const order = {
       fcmToken: state.fcmToken,
       orderItems: [],
-      tip: state.tip,
+      tip: state.paymentType === 'PHYSICAL' ? 0 : state.tip,
       totalPrice: 0,
       paymentChannel: state.paymentType,
       notes: state.notes,
@@ -193,7 +187,7 @@ export class ShoppingCartStore extends ComponentStore<ShoppingCartState> {
     const order = {
       fcmToken: state.fcmToken,
       orderItems: [],
-      tip: state.tip,
+      tip: state.paymentType === 'PHYSICAL' ? 0 : state.tip,
       totalPrice: 0,
       paymentChannel: state.paymentType,
       notes: state.notes,

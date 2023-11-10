@@ -6,9 +6,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { combineLatest, of, switchMap } from 'rxjs';
+import { combineLatest, filter, of, switchMap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
+import { PaymentType } from '../orders/models/order';
 import { PageHeaderComponent } from './../../shared/components/page-header/page-header.component';
 import { RestaurantStore } from './../menu/services/restaurant.store';
 import { CartMainComponent } from './components/cart-main/cart-main.component';
@@ -30,7 +31,6 @@ import { CartMainComponent } from './components/cart-main/cart-main.component';
   templateUrl: './shopping-cart-dialog.component.html',
   styleUrls: ['./shopping-cart-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RestaurantStore],
 })
 export default class ShoppingCartDialogComponent {
   private shoppingCartStore = inject(ShoppingCartStore);
@@ -44,12 +44,21 @@ export default class ShoppingCartDialogComponent {
   public restaurantInfoVm$ = this.restaurantStore.info$;
   public ageRestrictedProducts$ = this.restaurantStore.ageRestrictedProducts$;
 
+  public onlyPhisicalPayment = false;
+
   public form$ = combineLatest([this.shoppingCartVm$, this.restaurantStore.info$]).pipe(
+    filter(([vm, restaurantInfo]) => !!vm && !!restaurantInfo),
     switchMap(([vm, restaurantInfo]) => {
       const itemsArray = vm.items.map(item => this.fb.group({ quantity: item.quantity, product: item.product }));
-      const paymentType = restaurantInfo?.acceptedPaymentChannels.includes('DIGITAL')
-        ? 'DIGITAL'
-        : restaurantInfo?.acceptedPaymentChannels[0];
+      this.onlyPhisicalPayment =
+        restaurantInfo!.acceptedPaymentChannels.includes('PHYSICAL') && restaurantInfo!.acceptedPaymentChannels.length === 1;
+
+      let paymentType = vm.paymentType;
+
+      if (!paymentType) {
+        paymentType = restaurantInfo?.acceptedPaymentChannels.includes('DIGITAL') ? 'DIGITAL' : restaurantInfo?.acceptedPaymentChannels[0];
+      }
+
       return of(
         this.fb.group({
           items: new FormArray(itemsArray),
@@ -74,6 +83,10 @@ export default class ShoppingCartDialogComponent {
 
   removeProduct(itemIndex: number) {
     this.shoppingCartStore.removeItem(itemIndex);
+  }
+
+  paymentTypeChanged(paymentType: PaymentType) {
+    this.shoppingCartStore.setPaymentType(paymentType);
   }
 
   navigateToProducts() {
