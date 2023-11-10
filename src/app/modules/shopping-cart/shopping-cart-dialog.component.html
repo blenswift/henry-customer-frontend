@@ -19,7 +19,7 @@
             color="primary"
             [disabled]="form.invalid || (vm.items | sumOfProducts : form.getRawValue().tip!) < 0"
             (click)="bezahlen(form.getRawValue())">
-            {{ 'ZUR_KASSE' | translate | uppercase }}
+            {{ 'BESTELLEN' | translate | uppercase }}
             {{
               (vm.items | sumOfProducts : form.getRawValue().tip!) / 100
                 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
