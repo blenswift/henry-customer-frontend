@@ -40,7 +40,7 @@ export class OrderStore extends ComponentStore<OrderState> {
   });
 
   checkOrderStatus = this.effect($ => {
-    return timer(0, 60000).pipe(
+    return timer(0, 10000).pipe(
       withLatestFrom(this.orders$),
       map(([, orders]) => orders.filter(x => x.status !== 'COMPLETED' && moment(x.createdAt).add(1, 'days').isAfter(moment()))),
       filter(orders => orders.length > 0),
