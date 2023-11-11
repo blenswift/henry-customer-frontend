@@ -16,6 +16,6 @@
     </div>
   </mat-card-actions>
   <mat-card-footer>
-    <mat-progress-bar mode="indeterminate" *ngIf="order.status !== 'COMPLETED' && order.status !== 'CANCELLED'"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="order.status === 'IN_PROGRESS'"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>
