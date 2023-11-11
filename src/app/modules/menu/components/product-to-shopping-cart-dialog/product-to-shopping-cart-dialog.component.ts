@@ -49,17 +49,9 @@ export class ProductToShoppingCartDialogComponent {
     public translateService: TranslateService,
     private dialog: MatDialog
   ) {
-    // Zuweisung von Defaultwerten; Könnte man über das Datenmodel mal sprechen. Nicht so dolle in diesem Fall
     data.product.extraGroups.map(extraGroup => {
-      if (extraGroup.selectionType === 'CHECKBOX') {
-        extraGroup.extras
-          .filter(extra => extra.id === extraGroup.defaultValue)
-          .map(item => {
-            item.selected = true;
-            return item;
-          });
-      } else if (extraGroup.selectionType === 'RADIO_GROUP') {
-        extraGroup.selected = extraGroup.defaultValue;
+      if (extraGroup.selectionType === 'RADIO_GROUP') {
+        extraGroup.selected = extraGroup.extras.filter(extra => extra.selected)[0]?.id ?? null;
       }
       return extraGroup;
     });
