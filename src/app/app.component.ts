@@ -51,9 +51,9 @@ export class AppComponent implements OnInit {
       .then()
       .catch(err => {
         console.error('Could not subscribe to notifications', err);
-        // long polling für den Status der Bestellungen sollte keine Push Notifications möglich sein
-        this.orderStore.checkOrderStatus();
       });
+    // long polling für den Status der Bestellungen sollte keine Push Notifications möglich sein
+    this.orderStore.checkOrderStatus();
   }
 
   ngOnInit(): void {

@@ -1,12 +1,12 @@
 export const environment = {
   firebase: {
-    apiKey: 'AIzaSyAgkrR4Wyr9yl3pKjNdWm8vl1zKi1hOYAE',
-    authDomain: 'orderxpay-b8fc3.firebaseapp.com',
-    projectId: 'orderxpay-b8fc3',
-    storageBucket: 'orderxpay-b8fc3.appspot.com',
-    messagingSenderId: '577111004701',
-    appId: '1:577111004701:web:581366d2d9aa478be398f4',
-    vapidKey: 'BBKnhkP8Dg364qywwe5aWft3Jua_sC-GfYFjqLuY1pB3VTkqt0QZzOBLv6ZyM4-bMZHrowJWjCVkGuIWXF0UPcg',
+    apiKey: 'AIzaSyAuWi6kKibzN8QFAm-7KjZgiygWHf_jusc',
+    authDomain: 'henry-918be.firebaseapp.com',
+    projectId: 'henry-918be',
+    storageBucket: 'henry-918be.appspot.com',
+    messagingSenderId: '294282757263',
+    appId: '1:294282757263:web:9e11950ce86ecf10b89cfa',
+    vapidKey: 'BCt3WY1VDO8URYh3ZyG6b3K7W7qYlazAdyWPKFU7WllronffNjBmWVq2c-3ruUbklprdkcPAdwlGdoo_X7L_foE',
   },
   production: true,
 };
