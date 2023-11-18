@@ -93,8 +93,7 @@
               color="primary"
               *ngFor="let extra of extraGroup.extras; let last = last"
               [disabled]="!(extraGroup | checkable : extra) || !extra.available"
-              [(ngModel)]="extra.selected"
-              [checked]="extra.defaultSelected">
+              [(ngModel)]="extra.selected">
               <span class="flex flex-grow flex-row py-2" [ngClass]="{ 'border-b-2': !last }">
                 <span [ngClass]="{ 'line-through': !extra.available }">
                   {{ extra.name }}

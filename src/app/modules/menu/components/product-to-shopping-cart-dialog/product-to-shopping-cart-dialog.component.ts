@@ -51,7 +51,9 @@ export class ProductToShoppingCartDialogComponent {
   ) {
     data.product.extraGroups.map(extraGroup => {
       if (extraGroup.selectionType === 'RADIO_GROUP') {
-        extraGroup.selected = extraGroup.extras.filter(extra => extra.selected)[0]?.id ?? null;
+        extraGroup.selected = extraGroup.extras.filter(extra => extra.defaultSelected)[0]?.id ?? null;
+      } else if (extraGroup.selectionType === 'CHECKBOX') {
+        extraGroup.extras.map(extra => (extra.selected = extra.defaultSelected));
       }
       return extraGroup;
     });
