@@ -11,14 +11,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { initializeApp } from 'firebase/app';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/routes';
+import { environment } from './environments/environment';
 
 initializeApp({
-  apiKey: 'AIzaSyAgkrR4Wyr9yl3pKjNdWm8vl1zKi1hOYAE',
-  authDomain: 'orderxpay-b8fc3.firebaseapp.com',
-  projectId: 'orderxpay-b8fc3',
-  storageBucket: 'orderxpay-b8fc3.appspot.com',
-  messagingSenderId: '577111004701',
-  appId: '1:577111004701:web:581366d2d9aa478be398f4',
+  apiKey: environment.firebase.apiKey,
+  authDomain: environment.firebase.authDomain,
+  projectId: environment.firebase.projectId,
+  storageBucket: environment.firebase.storageBucket,
+  messagingSenderId: environment.firebase.messagingSenderId,
+  appId: environment.firebase.appId,
 });
 
 export function HttpLoaderFactory(http: HttpClient) {
