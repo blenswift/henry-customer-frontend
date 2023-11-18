@@ -18,7 +18,6 @@ export interface Product {
 export interface ExtraGroup {
   name: string;
   selectionType: SelectionType;
-  defaultValue: string | null;
   maxSelections: number;
   selected: string | null;
   extras: Extra[];
@@ -31,6 +30,7 @@ export interface Extra {
   maxQuantity: number;
   quantity: number;
   allergens: string[];
+  defaultSelected: boolean;
   selected: boolean;
   additives: string[];
   available: boolean;
