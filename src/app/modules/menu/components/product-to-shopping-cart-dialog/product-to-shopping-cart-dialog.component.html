@@ -5,7 +5,7 @@
     </button>
   </header>
   <main class="flex-1 overflow-y-scroll pb-4">
-    <img class="h-56 w-full object-cover object-center" [src]="data.product.imageUrl" />
+    <img *ngIf="data.product.imageUrl" class="h-56 w-full object-cover object-center" [src]="data.product.imageUrl" />
     <div class="px-4 pt-2">
       <div>
         <div class="flex flex-row items-center">
@@ -24,7 +24,6 @@
 
         <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
         <div class="flex flex-row items-center" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">
-          <h6 class="my-2 text-base font-medium leading-tight">{{ 'ZUTATEN' | translate }}: &nbsp;</h6>
           {{ data.product.ingredients.join(', ') }}
         </div>
       </div>

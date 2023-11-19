@@ -13,5 +13,5 @@
       </p>
     </div>
   </div>
-  <img class="h-full w-1/4 rounded object-cover object-center" [src]="product.imageUrl" alt="google" />
+  <img *ngIf="product.imageUrl" class="h-full w-1/4 rounded object-cover object-center" [src]="product.imageUrl" alt="google" />
 </div>
