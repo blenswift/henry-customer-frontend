@@ -8,7 +8,7 @@
     </div>
     <div class="flex items-center">
       <p matListItemLine>
-        {{ 'FROM' | translate }}
+        <!-- {{ 'FROM' | translate }} -->
         {{ product.basePrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
       </p>
     </div>
