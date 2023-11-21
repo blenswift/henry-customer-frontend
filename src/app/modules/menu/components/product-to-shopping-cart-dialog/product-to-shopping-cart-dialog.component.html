@@ -98,9 +98,9 @@
                   {{ extra.name }}
                 </span>
                 <span class="pl-2 text-rose-300" *ngIf="!extra.available">{{ 'AUSVERKAUFT' | translate }}</span>
-                <span class="ml-auto" *ngIf="extra.price">
+                <!-- <span class="ml-auto" *ngIf="extra.price">
                   + {{ extra.price / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
-                </span>
+                </span> -->
               </span>
             </mat-checkbox>
           </ng-container>
