@@ -13,15 +13,14 @@
             {{ data.product.name }}
           </h4>
           <div class="ml-auto flex items-center">
-            <mat-chip *ngIf="data.product.legalAge > 0" class="text-sm font-medium">
-              <div class="text-red-500">{{ 'AGE_RESTRICTED' | translate }} ({{ data.product.legalAge }})</div>
-            </mat-chip>
             <button mat-icon-button color="primary" class="flex" (click)="openInfo()">
               <mat-icon>info</mat-icon>
             </button>
           </div>
         </div>
-
+        <mat-chip *ngIf="data.product.legalAge > 0" class="text-sm font-medium">
+          <div class="text-red-500">{{ 'AGE_RESTRICTED' | translate }} ({{ data.product.legalAge }})</div>
+        </mat-chip>
         <p class="py-2" *ngIf="data.product.description">{{ data.product.description }}</p>
         <div class="flex flex-row items-center" *ngIf="data.product.ingredients && data.product.ingredients.length > 0">
           {{ data.product.ingredients.join(', ') }}
