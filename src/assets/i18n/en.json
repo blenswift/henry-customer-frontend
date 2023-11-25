@@ -45,5 +45,6 @@
   "DEINTRINKGELD": "Your tip:",
   "MENU": "Menu",
   "AUSVERKAUFT": "Out of stock",
-  "BESTELLEN": "Order"
+  "BESTELLEN": "Order",
+  "AELTER_ALS_EIN_TAG": "older than 1 day"
 }

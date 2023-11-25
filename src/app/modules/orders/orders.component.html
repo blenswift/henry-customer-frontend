@@ -1,21 +1,35 @@
 <oxp-page-header (closeCard)="navigate()">{{ 'BESTELLUNGEN' | translate | uppercase }}</oxp-page-header>
 
 <div *ngIf="orders$ | async as orders; else loading" class="pb-16">
-  <div class="mx-4">
-    <p class="py-2 text-lg font-medium leading-tight">{{ 'AUSSTEHEND' | translate }}</p>
+  <ng-container *ngIf="openOrders$ | async as openOrders">
+    <div class="mx-4" *ngIf="openOrders.length > 0">
+      <p class="py-2 text-lg font-medium leading-tight">{{ 'AUSSTEHEND' | translate }}</p>
 
-    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-      <oxp-order *ngFor="let order of openOrders$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <oxp-order *ngFor="let order of openOrders" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
-  <div class="m-4">
-    <p class="py-2 text-lg font-medium leading-tight">{{ 'FERTIG' | translate }}</p>
+  <ng-container *ngIf="completedOrders$ | async as completedOrders">
+    <div class="m-4" *ngIf="completedOrders.length > 0">
+      <p class="py-2 text-lg font-medium leading-tight">{{ 'FERTIG' | translate }}</p>
 
-    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-      <oxp-order *ngFor="let order of completedOrders$ | async" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <oxp-order *ngFor="let order of completedOrders" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="olderThanOneDay$ | async as olderThanOneDay">
+    <mat-accordion *ngIf="olderThanOneDay.length > 0" class="m-4">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ 'AELTER_ALS_EIN_TAG' | translate }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <oxp-order *ngFor="let order of olderThanOneDay" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
 </div>
 <oxp-toolbar-bottom [order]="shoppingCart.order!" [active]="'Orders'" *ngIf="shoppingCart$ | async as shoppingCart"></oxp-toolbar-bottom>
 <ng-template #loading>

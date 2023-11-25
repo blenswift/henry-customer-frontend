@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { Observable, map, switchMap, tap } from 'rxjs';
 import { PageHeaderComponent } from 'src/app/shared/components/page-header/page-header.component';
 import { ShoppingCartState, ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
@@ -48,9 +49,21 @@ export default class OrdersComponent {
     switchMap(() => this.orderStore.orders$)
   );
 
-  openOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status !== 'COMPLETED')));
+  openOrders$ = this.orderStore.orders$.pipe(
+    map(orders =>
+      orders.filter((x: OrderTracking) => x.status !== 'COMPLETED' && moment(x.createdAt).isAfter(moment().subtract(1, 'days')))
+    )
+  );
 
-  completedOrders$ = this.orderStore.orders$.pipe(map(orders => orders.filter((x: OrderTracking) => x.status === 'COMPLETED')));
+  completedOrders$ = this.orderStore.orders$.pipe(
+    map(orders =>
+      orders.filter((x: OrderTracking) => x.status === 'COMPLETED' && moment(x.createdAt).isAfter(moment().subtract(1, 'days')))
+    )
+  );
+
+  olderThanOneDay$ = this.orderStore.orders$.pipe(
+    map(orders => orders.filter((x: OrderTracking) => moment(x.createdAt).isBefore(moment().subtract(1, 'days'))))
+  );
 
   navigate() {
     this.router.navigate(['/menu/' + sessionStorage.getItem('qrcode') + '/' + sessionStorage.getItem('restaurantId')]);
