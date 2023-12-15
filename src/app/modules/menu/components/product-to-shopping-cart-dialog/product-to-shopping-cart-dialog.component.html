@@ -116,8 +116,8 @@
       <ng-container *ngIf="data.qrCodeType === 'MENU'">
         <ng-container *ngFor="let extraGroup of data.product.extraGroups">
           <div class="pb-2">
-            <h6 class="my-2 text-base font-medium leading-tight">
-              {{ extraGroup.name }} {{ extraGroup.maxSelections > 1 ? ' - max. ' + extraGroup.maxSelections : '' }}
+            <h6 class="my-2 text-base font-semibold leading-tight">
+              {{ extraGroup.name }}
             </h6>
 
             <div *ngFor="let extra of extraGroup.extras; let last = last" class="pl-10">
