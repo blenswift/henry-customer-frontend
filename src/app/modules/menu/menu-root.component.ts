@@ -14,6 +14,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
+import { QrCodeType } from 'src/app/shared/models/qrCodeType';
 import { ToolbarBottomComponent } from '../../shared/components/toolbar-bottom/toolbar-bottom.component';
 import { ProductCart } from './../../shared/models/product-cart';
 import { ShoppingCartState, ShoppingCartStore } from './../../shared/services/shopping-cart.store';
@@ -75,6 +76,8 @@ export default class MenuRootComponent {
     switchMap(() => this.restaurantStore.products$)
   );
 
+  qrCodeType$ = this.restaurantStore.qrCodeType$;
+
   shoppingCartAmount$ = this.shoppingCartStore.order$.pipe(
     map(order => order?.orderItems),
     map(orderItems => (orderItems ? orderItems.map(item => item.quantity) : [])),
@@ -106,9 +109,9 @@ export default class MenuRootComponent {
 
   constructor(private _bottomSheet: MatBottomSheet) {}
 
-  openProductModal(product: Product) {
+  openProductModal(product: Product, qrCodeType: QrCodeType) {
     const dialogRef = this._bottomSheet.open(ProductToShoppingCartDialogComponent, {
-      data: { product: structuredClone(product), quantity: 1 } as ProductCart,
+      data: { product: structuredClone(product), quantity: 1, qrCodeType } as ProductCart,
     });
 
     dialogRef

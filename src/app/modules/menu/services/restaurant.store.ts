@@ -8,6 +8,7 @@ import { Observable, concat, map, switchMap, tap } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { LoadingStatus } from 'src/app/shared/models/loading-status';
 import { Product } from 'src/app/shared/models/product';
+import { QrCodeType } from 'src/app/shared/models/qrCodeType';
 import { Restaurant } from '../models/restaurant';
 import { MenuService } from './menu.service';
 import { RestaurantService } from './restaurant.service';
@@ -16,6 +17,7 @@ export interface RestaurantState {
   id: string;
   categories: Category[];
   products: Product[];
+  qrCodeType: QrCodeType;
   info: Restaurant | null;
   filters: Filter[];
   status: LoadingStatus;
@@ -37,6 +39,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
   readonly status$ = this.select(state => state.status);
   readonly filters$ = this.select(state => state.filters);
   readonly ageRestrictedProducts$ = this.products$.pipe(map(y => y.filter(x => x.legalAge > 0)));
+  readonly qrCodeType$ = this.select(state => state.qrCodeType);
 
   constructor(
     private menuService: MenuService,
@@ -46,7 +49,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
     private titleService: Title,
     private router: Router
   ) {
-    super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING' });
+    super({ id: '', categories: [], filters: [], products: [], info: null, status: 'LOADING', qrCodeType: 'MENU' });
   }
 
   load = this.effect($ => {
@@ -61,6 +64,7 @@ export class RestaurantStore extends ComponentStore<RestaurantState> {
                   categories: menu.categories,
                   products: menu.products,
                   filters: menu.filters.map(filter => ({ name: filter, active: false })),
+                  qrCodeType: menu.qrCodeType,
                 });
               },
               (err: any) => {
