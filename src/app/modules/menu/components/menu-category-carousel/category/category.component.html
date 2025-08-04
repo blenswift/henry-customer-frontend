@@ -1,5 +1,8 @@
 <div
-  [ngClass]="category.selected ? ' bg-black font-semibold text-white' : 'bg-white font-light text-black'"
-  class="rounded p-1 text-center">
+  [ngClass]="category.selected
+    ? 'bg-black text-white font-semibold shadow'
+    : 'bg-white text-black font-normal border border-gray-300 hover:bg-gray-100 hover:text-black'"
+  class="rounded-full px-5 py-2 text-center cursor-pointer transition-all duration-150 min-w-max text-base select-none"
+>
   {{ category.name }}
 </div>
