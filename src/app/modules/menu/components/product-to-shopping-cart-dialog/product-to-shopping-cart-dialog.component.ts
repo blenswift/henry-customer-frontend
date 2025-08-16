@@ -16,6 +16,7 @@ import { CheckablePipe } from '../../pipes/checkable.pipe';
 import { CounterButtonComponent } from './../../../../shared/components/counter-button/counter-button.component';
 import { SumOfProductPipe } from './../../../../shared/pipes/sum-of-product.pipe';
 import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/product-ingridients-dialog.component';
+import {MatDividerModule} from "@angular/material/divider";
 
 @Component({
   selector: 'oxp-product-to-shopping-cart-dialog',
@@ -30,6 +31,7 @@ import { ProductIngridientsDialogComponent } from './product-ingridients-dialog/
     MatRadioModule,
     MatCheckboxModule,
     FormsModule,
+    MatDividerModule,
     MatIconModule,
     ReactiveFormsModule,
     SumOfProductPipe,
@@ -57,6 +59,12 @@ export class ProductToShoppingCartDialogComponent {
       }
       return extraGroup;
     });
+  }
+
+  selectedCount(group: any): number {
+    return Array.isArray(group?.extras)
+      ? group.extras.filter((x: any) => x?.selected).length
+      : 0;
   }
 
   openInfo() {
