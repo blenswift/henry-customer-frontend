@@ -2,9 +2,10 @@
   <main class="px-4">
     <ng-container *ngIf="form.getRawValue().items.length > 0; else noProduct">
       <oxp-cart-product
-        *ngFor="let product of form.getRawValue().items; let index = index"
-        [productCart]="product"
-        (removeProduct)="removeProduct.emit(index)"></oxp-cart-product>
+        *ngFor="let ctrl of itemsArray.controls; let index = index"
+        [productCart]="ctrl.value"
+        (removeProduct)="removeProduct.emit(index)">
+      </oxp-cart-product>
 
       <div *ngIf="ageRestricted">{{ 'AGE_RESTRICTION_HINT' | translate }}</div>
 
@@ -25,7 +26,7 @@
         <textarea matInput formControlName="notes"></textarea>
       </mat-form-field>
 
-      <ng-container *ngIf="!onlyPhisicalPayment && form.getRawValue().paymentType !== 'PHYSICAL'">
+      <ng-container *ngIf="!onlyPhisicalPayment && form.get('paymentType')?.value !== 'PHYSICAL'">
         <h4 class="pt-6 text-xl font-medium">{{ 'TRINKGELD' | translate | uppercase }}</h4>
         <div class="flex flex-col justify-start gap-2">
           <div>

@@ -46,5 +46,6 @@
   "MENU": "Menu",
   "AUSVERKAUFT": "Out of stock",
   "BESTELLEN": "Order",
-  "AELTER_ALS_EIN_TAG": "older than 1 day"
+  "AELTER_ALS_EIN_TAG": "older than 1 day",
+  "RECEIPT_OPEN": "Open receipt"
 }

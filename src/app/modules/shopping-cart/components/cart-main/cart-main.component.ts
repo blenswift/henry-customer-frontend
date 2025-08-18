@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -12,8 +12,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { distinctUntilChanged } from 'rxjs';
 import { CounterButtonComponent } from 'src/app/shared/components/counter-button/counter-button.component';
-import { Restaurant } from './../../../menu/models/restaurant';
-import { PaymentType } from './../../../orders/models/order';
+import { Restaurant } from '../../../menu/models/restaurant';
+import { PaymentType } from '../../../orders/models/order';
 import { CartProductComponent } from './cart-product/cart-product.component';
 
 @Component({
@@ -51,6 +51,17 @@ export class CartMainComponent implements OnInit, OnChanges {
   public get form(): FormGroup {
     return this._form;
   }
+
+  // wenn du eine FormArray-Struktur hast:
+  get itemsArray() {
+    return this.form.get('items') as FormArray<FormGroup<any>>;
+  }
+
+// falls du direkt über Werte gehen willst:
+  get itemsValue(): any[] {
+    return (this.form.getRawValue().items ?? []) as any[];
+  }
+
 
   @Input() currentPriceWithoutTip = 0;
   @Input() onlyPhisicalPayment = false;

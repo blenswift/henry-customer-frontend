@@ -46,5 +46,6 @@
   "MENU": "Menü",
   "AUSVERKAUFT": "Ausverkauft",
   "BESTELLEN": "Bestellen",
-  "AELTER_ALS_EIN_TAG": "älter als 1 Tag"
+  "AELTER_ALS_EIN_TAG": "älter als 1 Tag",
+  "RECEIPT_OPEN": "Rechnung öffnen"
 }

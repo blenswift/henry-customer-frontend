@@ -1,25 +1,58 @@
-<mat-toolbar class="top-shadow fixed bottom-0 flex h-[60px] w-full flex-row items-center bg-white">
-  <button
-    class="flex flex-1 flex-col items-center justify-center font-medium"
-    [ngClass]="active === 'Menu' ? 'text-black' : 'text-gray-500'"
-    (click)="openMenu()">
-    <mat-icon class="scale-125">restaurant_menu</mat-icon>
-    Menü
-  </button>
-  <div class="mb-[2.75rem] flex flex-1 cursor-pointer flex-col items-center justify-center">
-    <button mat-icon-button class="flex h-16 w-16 items-center justify-center bg-black text-white" (click)="openShoppingCart()">
-      <mat-icon class="scale-125">shopping_cart</mat-icon>
+<mat-toolbar
+  class="fixed inset-x-0 bottom-0 z-50 h-[70px] bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70
+         shadow-[0_-6px_24px_rgba(0,0,0,0.08)] border-t border-gray-100
+         dark:bg-zinc-900/70 dark:border-zinc-800">
+
+  <!-- Container -->
+  <div class="relative mx-auto flex w-full max-w-screen-md items-center justify-between px-2 pb-[env(safe-area-inset-bottom)]">
+
+    <!-- Left: Menü -->
+    <button
+      class="group flex flex-1 flex-col items-center justify-center gap-1 py-2 text-sm font-medium transition
+             focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 rounded-xl"
+      [ngClass]="active === 'Menu' ? 'text-gray-900 dark:text-zinc-100' : 'text-gray-500 dark:text-zinc-400'"
+      (click)="openMenu()">
+      <mat-icon class="scale-125 transition group-hover:scale-[1.3]">restaurant_menu</mat-icon>
+      <span>Menü</span>
+      <span class="sr-only" aria-hidden="false">Menü öffnen</span>
     </button>
-    <div class="text-lg font-semibold" *ngIf="order?.totalPrice">
-      {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+
+    <!-- Center: Floating Cart -->
+    <div class="pointer-events-none relative -translate-y-6">
+      <button
+        mat-icon-button
+        class="pointer-events-auto grid h-16 w-16 place-items-center rounded-full
+           bg-indigo-600 text-white shadow-xl
+           ring-4 ring-white/70 dark:ring-zinc-900/70 transition
+           hover:bg-indigo-500 active:scale-95
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+        (click)="openShoppingCart()"
+        aria-label="Warenkorb öffnen">
+        <mat-icon class="scale-125">shopping_cart</mat-icon>
+      </button>
+
+      <!-- Preis-Badge -->
+      <div class="mt-2 w-full text-center text-lg font-bold tabular-nums leading-none
+              text-gray-900 dark:text-zinc-100">
+        <ng-container *ngIf="order?.totalPrice; else emptyPrice">
+          {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+        </ng-container>
+        <ng-template #emptyPrice>
+          <span class="opacity-40">0,00 €</span>
+        </ng-template>
+      </div>
     </div>
-    <div class="text-lg font-semibold" *ngIf="!order?.totalPrice">&nbsp;</div>
+
+    <!-- Right: Bestellungen -->
+    <button
+      class="group flex flex-1 flex-col items-center justify-center gap-1 py-2 text-sm font-medium transition
+             focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 rounded-xl"
+      (click)="openOrders()"
+      [ngClass]="active === 'Orders' ? 'text-gray-900 dark:text-zinc-100' : 'text-gray-500 dark:text-zinc-400'">
+      <mat-icon class="scale-125 transition group-hover:scale-[1.3]">receipt_long</mat-icon>
+      <span>Bestellungen</span>
+      <span class="sr-only" aria-hidden="false">Bestellungen ansehen</span>
+    </button>
+
   </div>
-  <button
-    class="flex flex-1 flex-col items-center justify-center font-medium"
-    (click)="openOrders()"
-    [ngClass]="active === 'Orders' ? 'text-black' : 'text-gray-500'">
-    <mat-icon class="scale-125">receipt_long</mat-icon>
-    Bestellungen
-  </button>
 </mat-toolbar>

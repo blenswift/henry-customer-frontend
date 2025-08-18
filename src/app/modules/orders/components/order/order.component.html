@@ -1,21 +1,89 @@
-<mat-card (click)="openOrder.emit()">
-  <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title>{{ 'TISCH' | translate }} {{ order.table }}</mat-card-title>
-      <div>{{ 'BESTELLNUMMER' | translate }}: {{ order.orderNumber }}</div>
-      <mat-card-subtitle>{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</mat-card-subtitle>
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-  <mat-card-actions>
-    <mat-icon>{{ order.paymentChannel | orderPaymentTypeToIcon }}</mat-icon>
-    <div class="ml-auto">
-      {{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+<!-- Order Card -->
+<div
+  role="button"
+  tabindex="0"
+  (click)="openOrder.emit()"
+  (keydown.enter)="openOrder.emit()"
+  (keydown.space)="openOrder.emit()"
+  class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+>
+  <!-- subtle glow on hover -->
+  <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+    <div class="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-emerald-200/40 to-cyan-200/40 blur-2xl"></div>
+  </div>
+
+  <div class="relative p-4">
+    <!-- Header row -->
+    <div class="flex items-start gap-3">
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <h3 class="text-lg sm:text-xl font-semibold text-slate-900">
+            {{ 'TISCH' | translate }} {{ order.table }}
+          </h3>
+          <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+            {{ 'BESTELLNUMMER' | translate }} #{{ order.orderNumber }}
+          </span>
+        </div>
+
+        <div class="mt-1 inline-flex items-center gap-1.5 text-xs text-slate-500 whitespace-nowrap min-w-0">
+          <mat-icon inline class="shrink-0 !text-[1em] !leading-none align-middle">schedule</mat-icon>
+          <span class="align-middle">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</span>
+        </div>
+      </div>
+
+      <!-- Price + payment -->
+      <div class="text-right">
+        <div class="text-2xl font-bold tracking-tight text-slate-900">
+          {{ order.totalPrice / 100 | currency : 'EUR' : 'symbol' : '1.2-2' : translateService.getBrowserLang() }}
+        </div>
+        <div class="mt-1 inline-flex items-center justify-end gap-1.5 text-xs text-slate-600 whitespace-nowrap">
+          <mat-icon inline class="shrink-0 !text-[1em] !leading-none align-middle relative top-px">
+            {{ order.paymentChannel | orderPaymentTypeToIcon }}
+          </mat-icon>
+          <span class="align-middle">{{ order.paymentChannel | titlecase }}</span>
+        </div>
+      </div>
     </div>
-  </mat-card-actions>
-  <mat-card-footer>
-    <mat-progress-bar mode="indeterminate" *ngIf="order.status === 'IN_PROGRESS'"></mat-progress-bar>
-  </mat-card-footer>
-</mat-card>
+
+    <!-- Footer row: status chip -->
+    <div class="mt-4 flex items-center">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium"
+        [ngClass]="{
+          'bg-amber-50 border-amber-200 text-amber-700': order.status === 'IN_PROGRESS',
+          'bg-emerald-50 border-emerald-200 text-emerald-700': order.status === 'COMPLETED',
+          'bg-rose-50 border-rose-200 text-rose-700': order.status === 'CANCELLED'
+        }"
+      >
+        <span
+          class="inline-block h-1.5 w-1.5 rounded-full"
+          [ngClass]="{
+            'bg-amber-500': order.status === 'IN_PROGRESS',
+            'bg-emerald-500': order.status === 'COMPLETED',
+            'bg-rose-500': order.status === 'CANCELLED'
+          }"
+        ></span>
+        <span>
+          {{
+          order.status === 'IN_PROGRESS'
+            ? ('IN BEARBEITUNG' | translate)
+            : order.status === 'COMPLETED'
+              ? ('FERTIG' | translate)
+              : ('STORNIERT' | translate)
+          }}
+        </span>
+      </span>
+
+      <span class="ml-auto hidden text-xs text-slate-500 sm:inline">
+        {{ 'Zum Öffnen klicken' | translate }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Progress (when in progress) -->
+  <mat-progress-bar
+    *ngIf="order.status === 'IN_PROGRESS'"
+    mode="indeterminate"
+    class="!h-1"
+  ></mat-progress-bar>
+</div>

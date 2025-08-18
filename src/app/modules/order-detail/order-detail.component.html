@@ -1,56 +1,138 @@
-<oxp-page-header type="BACK" (closeCard)="navigateToProducts()">{{ 'BESTELLUNG' | translate | uppercase }}</oxp-page-header>
-<div class="scrollbar-hide flex-1 p-4" *ngIf="order$ | async as order; else loading">
-  <p class="text-lg font-thin text-slate-900">{{ 'INFORMATIONEN' | translate }}</p>
-  <div>
-    <div class="flex h-9 flex-row items-center">
-      <p matListItemTitle>{{ 'PREIS' | translate }}</p>
-      <div class="ml-auto">
-        {{ order.totalPrice / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+<oxp-page-header type="BACK" (closeCard)="navigateToProducts()">
+  {{ 'BESTELLUNG' | translate | uppercase }}
+</oxp-page-header>
+
+<!-- Page Wrapper -->
+<div class="min-h-[100svh] bg-gradient-to-b from-slate-50 via-white to-slate-50">
+  <!-- Content -->
+  <div class="mx-auto max-w-screen-sm px-4 pb-24 pt-4" *ngIf="order$ | async as order; else loading">
+    <!-- Card -->
+    <div class="rounded-2xl border border-slate-200 bg-white/90 shadow-xl ring-1 ring-black/5 backdrop-blur">
+      <!-- Sticky summary header (mobile friendly) -->
+      <div class="sticky top-0 z-10 grid grid-cols-3 items-center gap-2 rounded-t-2xl border-b border-slate-100 bg-white/80 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div class="col-span-2">
+          <p class="text-xs uppercase tracking-wider text-slate-500">{{ 'INFORMATIONEN' | translate }}</p>
+          <p class="mt-0.5 text-2xl font-semibold text-slate-900">
+            {{ order.totalPrice / 100 | currency : 'EUR' : 'symbol' : '1.2-2' : translateService.getBrowserLang() }}
+          </p>
+        </div>
+        <div class="flex items-center justify-end">
+          <button
+            type="button"
+            (click)="updateStatus()"
+            class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-200"
+            [ngClass]="{
+              'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200': order.status === 'COMPLETED',
+              'bg-rose-50 text-rose-700 ring-1 ring-rose-200': order.status === 'CANCELLED',
+              'bg-amber-50 text-amber-700 ring-1 ring-amber-200': order.status !== 'COMPLETED' && order.status !== 'CANCELLED'
+            }"
+            aria-label="Status aktualisieren"
+          >
+            <mat-spinner diameter="16" *ngIf="order.status !== 'COMPLETED' && order.status !== 'CANCELLED'"></mat-spinner>
+            <mat-icon class="!text-base !leading-none" *ngIf="order.status === 'COMPLETED'">done</mat-icon>
+            <mat-icon class="!text-base !leading-none" *ngIf="order.status === 'CANCELLED'">close</mat-icon>
+            <span class="hidden sm:inline">
+              {{ order.status === 'COMPLETED' ? ('FERTIG' | translate) : ( order.status === 'CANCELLED' ? ('STORNIERT' | translate) : ('IN BEARBEITUNG' | translate) ) }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="px-4 py-3">
+        <!-- Meta info -->
+        <div class="divide-y divide-slate-100 rounded-xl border border-slate-100 bg-slate-50/50">
+          <div class="grid grid-cols-[auto,1fr] items-center gap-x-4 px-4 py-3">
+            <p class="text-sm font-medium text-slate-600">{{ 'BESTELLNUMMER' | translate }}</p>
+            <p class="ml-auto text-right font-mono text-sm text-slate-900">{{ order.orderNumber }}</p>
+          </div>
+          <div class="grid grid-cols-[auto,1fr] items-center gap-x-4 px-4 py-3">
+            <p class="text-sm font-medium text-slate-600">{{ 'DATUM' | translate }}</p>
+            <div class="ml-auto text-right text-sm text-slate-900">
+              <ng-container *ngIf="order.createdAt as createdAt; else emptyDate">
+                {{ createdAt | moment : 'DD.MM.YYYY HH:mm' }}
+              </ng-container>
+              <ng-template #emptyDate>—</ng-template>
+            </div>
+          </div>
+          <!-- Stripe Receipt -->
+          <div class="grid grid-cols-[auto,1fr] items-center gap-x-4 px-4 py-3" *ngIf="order.receiptUrl as receiptUrl">
+            <p class="text-sm font-medium text-slate-600">{{ 'RECHNUNG' | translate }}</p>
+            <div class="ml-auto text-right">
+              <a
+                [href]="receiptUrl"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center whitespace-nowrap gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+              >
+                <mat-icon inline class="!text-[14px] !leading-none align-middle relative top-[1px]">
+                  open_in_new
+                </mat-icon>
+                <span class="align-middle">{{ 'RECEIPT_OPEN' | translate }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produkte -->
+        <div class="mt-6 flex items-center justify-between">
+          <p class="text-lg font-semibold text-slate-900">{{ 'PRODUKTE' | translate }}</p>
+          <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">{{ order.orderItems.length }}</span>
+        </div>
+
+        <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <ng-container *ngFor="let product of order.orderItems">
+            <article class="group relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+              <!-- Quantity badge -->
+              <div class="pointer-events-none absolute right-2 top-2 select-none rounded-full bg-slate-900/90 px-2 py-0.5 text-xs font-semibold text-white shadow">
+                {{ product.quantity }}×
+              </div>
+
+              <!-- Image -->
+              <div class="mx-auto aspect-square w-24 overflow-hidden rounded-full">
+                <img
+                  [src]="product.imageUrl"
+                  [alt]="product.productName"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                />
+              </div>
+
+              <!-- Content -->
+              <div class="mt-3 text-center">
+                <h3 class="text-base font-semibold leading-tight text-slate-900">
+                  {{ product.productName }}
+                </h3>
+                <p class="mt-1 line-clamp-2 text-xs text-slate-600">
+                  {{ product.extras | extrasShort }}
+                </p>
+              </div>
+            </article>
+          </ng-container>
+        </div>
+
+        <!-- Footer actions (optional) -->
+        <!--
+        <div class="mt-6 flex justify-end gap-2">
+          <button mat-stroked-button color="primary" class="rounded-xl">PDF</button>
+          <button mat-flat-button color="primary" class="rounded-xl">{{ 'RECHNUNG HERUNTERLADEN' | translate }}</button>
+        </div>
+        -->
       </div>
     </div>
-    <div class="flex h-9 flex-row items-center">
-      <p matListItemTitle>Status</p>
-      <mat-chip class="ml-auto" (click)="updateStatus()">
-        <mat-spinner color="primary" class="h-6 w-6" *ngIf="order.status !== 'COMPLETED' && order.status !== 'CANCELLED'"></mat-spinner>
-        <mat-icon class="font-bold text-green-500" *ngIf="order.status === 'COMPLETED'">done</mat-icon>
-        <mat-icon class="font-bold text-red-500" *ngIf="order.status === 'CANCELLED'">close</mat-icon>
-      </mat-chip>
-    </div>
-    <div class="flex h-9 flex-row items-center">
-      <p matListItemTitle>{{ 'BESTELLNUMMER' | translate }}</p>
-      <div class="ml-auto">{{ order.orderNumber }}</div>
-    </div>
-    <div class="flex h-9 flex-row items-center">
-      <p matListItemTitle>{{ 'DATUM' | translate }}</p>
-      <div class="ml-auto">{{ order.createdAt | moment : 'DD.MM.YYYY HH:mm' }}</div>
-    </div>
-    <!-- <div class="flex flex-row items-center h-9">
-        <p matListItemTitle>{{ 'RECHNUNG' | translate }}</p>
-        <mat-chip class="ml-auto">
-          <div>PDF</div>
-          <button matChipRemove>
-            <mat-icon>download</mat-icon>
-          </button>
-        </mat-chip>
-      </div> -->
   </div>
-  <mat-divider class="my-2"></mat-divider>
-  <div class="flex flex-row">
-    <p class="text-lg font-thin text-slate-900">{{ 'PRODUKTE' | translate }}</p>
-  </div>
-  <div class="mt-1 grid grid-cols-2 gap-2">
-    <mat-card *ngFor="let product of order.orderItems">
-      <mat-card-title class="my-2 text-center text-2xl text-slate-900">{{ product.quantity }}x</mat-card-title>
-      <img mat-card-image [src]="product.imageUrl" [alt]="product.productName" class="mx-4 mb-4 rounded-full" />
-      <mat-card-content class="h-full">
-        <mat-card-title class="text-center text-base text-slate-900">{{ product.productName }}</mat-card-title>
-        <mat-card-subtitle class="text-center">{{ product.extras | extrasShort }}</mat-card-subtitle>
-      </mat-card-content>
-    </mat-card>
-  </div>
+
+  <!-- Loading state -->
+  <!-- Loading state -->
+  <ng-template #loading>
+    <div class="flex h-[80svh] w-full flex-col items-center justify-center gap-3">
+      <mat-spinner></mat-spinner>
+      <p class="text-sm text-slate-500">{{ 'Lädt…' | translate }}</p>
+    </div>
+  </ng-template>
 </div>
-<ng-template #loading>
-  <div class="bg-color flex h-full w-full flex-col justify-center align-middle">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>
+
+<pre class="text-xs text-slate-500">
+  {{ order$ | async | json }}
+</pre>

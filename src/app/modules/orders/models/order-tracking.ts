@@ -10,6 +10,7 @@ export interface OrderTracking {
   qrCode: string;
   totalPrice: number;
   notes: string;
+  receiptUrl?: string;
   status: OrderTrackingType;
   paymentChannel: PaymentType;
   orderItems: OrderItem[];

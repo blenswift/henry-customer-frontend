@@ -1,39 +1,129 @@
-<oxp-page-header (closeCard)="navigate()">{{ 'BESTELLUNGEN' | translate | uppercase }}</oxp-page-header>
+<oxp-page-header (closeCard)="navigate()">
+  {{ 'BESTELLUNGEN' | translate | uppercase }}
+</oxp-page-header>
 
-<div *ngIf="orders$ | async as orders; else loading" class="pb-16">
-  <ng-container *ngIf="openOrders$ | async as openOrders">
-    <div class="mx-4" *ngIf="openOrders.length > 0">
-      <p class="py-2 text-lg font-medium leading-tight">{{ 'AUSSTEHEND' | translate }}</p>
+<div class="min-h-[100svh] bg-gradient-to-b from-slate-50 via-white to-slate-50">
+  <!-- CONTENT -->
+  <div *ngIf="orders$ | async as orders; else loading" class="mx-auto max-w-screen-lg px-4 pb-20 pt-3">
 
-      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <oxp-order *ngFor="let order of openOrders" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
+    <!-- Sticky summary bar -->
+    <div class="sticky top-0 z-20 -mx-4 mb-4 border-b border-slate-100 bg-white/70 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div class="flex flex-wrap items-center gap-2 text-sm">
+        <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 font-medium text-amber-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+          {{ 'AUSSTEHEND' | translate }}
+          <ng-container *ngIf="openOrders$ | async as openOrders">
+            <span class="ml-1 rounded-full bg-amber-100/70 px-1.5 text-xs">{{ openOrders.length }}</span>
+          </ng-container>
+        </span>
+        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 font-medium text-emerald-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+          {{ 'FERTIG' | translate }}
+          <ng-container *ngIf="completedOrders$ | async as completedOrders">
+            <span class="ml-1 rounded-full bg-emerald-100/70 px-1.5 text-xs">{{ completedOrders.length }}</span>
+          </ng-container>
+        </span>
+        <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-slate-500"></span>
+          {{ 'AELTER_ALS_EIN_TAG' | translate }}
+          <ng-container *ngIf="olderThanOneDay$ | async as olderThanOneDay">
+            <span class="ml-1 rounded-full bg-slate-200 px-1.5 text-xs">{{ olderThanOneDay.length }}</span>
+          </ng-container>
+        </span>
       </div>
     </div>
-  </ng-container>
 
-  <ng-container *ngIf="completedOrders$ | async as completedOrders">
-    <div class="m-4" *ngIf="completedOrders.length > 0">
-      <p class="py-2 text-lg font-medium leading-tight">{{ 'FERTIG' | translate }}</p>
+    <!-- OPEN ORDERS -->
+    <ng-container *ngIf="openOrders$ | async as openOrders">
+      <section *ngIf="openOrders.length > 0" class="mb-8">
+        <h2 class="flex items-center gap-2 py-2 text-lg font-semibold text-slate-900">
+          <span class="inline-block h-2 w-2 rounded-full bg-amber-500"></span>
+          {{ 'AUSSTEHEND' | translate }}
+          <span class="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">{{ openOrders.length }}</span>
+        </h2>
+        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <oxp-order *ngFor="let order of openOrders"
+                     [order]="order"
+                     (openOrder)="navigateToOrder(order)"></oxp-order>
+        </div>
+      </section>
+    </ng-container>
 
-      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <oxp-order *ngFor="let order of completedOrders" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
-      </div>
+    <!-- COMPLETED ORDERS -->
+    <ng-container *ngIf="completedOrders$ | async as completedOrders">
+      <section *ngIf="completedOrders.length > 0" class="mb-8">
+        <h2 class="flex items-center gap-2 py-2 text-lg font-semibold text-slate-900">
+          <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+          {{ 'FERTIG' | translate }}
+          <span class="ml-2 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">{{ completedOrders.length }}</span>
+        </h2>
+        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <oxp-order *ngFor="let order of completedOrders"
+                     [order]="order"
+                     (openOrder)="navigateToOrder(order)"></oxp-order>
+        </div>
+      </section>
+    </ng-container>
+
+    <!-- OLDER THAN ONE DAY -->
+    <ng-container *ngIf="olderThanOneDay$ | async as olderThanOneDay">
+      <section *ngIf="olderThanOneDay.length > 0" class="mb-8">
+        <mat-accordion class="rounded-2xl border border-slate-200 bg-white/70 shadow-sm ring-1 ring-black/5">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header class="px-4">
+              <mat-panel-title>
+                <div class="flex items-center gap-2 text-slate-900">
+                  <span class="inline-block h-2 w-2 rounded-full bg-slate-500"></span>
+                  {{ 'AELTER_ALS_EIN_TAG' | translate }}
+                  <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+                    {{ olderThanOneDay.length }}
+                  </span>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="p-4">
+              <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <oxp-order *ngFor="let order of olderThanOneDay"
+                           [order]="order"
+                           (openOrder)="navigateToOrder(order)"></oxp-order>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </section>
+    </ng-container>
+
+    <!-- EMPTY STATE -->
+    <div
+      *ngIf="(openOrders$ | async)?.length === 0
+             && (completedOrders$ | async)?.length === 0
+             && (olderThanOneDay$ | async)?.length === 0"
+      class="mx-auto max-w-md rounded-2xl border border-dashed border-slate-200 bg-white/70 p-8 text-center shadow-sm"
+    >
+      <mat-icon class="!mb-2 !text-3xl !leading-none text-slate-400">inbox</mat-icon>
+      <p class="font-medium text-slate-900">Keine Bestellungen</p>
+      <p class="mt-1 text-sm text-slate-500">Neue Bestellungen erscheinen hier automatisch.</p>
     </div>
-  </ng-container>
-  <ng-container *ngIf="olderThanOneDay$ | async as olderThanOneDay">
-    <mat-accordion *ngIf="olderThanOneDay.length > 0" class="m-4">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ 'AELTER_ALS_EIN_TAG' | translate }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <oxp-order *ngFor="let order of olderThanOneDay" [order]="order" (openOrder)="navigateToOrder(order)"></oxp-order>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </ng-container>
+  </div>
+
+  <!-- Bottom toolbar -->
+  <oxp-toolbar-bottom
+    [order]="shoppingCart.order!"
+    [active]="'Orders'"
+    *ngIf="shoppingCart$ | async as shoppingCart">
+  </oxp-toolbar-bottom>
 </div>
-<oxp-toolbar-bottom [order]="shoppingCart.order!" [active]="'Orders'" *ngIf="shoppingCart$ | async as shoppingCart"></oxp-toolbar-bottom>
+
+<!-- LOADING -->
 <ng-template #loading>
-  <div class="bg-color flex h-full w-full flex-col justify-center align-middle">
-    <mat-spinner></mat-spinner>
+  <div class="mx-auto max-w-screen-lg px-4 py-8">
+    <div class="mb-3 h-5 w-40 animate-pulse rounded bg-slate-200"></div>
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div *ngFor="let i of [1,2,3,4]" class="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+        <div class="h-4 w-1/3 animate-pulse rounded bg-slate-200"></div>
+        <div class="mt-2 h-3 w-1/4 animate-pulse rounded bg-slate-100"></div>
+        <div class="mt-4 h-20 w-full animate-pulse rounded bg-slate-100"></div>
+      </div>
+    </div>
   </div>
 </ng-template>
