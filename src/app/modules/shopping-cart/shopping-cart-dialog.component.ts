@@ -10,8 +10,8 @@ import { combineLatest, filter, of, switchMap } from 'rxjs';
 import { SumOfProductsPipe } from 'src/app/shared/pipes/sum-of-products.pipe';
 import { ShoppingCartStore } from 'src/app/shared/services/shopping-cart.store';
 import { PaymentType } from '../orders/models/order';
-import { PageHeaderComponent } from './../../shared/components/page-header/page-header.component';
-import { RestaurantStore } from './../menu/services/restaurant.store';
+import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
+import { RestaurantStore } from '../menu/services/restaurant.store';
 import { CartMainComponent } from './components/cart-main/cart-main.component';
 
 @Component({

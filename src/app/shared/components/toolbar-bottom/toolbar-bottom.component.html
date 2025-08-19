@@ -1,58 +1,83 @@
-<mat-toolbar
-  class="fixed inset-x-0 bottom-0 z-50 h-[70px] bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70
-         shadow-[0_-6px_24px_rgba(0,0,0,0.08)] border-t border-gray-100
-         dark:bg-zinc-900/70 dark:border-zinc-800">
+<!-- Bottom Bar: Glass + Gradient-FAB (Lucide) -->
+<nav
+  class="fixed inset-x-0 bottom-0 z-50
+         border-t border-zinc-200
+         bg-zinc-50/95 backdrop-blur
+         supports-[backdrop-filter]:bg-zinc-50/90
+         shadow-[0_-10px_35px_rgba(0,0,0,0.06)]
+         pb-[env(safe-area-inset-bottom)]"
+  role="navigation" aria-label="Hauptnavigation">
+  <div class="relative mx-auto flex max-w-screen-md items-center justify-between px-3">
 
-  <!-- Container -->
-  <div class="relative mx-auto flex w-full max-w-screen-md items-center justify-between px-2 pb-[env(safe-area-inset-bottom)]">
-
-    <!-- Left: Menü -->
+    <!-- Menü -->
     <button
-      class="group flex flex-1 flex-col items-center justify-center gap-1 py-2 text-sm font-medium transition
-             focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 rounded-xl"
-      [ngClass]="active === 'Menu' ? 'text-gray-900 dark:text-zinc-100' : 'text-gray-500 dark:text-zinc-400'"
-      (click)="openMenu()">
-      <mat-icon class="scale-125 transition group-hover:scale-[1.3]">restaurant_menu</mat-icon>
+      type="button"
+      (click)="openMenu()"
+      [attr.data-active]="active === 'menu'"
+      class="group flex flex-1 flex-col items-center justify-center gap-1 py-3 text-[13px]
+             font-medium text-black transition-colors
+             data-[active=true]:text-white data-[active=true]:font-semibold
+             focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/50 rounded-xl">
+      <lucide-icon name="menu"
+                   class="h-6 w-6 transition group-hover:scale-110
+               text-black
+               data-[active=true]:text-white"></lucide-icon>
       <span>Menü</span>
-      <span class="sr-only" aria-hidden="false">Menü öffnen</span>
+      <span aria-hidden="true"
+            class="mt-1 h-0.5 w-6 rounded-full bg-gradient-to-r
+               from-indigo-500 via-violet-500 to-fuchsia-500
+               opacity-0 data-[active=true]:opacity-100 transition"></span>
     </button>
 
-    <!-- Center: Floating Cart -->
-    <div class="pointer-events-none relative -translate-y-6">
+    <!-- Center FAB -->
+    <div class="pointer-events-none relative -translate-y-5">
       <button
-        mat-icon-button
-        class="pointer-events-auto grid h-16 w-16 place-items-center rounded-full
-           bg-indigo-600 text-white shadow-xl
-           ring-4 ring-white/70 dark:ring-zinc-900/70 transition
-           hover:bg-indigo-500 active:scale-95
-           focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+        type="button"
         (click)="openShoppingCart()"
-        aria-label="Warenkorb öffnen">
-        <mat-icon class="scale-125">shopping_cart</mat-icon>
-      </button>
+        aria-label="Warenkorb öffnen"
+        class="pointer-events-auto grid h-16 w-16 place-items-center rounded-full
+               text-white shadow-xl ring-4 ring-white/60 dark:ring-zinc-900/60
+               bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600
+               hover:shadow-2xl transition hover:scale-[1.03] active:scale-95
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300">
+        <lucide-icon name="shopping-cart" class="h-7 w-7"></lucide-icon>
 
-      <!-- Preis-Badge -->
-      <div class="mt-2 w-full text-center text-lg font-bold tabular-nums leading-none
-              text-gray-900 dark:text-zinc-100">
-        <ng-container *ngIf="order?.totalPrice; else emptyPrice">
-          {{ +order.totalPrice! / 100 | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang() }}
+        <!-- Badge: Anzahl Items -->
+        <ng-container *ngIf="(order.orderItems?.length ?? 0) as count">
+          <span *ngIf="count > 0"
+                class="absolute -bottom-1.5 right-0 translate-x-2 select-none
+                   rounded-full px-2 py-0.5 text-[11px] font-semibold tabular-nums tracking-tight
+                   bg-zinc-950/90 text-white ring-1 ring-black/5
+                   dark:bg-zinc-100 dark:text-zinc-900">
+            {{ count }}
+          </span>
         </ng-container>
-        <ng-template #emptyPrice>
-          <span class="opacity-40">0,00 €</span>
-        </ng-template>
-      </div>
+      </button>
     </div>
 
-    <!-- Right: Bestellungen -->
+    <!-- Bestellungen -->
     <button
-      class="group flex flex-1 flex-col items-center justify-center gap-1 py-2 text-sm font-medium transition
-             focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 rounded-xl"
+      type="button"
       (click)="openOrders()"
-      [ngClass]="active === 'Orders' ? 'text-gray-900 dark:text-zinc-100' : 'text-gray-500 dark:text-zinc-400'">
-      <mat-icon class="scale-125 transition group-hover:scale-[1.3]">receipt_long</mat-icon>
-      <span>Bestellungen</span>
-      <span class="sr-only" aria-hidden="false">Bestellungen ansehen</span>
+      [attr.data-active]="active === 'orders'"
+      class="group flex flex-1 flex-col items-center justify-center gap-1 py-3 text-[13px]
+         font-medium text-black transition-colors rounded-xl
+         data-[active=true]:!text-white data-[active=true]:!font-semibold
+         /* optional: leichte Hinterlegung & Ring für Kontrast */
+         data-[active=true]:bg-white/10 data-[active=true]:ring-1 data-[active=true]:ring-white/30">
+      <lucide-icon name="receipt-text"
+                   class="h-6 w-6 transition group-hover:scale-110
+               text-black
+               data-[active=true]:!text-white
+               /* optional: weißer Glow für mehr „Weiß“-Wahrnehmung */
+               data-[active=true]:drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"></lucide-icon>
+      <span class="data-[active=true]:!text-white">Bestellungen</span>
+      <span aria-hidden="true"
+            class="mt-1 h-0.5 w-6 rounded-full bg-gradient-to-r
+               from-indigo-500 via-violet-500 to-fuchsia-500
+               opacity-0 data-[active=true]:opacity-100 transition"></span>
     </button>
 
+
   </div>
-</mat-toolbar>
+</nav>

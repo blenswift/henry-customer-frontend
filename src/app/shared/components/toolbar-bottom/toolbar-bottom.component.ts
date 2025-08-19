@@ -7,11 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RestaurantStore } from 'src/app/modules/menu/services/restaurant.store';
 import { Order } from 'src/app/modules/orders/models/order';
+import {LucideAngularModule} from "lucide-angular";
 
 @Component({
   selector: 'oxp-toolbar-bottom',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, TranslateModule, MatToolbarModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, TranslateModule, MatToolbarModule, MatIconModule, LucideAngularModule],
   templateUrl: './toolbar-bottom.component.html',
   styleUrls: ['./toolbar-bottom.component.scss'],
 })

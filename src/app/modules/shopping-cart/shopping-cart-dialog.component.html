@@ -1,35 +1,122 @@
 <ng-container *ngIf="shoppingCartVm$ | async as vm">
-  <ng-container *ngIf="vm.state === 'DATA'">
-    <div class="flex h-full flex-col overflow-hidden" *ngIf="form$ | async as form">
-      <oxp-page-header (closeCard)="navigateToProducts()">{{ 'WARENKORB' | translate | uppercase }}</oxp-page-header>
-      <oxp-cart-main
-        class="h-full flex-1 overflow-y-scroll"
-        [form]="form"
-        [restaurantInfo]="restaurantInfoVm$ | async"
-        [currentPriceWithoutTip]="vm.items | sumOfProducts : 0"
-        [ageRestricted]="(ageRestrictedProducts$ | async)!.length > 0"
-        [onlyPhisicalPayment]="onlyPhisicalPayment"
-        (removeProduct)="removeProduct($event)"
-        (paymentTypeChanged)="paymentTypeChanged($event)"></oxp-cart-main>
-      <footer class="border-grey w-full border-t p-4 text-center" *ngIf="vm.items.length > 0">
-        <div class="flex">
-          <button
-            mat-flat-button
-            class="ml-auto"
-            color="primary"
-            [disabled]="form.invalid || (vm.items | sumOfProducts : form.getRawValue().tip!) < 0"
-            (click)="bezahlen(form.getRawValue())">
-            {{ 'BESTELLEN' | translate | uppercase }}
-            {{
-              (vm.items | sumOfProducts : form.getRawValue().tip!) / 100
-                | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
-            }}
-          </button>
-        </div>
-      </footer>
-    </div>
-  </ng-container>
-  <div class="bg-color flex h-full w-full flex-row justify-center align-middle" *ngIf="vm.state === 'LOADING'">
+  <!-- LOADING -->
+  <div
+    *ngIf="vm.state === 'LOADING'"
+    class="flex h-full w-full items-center justify-center"
+    aria-busy="true"
+    aria-live="polite"
+  >
     <mat-spinner></mat-spinner>
   </div>
+
+  <!-- DATA -->
+  <ng-container *ngIf="vm.state === 'DATA'">
+    <div class="flex h-full flex-col bg-gray-50">
+
+      <!-- Sticky Header -->
+      <oxp-page-header (closeCard)="navigateToProducts()" class="text-xl font-semibold tracking-wide">
+        {{ 'WARENKORB' | translate | uppercase }}
+      </oxp-page-header>
+
+      <ng-container *ngIf="form$ | async as form">
+
+      <!-- Scrollbarer Content -->
+      <div class="mx-auto w-full max-w-screen-sm flex-1 overflow-y-auto px-4 py-4">
+        <!-- Empty State -->
+        <div *ngIf="vm.items.length === 0; else cartContent" class="flex h-full items-center justify-center">
+          <div class="text-center">
+            <div class="mx-auto mb-3 h-14 w-14 rounded-full border border-dashed border-gray-300"></div>
+            <h3 class="text-lg font-medium text-gray-800">{{ 'Dein Warenkorb ist leer' }}</h3>
+            <p class="mt-1 text-base text-gray-500">{{ 'Füge Produkte hinzu, um fortzufahren.' }}</p>
+            <button mat-stroked-button class="mt-4" (click)="navigateToProducts()">
+              {{ 'Produkte ansehen' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart Content -->
+        <ng-template #cartContent>
+          <div class="flex flex-col gap-4">
+            <oxp-cart-main
+              class="rounded-2xl border border-gray-200 bg-white shadow-sm"
+              [form]="form"
+              [restaurantInfo]="restaurantInfoVm$ | async"
+              [currentPriceWithoutTip]="vm.items | sumOfProducts : 0"
+              [ageRestricted]="(ageRestrictedProducts$ | async)!.length > 0"
+              [onlyPhisicalPayment]="onlyPhisicalPayment"
+              (removeProduct)="removeProduct($event)"
+              (paymentTypeChanged)="paymentTypeChanged($event)">
+            </oxp-cart-main>
+
+            <!-- Totals Card -->
+            <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+              <div class="space-y-2 text-base">
+                <div class="flex items-center justify-between text-gray-600">
+                  <span>{{ 'Zwischensumme' }}</span>
+                  <span>
+                    {{
+                    (vm.items | sumOfProducts : 0) / 100
+                      | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                    }}
+                  </span>
+                </div>
+                <div class="flex items-center justify-between text-gray-600">
+                  <span>{{ 'Trinkgeld' }}</span>
+                  <span>
+                    {{
+                    (form.getRawValue().tip || 0) / 100
+                      | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                    }}
+                  </span>
+                </div>
+                <div class="h-px w-full bg-gray-100"></div>
+                <div class="flex items-center justify-between text-lg font-semibold text-gray-900">
+                  <span>{{ 'Gesamt' }}</span>
+                  <span>
+                    {{
+                    (vm.items | sumOfProducts : form.getRawValue().tip!) / 100
+                      | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Sticky Footer -->
+        <footer *ngIf="vm.items.length > 0"
+                class="sticky bottom-0 z-20 border-t border-gray-200 bg-white/80 p-4 backdrop-blur
+               pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div class="mx-auto w-full max-w-screen-sm">
+            <div class="flex items-center gap-3">
+              <button
+                mat-flat-button
+                color="primary"
+                class="ml-auto w-full sm:w-auto inline-flex items-center justify-center gap-3
+               rounded-2xl !h-14 !px-8 !text-xl font-semibold shadow-md transition
+               active:translate-y-px active:scale-[.99]
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30
+               disabled:cursor-not-allowed disabled:opacity-60"
+                [disabled]="form.invalid || (vm.items | sumOfProducts : (form.get('tip')?.value ?? 0)) < 0"
+                (click)="bezahlen(form.getRawValue())"
+              >
+                <span class="leading-none tracking-wide">{{ 'BESTELLEN' | translate | uppercase }}</span>
+                <span class="inline-flex items-center rounded-xl bg-black/10 px-3 py-1 text-lg font-medium leading-none">
+          {{
+                  (vm.items | sumOfProducts : (form.get('tip')?.value ?? 0)) / 100
+                    | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                  }}
+        </span>
+              </button>
+            </div>
+          </div>
+        </footer>
+
+
+
+      </ng-container>
+    </div>
+  </ng-container>
 </ng-container>

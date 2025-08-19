@@ -41,11 +41,13 @@
   "AUSSTEHEND": "Ausstehend",
   "FERTIG": "Fertig",
   "NOPRODUCTFOUND": "Whoops - Es existiert kein Produkt mit dem Namen!",
-  "KEINTRINKGELD": "Kein Trinkgeld",
+  "KEINTRINKGELD": "Keins",
   "DEINTRINKGELD": "Dein Trinkgeld:",
   "MENU": "Menü",
   "AUSVERKAUFT": "Ausverkauft",
   "BESTELLEN": "Bestellen",
   "AELTER_ALS_EIN_TAG": "älter als 1 Tag",
-  "RECEIPT_OPEN": "Rechnung öffnen"
+  "RECEIPT_OPEN": "Rechnung öffnen",
+  "OPTIONAL": "Optional",
+  "Du kannst Hinweise für die Küche hinzufügen.": "Du kannst Hinweise für die Küche hinzufügen."
 }

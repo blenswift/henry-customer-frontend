@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 html,
 body {
   height: 100%;
@@ -22,6 +27,7 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Hide horizontal scrollbar für die Kategorie-Leiste */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+

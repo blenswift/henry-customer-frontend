@@ -3,11 +3,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'oxp-counter-button',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatIconModule],
+  imports: [CommonModule, MatFormFieldModule, MatIconModule, MatLegacyButtonModule, MatListModule],
   templateUrl: './counter-button.component.html',
   styleUrls: ['./counter-button.component.scss'],
 })

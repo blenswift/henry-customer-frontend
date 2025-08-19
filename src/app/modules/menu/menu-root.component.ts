@@ -134,14 +134,14 @@ export default class MenuRootComponent {
   }
 
   openHenry() {
-    window.location.href = 'https://www.henryapp.de/';
+    window.location.href = 'https://www.henry-app.de/';
   }
 
   showImpressum() {
-    window.location.href = 'https://www.henryapp.de/impressum';
+    window.location.href = 'https://www.henry-app.de/rechtliches#impressum';
   }
 
   showDatenschutz() {
-    window.location.href = 'https://www.henryapp.de/datenschutz';
+    window.location.href = 'https://www.henry-app.de/rechtliches#datenschutz';
   }
 }

@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/routes';
 import { environment } from './environments/environment';
+import {LucideAngularModule, Menu, ReceiptText, ShoppingCart} from "lucide-angular";
 
 initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -43,6 +44,9 @@ bootstrapApplication(AppComponent, {
           deps: [HttpClient],
         },
       }),
+      // 👇 Lucide hier hinzufügen
+      LucideAngularModule.pick({ Menu, ShoppingCart, ReceiptText }),
     ]),
   ],
 }).catch(err => console.error(err));
+

@@ -1,64 +1,182 @@
 <form [formGroup]="form">
-  <main class="px-4">
+  <main class="px-4 pb-6"> <!-- 👈 extra Bottom-Padding -->
+
     <ng-container *ngIf="form.getRawValue().items.length > 0; else noProduct">
-      <oxp-cart-product
-        *ngFor="let ctrl of itemsArray.controls; let index = index"
-        [productCart]="ctrl.value"
-        (removeProduct)="removeProduct.emit(index)">
-      </oxp-cart-product>
 
-      <div *ngIf="ageRestricted">{{ 'AGE_RESTRICTION_HINT' | translate }}</div>
+      <!-- Produkte (dezent, keine Card) -->
+      <section class="mt-2 divide-y divide-gray-200">
+        <oxp-cart-product
+          *ngFor="let ctrl of itemsArray.controls; let index = index"
+          class="block py-3 first:pt-0 last:pb-0 hover:bg-gray-50/60 transition"
+          [productCart]="ctrl.value"
+          (removeProduct)="removeProduct.emit(index)">
+        </oxp-cart-product>
+      </section>
 
+      <!-- Age-Hinweis -->
+      <div *ngIf="ageRestricted"
+           class="mt-3 rounded-lg border border-amber-200 bg-amber-50/70 px-3 py-2 text-sm text-amber-800">
+        {{ 'AGE_RESTRICTION_HINT' | translate }}
+      </div>
+
+      <!-- Zahlarten -->
       <ng-container *ngIf="!onlyPhisicalPayment">
-        <h2 class="mt-4 text-xl font-medium">{{ 'BEZAHLOPTIONEN' | translate | uppercase }}</h2>
-        <mat-radio-group class="oxp-custom-group flex flex-col" color="primary" formControlName="paymentType">
+        <h2 class="mt-5 text-xl font-semibold tracking-wide text-gray-800">
+          {{ 'BEZAHLOPTIONEN' | translate | uppercase }}
+        </h2>
+
+        <mat-radio-group class="oxp-custom-group mt-2 flex flex-col gap-1" color="primary" formControlName="paymentType">
           <mat-radio-button
-            *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentChannels; let first = first"
+            *ngFor="let paymentMethod of restaurantInfo?.acceptedPaymentChannels"
             [value]="paymentMethod"
-            (click)="paymentTypeChange(paymentMethod)">
-            <span class="py-2">{{ paymentMethod | translate | uppercase }}</span>
+            (click)="paymentTypeChange(paymentMethod)"
+            class="group rounded-lg px-2 py-2 transition hover:bg-gray-50 focus:bg-gray-50 [&.mat-radio-checked]:bg-gray-100">
+            <span class="py-1 text-gray-800 group-[.mat-radio-checked]:font-semibold">
+              {{ paymentMethod | translate | uppercase }}
+            </span>
           </mat-radio-button>
         </mat-radio-group>
       </ng-container>
 
-      <mat-form-field class="mt-4 w-full">
-        <mat-label>{{ 'SHOPPINGCART_COMMENT' | translate }}</mat-label>
-        <textarea matInput formControlName="notes"></textarea>
-      </mat-form-field>
+      <!-- Kommentar -->
+      <!-- Kommentar: clean, ohne Mat-Wrapper -->
+      <section class="mt-5">
+        <label for="notes" class="mb-1 block text-sm font-medium text-gray-800">
+          {{ 'SHOPPINGCART_COMMENT' | translate }}
+        </label>
 
+        <div
+          class="rounded-2xl border border-gray-300 bg-white shadow-sm transition
+           focus-within:border-black focus-within:ring-1 focus-within:ring-black/30">
+    <textarea
+      id="notes"
+      formControlName="notes"
+      placeholder="{{ 'OPTIONAL' | translate }}"
+      cdkTextareaAutosize
+      [cdkAutosizeMinRows]="3"
+      [cdkAutosizeMaxRows]="8"
+      maxlength="300"
+      class="w-full resize-none rounded-2xl border-0 bg-transparent px-4 py-3
+             text-base text-gray-900 placeholder:text-gray-400
+             focus:outline-none focus:ring-0"
+    ></textarea>
+        </div>
+
+        <div class="mt-1 flex items-center justify-between text-xs text-gray-500">
+          <span>{{ 'Du kannst Hinweise für die Küche hinzufügen.' | translate }}</span>
+          <span>{{ ($any(form.get('notes')?.value)?.length || 0) }} / 300</span>
+        </div>
+      </section>
+
+
+      <!-- TRINKGELD -->
       <ng-container *ngIf="!onlyPhisicalPayment && form.get('paymentType')?.value !== 'PHYSICAL'">
-        <h4 class="pt-6 text-xl font-medium">{{ 'TRINKGELD' | translate | uppercase }}</h4>
-        <div class="flex flex-col justify-start gap-2">
-          <div>
-            <mat-button-toggle-group name="tiptype" [formControl]="tipType">
-              <mat-button-toggle value="none">{{ 'KEINTRINKGELD' | translate }}</mat-button-toggle>
-              <mat-button-toggle value="%">%</mat-button-toggle>
-              <mat-button-toggle value="custom">Custom</mat-button-toggle>
-            </mat-button-toggle-group>
+        <h4 class="pt-6 text-xl font-semibold tracking-wide text-gray-800">
+          {{ 'TRINKGELD' | translate | uppercase }}
+        </h4>
+
+        <div class="mt-3 flex flex-col gap-4">
+
+          <!-- Segmented Control: gleich breite Segmente -->
+          <div role="tablist" aria-label="Tip mode"
+               class="grid grid-cols-3 overflow-hidden rounded-full border border-gray-200 bg-white">
+
+            <button type="button" role="tab"
+                    [attr.aria-selected]="tipType.value==='none' ? 'true' : 'false'"
+                    class="w-full whitespace-nowrap px-4 py-2 text-base sm:text-base font-medium text-center transition"
+                    [class.bg-black]="tipType.value==='none'"
+                    [class.text-white]="tipType.value==='none'"
+                    [class.text-gray-700]="tipType.value!=='none'"
+                    (click)="tipType.setValue('none')">
+              {{ 'KEINTRINKGELD' | translate }}
+            </button>
+
+            <button type="button" role="tab"
+                    [attr.aria-selected]="tipType.value==='%' ? 'true' : 'false'"
+                    class="w-full whitespace-nowrap px-4 py-2 text-base sm:text-base font-medium text-center transition"
+                    [class.bg-black]="tipType.value==='%'"
+                    [class.text-white]="tipType.value==='%'"
+                    [class.text-gray-700]="tipType.value!=='%'"
+                    (click)="tipType.setValue('%')">%</button>
+
+            <button type="button" role="tab"
+                    [attr.aria-selected]="tipType.value==='custom' ? 'true' : 'false'"
+                    class="w-full whitespace-nowrap px-4 py-2 text-base sm:text-base font-medium text-center transition"
+                    [class.bg-black]="tipType.value==='custom'"
+                    [class.text-white]="tipType.value==='custom'"
+                    [class.text-gray-700]="tipType.value!=='custom'"
+                    (click)="tipType.setValue('custom')">Custom</button>
           </div>
-          <div *ngIf="tipType.value === 'custom'">
-            <mat-form-field floatLabel="always">
-              <mat-label>{{ 'TRINKGELD' | translate }}</mat-label>
-              <input matInput type="number" [formControl]="tipValueCustom" min="0,01" max="100000000" />
-              <span matTextPrefix>€&nbsp;</span>
-            </mat-form-field>
+
+          <!-- Prozent + Shortcuts (fingerfreundlich) -->
+          <div *ngIf="tipType.value === '%'" class="flex flex-col gap-3">
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- Dein Counter (etwas größer) -->
+              <oxp-counter-button
+                [formCtrl]="tipValuePercent"
+                class="h-10 rounded-xl border border-gray-300">
+              </oxp-counter-button>
+
+              <!-- Chips: größere Hit-Area -->
+              <button type="button"
+                      class="min-h-10 rounded-full border border-gray-200 px-4 py-2 text-base sm:text-lg font-medium text-gray-700 transition
+         hover:border-black hover:bg-black/5 hover:text-black"
+                      (click)="tipValuePercent.setValue(5)">5%</button>
+
+              <button type="button"
+                      class="min-h-10 rounded-full border border-gray-200 px-4 py-2 text-base sm:text-lg font-medium text-gray-700 transition
+         hover:border-black hover:bg-black/5 hover:text-black"
+                      (click)="tipValuePercent.setValue(10)">10%</button>
+
+              <button type="button"
+                      class="min-h-10 rounded-full border border-gray-200 px-4 py-2 text-base sm:text-lg font-medium text-gray-700 transition
+         hover:border-black hover:bg-black/5 hover:text-black"
+                      (click)="tipValuePercent.setValue(12)">12%</button>
+            </div>
+
+            <div class="text-base text-gray-600">
+              {{ 'DEINTRINKGELD' | translate }}
+              <span class="font-semibold text-gray-900">
+                {{
+                (this.currentPriceWithoutTip * (tipValuePercent.value! / 100)) / 100
+                  | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                }}
+              </span>
+            </div>
           </div>
-          <div *ngIf="tipType.value === '%'">
-            <oxp-counter-button [formCtrl]="tipValuePercent"></oxp-counter-button>
+
+          <!-- Custom Betrag (Tailwind-Input) -->
+          <div *ngIf="tipType.value === 'custom'" class="flex flex-wrap items-center gap-3">
+            <label class="w-full text-xs font-medium text-gray-600">{{ 'TRINKGELD' | translate }}</label>
+            <div class="flex items-center overflow-hidden rounded-xl border border-gray-300 bg-white">
+              <span class="px-3 text-gray-500 select-none">€</span>
+              <input
+                type="number" inputmode="decimal"
+                [formControl]="tipValueCustom"
+                min="0.01" max="100000000" step="0.01"
+                class="w-28 border-0 px-3 py-2 text-right outline-none focus:ring-0" />
+            </div>
+
+            <div class="text-base text-gray-600">
+              {{ 'DEINTRINKGELD' | translate }}
+              <span class="font-semibold text-gray-900">
+                {{
+                (tipValueCustom.value || 0)
+                  | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
+                }}
+              </span>
+            </div>
           </div>
-          <div *ngIf="tipType.value === '%'">
-            {{ 'DEINTRINKGELD' | translate }}
-            {{
-              (this.currentPriceWithoutTip * (tipValuePercent.value! / 100)) / 100
-                | currency : 'EUR' : undefined : undefined : translateService.getBrowserLang()
-            }}
-          </div>
+
         </div>
       </ng-container>
+
     </ng-container>
 
     <ng-template #noProduct>
-      <div>{{ 'WARENKORB_IST_LEER' | translate }}</div>
+      <div class="py-10 text-center text-gray-600">
+        {{ 'WARENKORB_IST_LEER' | translate }}
+      </div>
     </ng-template>
   </main>
 </form>
